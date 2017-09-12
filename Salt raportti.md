@@ -62,3 +62,7 @@ Yhteyden varmistamiseksi ohjeessa kehoitettiin pingaamaan minionia komennolla:
 sudo salt salt-minion test.ping
 
 Komennossa  sudo salt salt-minion test.ping, salt-minion viittaa minion koneen nimeen.
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/saltimg/saltminiontrue.png "Ping")
+
+Minion vastasi pingiin.
+
