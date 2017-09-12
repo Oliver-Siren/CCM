@@ -17,4 +17,9 @@ Lähdin seuraamaan ohjeita sivustolta https://docs.saltstack.com/en/latest/topic
 tällä sivustolla kehoitettiin ensin asentamaan yhdelle koneelle tai virtuaali koneelle salt-master jonka teinkin.
 Ohjeena seurasin Ubuntulle tarkoitettua ohjetta.
 
-Seuraavaksi loin uuden Virtuaalikoneen
+Seuraavaksi loin uuden Virtuaalikoneen josta tulee salt-minion.
+Sama Xubuntu asennus ja päivitykset kuin edellisessä.
+Salt minion asentuu komennolla:
+sudo apt-get install -y salt-minion
+
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/images/kaavioNew.png "Infrastruktuurikaavio")
