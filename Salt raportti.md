@@ -24,7 +24,7 @@ Sama Xubuntu asennus ja päivitykset kuin edellisessä.
 Salt minion asentuu komennolla:
 sudo apt-get install -y salt-minion
 
-##Minioni etsii isäntää (IP asetukset)
+## Minioni etsii isäntää (IP asetukset)
 
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/saltimg/saltconf.png "Salt Conf guide")
 
