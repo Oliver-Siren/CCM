@@ -36,4 +36,5 @@ sudo salt-master
 ja Minionilla:
 sudo salt-minion
 
-Molemmilla tuli monta riviä Warning tekstiä 
+Molemmilla tuli monta riviä Warning tekstiä
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/saltimg/saltwarnings.png "Salt warning messages")
