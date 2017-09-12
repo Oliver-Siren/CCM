@@ -23,3 +23,17 @@ Salt minion asentuu komennolla:
 sudo apt-get install -y salt-minion
 
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/saltimg/saltconf.png "Salt Conf guide")
+
+Ohjeessa IP tulee vaihtaa Masterin IP:hen.
+
+Kun salt on asennettu on seuraavaksi aika testata löytääkö Master Minioninsa ja toisinpäin.
+
+Sivulla https://docs.saltstack.com/en/latest/ref/configuration/index.html#configuring-salt on ohje jos tahtoo tehdä käyttö oikeudet muillekkin kuin root käyttäjälle (eli käyttäjälle jolla ei ole sudo oikeuksia), mutta nyt testatessani ohitin tämän.
+
+ajoin Masterilla komennon:
+sudo salt-master
+ 
+ja Minionilla:
+sudo salt-minion
+
+Molemmilla tuli monta riviä Warning tekstiä 
