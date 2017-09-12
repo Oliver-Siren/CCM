@@ -61,4 +61,4 @@ sudo salt-key -A
 Yhteyden varmistamiseksi ohjeessa kehoitettiin pingaamaan minionia komennolla:
 sudo salt salt-minion test.ping
 
-Komennossa  sudo salt salt-minion test.ping salt-minion viittaa minion koneen nimeen.
+Komennossa  sudo salt salt-minion test.ping, salt-minion viittaa minion koneen nimeen.
