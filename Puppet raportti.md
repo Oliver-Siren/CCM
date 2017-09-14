@@ -12,7 +12,7 @@ Aion myöhemmin tehdä skriptit, joilla voin automatisoida prosessin. Jos haluaa
 Ensin annoin masterille hostnamen komennolla "sudo hostnamectl set-hostname master" ja sen jälkeen lisäsin kyseisen hostnamen "/etc/hosts" tiedostoon oman koneeni nimen perään. 
 
 Tämän jälkeen käynnistin Avahi-daemonin uudelleen
- "sudo service avahi-daemon restart".
+ ``sudo service avahi-daemon restart".``
 
 Sitten asensin PuppetMasterin.
 "sudo apt-get -y install puppetmaster"
