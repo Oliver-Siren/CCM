@@ -9,11 +9,11 @@ Latasin osoitteesta https://xubuntu.org/getxubuntu/#lts itselleni Xubuntun viime
 virtuaalikoneeseeni. 
 
 Kun Xubuntu oli asentunut ajoin terminaalissa komennot:
-´sudo apt-get update´
-´sudo apt-get upgrade´
+`sudo apt-get update`
+`sudo apt-get upgrade`
 
 sekä ensimmäisen komennon saltin asentamiseksi.
-´sudo apt-get install -y salt-master´
+sudo apt-get install -y salt-master
 
 Lähdin seuraamaan ohjeita sivustolta https://docs.saltstack.com/en/latest/topics/installation/index.html
 tällä sivustolla kehoitettiin ensin asentamaan yhdelle koneelle tai virtuaali koneelle salt-master jonka teinkin.
@@ -22,7 +22,7 @@ Ohjeena seurasin Ubuntulle tarkoitettua ohjetta.
 Seuraavaksi loin uuden Virtuaalikoneen josta tulee salt-minion.
 Sama Xubuntu asennus ja päivitykset kuin edellisessä.
 Salt minion asentuu komennolla:
-´sudo apt-get install -y salt-minion´
+sudo apt-get install -y salt-minion
 
 ## Minioni etsii isäntää (IP asetukset)
 
@@ -38,10 +38,12 @@ Sivulla https://docs.saltstack.com/en/latest/ref/configuration/index.html#config
 
 Yhteyden tarkistamiseksi
 ajoin Masterilla komennon:
-´sudo salt-master´
+
+sudo salt-master
  
 ja Minionilla:
-´sudo salt-minion´
+
+sudo salt-minion
 
 Masterilla tuli monta riviä Warning tekstiä.
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/saltimg/saltwarnings.png "Salt warning messages")
@@ -51,16 +53,15 @@ Näistä ei ainakaan tässä vaiheessa ole tarvinnut erityisesti välittää, to
 Minion antoi error viestiä 
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/saltimg/minionwarnings.png "Salt warning messages")
 
-
 Ohjeessa kehoitetaan tarkistamaan tunnistus avaimet masterilla komennolla:
-´sudo salt-key -F master´
+sudo salt-key -F master
 
 Minion koneeni salt-minion näkyi listattuna kohdassa Unaccepted Keys ja tämän korjatakseni syötin komennon:
-´sudo salt-key -A´
+sudo salt-key -A
 -A hyväksyy kaikki hyväksymättömät avaimet.
 
 Yhteyden varmistamiseksi ohjeessa kehoitettiin pingaamaan minionia komennolla:
-´sudo salt salt-minion test.ping´
+sudo salt salt-minion test.ping
 
 Komennossa  sudo salt salt-minion test.ping, salt-minion viittaa minion koneen nimeen.
 
@@ -71,7 +72,7 @@ Minion vastasi pingiin.
 ## Ensimmäisen ohjelman asennus.
 
 Salt voi antaa ohjelman asennuskäskyjä, kuten:
-´sudo salt salt-minion pkg.install apache2´
+sudo salt salt-minion pkg.install apache2
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/saltimg/saltinstall.png "Istalling something via salt")
 
 
