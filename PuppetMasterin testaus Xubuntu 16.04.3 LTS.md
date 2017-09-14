@@ -10,6 +10,7 @@ Aion myöhemmin tehdä skriptit, joilla voin automatisoida prosessin. Jos haluaa
 ## Puppetmaster asennus
 
 Ensin annoin masterille hostnamen komennolla "sudo hostnamectl set-hostname master" ja sen jälkeen lisäsin kyseisen hostnamen "/etc/hosts" tiedostoon oman koneeni nimen perään. 
+![alt text](https://raw.githubusercontent.com/joonaleppalahti/CCM/master/puppetkuvat/1.png "1")
 
 Tämän jälkeen käynnistin Avahi-daemonin uudelleen
 
