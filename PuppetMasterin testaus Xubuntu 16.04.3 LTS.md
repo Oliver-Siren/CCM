@@ -53,3 +53,4 @@ Yhdistin orjan masteriin
 “sudo service puppet restart”
 
 Testasin että yhteys toimii antamalla komennon "sudo puppet agent --test -dv" orjakoneessa, ja huomasin että moduuli siirtyi PuppetMasterilta. (Huom komennon joutuu ajamaan kaksi kertaa).
+![alt text](https://raw.githubusercontent.com/joonaleppalahti/CCM/master/puppetkuvat/2.png "2")
