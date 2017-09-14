@@ -5,6 +5,7 @@ Aloitin Puppetin testauksen asentamalla Oracle VirtualBoxin version 5.1.26-11722
 Tämän jälkeen ajoin komennot 
 
 `sudo apt-get update`
+
 `sudo apt-get upgrade`
 
 Seuraavaksi loin uuden virtuaalikoneen, joka tulisi toimimaan orjakoneena aiemmin luomalleni virtuaalikoneelle. Päätin seuraavaksi valmistella puppetmasterina toimivan virtuaalixubuntun valmistelun. Seurasin masteria luodessani Joona Leppälahden (https://joonaleppalahti.wordpress.com/2016/10/31/palvelinten-hallinta-harjoitus-3/) ja Tero Karvisen (http://terokarvinen.com/2012/puppetmaster-on-ubuntu-12-04) sivuilta ohjeita ettei tule turhia virheitä.
