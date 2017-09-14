@@ -66,3 +66,10 @@ Komennossa  sudo salt salt-minion test.ping, salt-minion viittaa minion koneen n
 
 Minion vastasi pingiin.
 
+## Ensimmäisen ohjelman asennus.
+
+Salt voi antaa ohjelman asennuskäskyjä, kuten:
+sudo salt salt-minion pkg.install apache2
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/saltimg/saltinstall.png "Istalling something via salt")
+
+
