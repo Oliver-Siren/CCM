@@ -36,9 +36,9 @@ Seuraavaksi pysäytin PuppetMasterin ja poistin SSL sertifikaatit
 
 Sitten lisäsin masterin nimen puppet.conf tiedoston loppuun [master] kohdan sisälle. Koska kyseessä on testi niin lisäsin tänne myös autosign = true joka hyväksyy sertifikaatit automaattisesti (HUOM! tämä on turvallisuuden kannalta todella huono asia).
 
-`dns_alt_names = master.local
+`dns_alt_names = master.local`
 
-autosign = true`
+`autosign = true`
 
 Lopuksi käynnistin PuppetMasterin uudelleen
 
