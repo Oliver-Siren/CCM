@@ -16,7 +16,7 @@ sekä ensimmäisen komennon saltin asentamiseksi.
 `sudo apt-get install -y salt-master`
 
 Lähdin seuraamaan ohjeita sivustolta https://docs.saltstack.com/en/latest/topics/installation/index.html
-tällä sivustolla kehoitettiin ensin asentamaan yhdelle koneelle tai virtuaali koneelle salt-master jonka teinkin.
+tällä sivustolla kehoitettiin ensin asentamaan yhdelle koneelle tai virtuaalikoneelle salt-master jonka teinkin.
 Ohjeena seurasin Ubuntulle tarkoitettua ohjetta.
 
 Seuraavaksi loin uuden Virtuaalikoneen josta tulee salt-minion.
@@ -75,4 +75,6 @@ Salt voi antaa ohjelman asennuskäskyjä, kuten:
 `sudo salt salt-minion pkg.install apache2`
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/saltimg/saltinstall.png "Istalling something via salt")
 
+Asennus onnistui ja apache toimii koneella salt-minion, tämä tuli todettua hakemalla salt-minionin firefox selaimella osoitetta localhost.
 
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/saltimg/saltapache.png "Apache is alive")
