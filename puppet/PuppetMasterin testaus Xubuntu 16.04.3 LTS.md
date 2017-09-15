@@ -18,7 +18,7 @@ Ensin annoin masterille hostnamen
 `sudo hostnamectl set-hostname master`
 
 ja sen jälkeen lisäsin kyseisen hostnamen `/etc/hosts` tiedostoon oman koneeni nimen perään. 
-![alt text](https://raw.githubusercontent.com/joonaleppalahti/CCM/master/puppetkuvat/1.png "1")
+![alt text](https://raw.githubusercontent.com/joonaleppalahti/CCM/master/puppet/kuvat/1.png "1")
 
 Tämän jälkeen käynnistin Avahi-daemonin uudelleen
 
@@ -64,4 +64,4 @@ Yhdistin orjan masteriin
 `sudo service puppet restart`
 
 Testasin että yhteys toimii antamalla komennon "sudo puppet agent --test -dv" orjakoneessa, ja huomasin että moduuli siirtyi PuppetMasterilta. (Huom komennon joutuu ajamaan kaksi kertaa).
-![alt text](https://raw.githubusercontent.com/joonaleppalahti/CCM/master/puppetkuvat/2.png "2")
+![alt text](https://raw.githubusercontent.com/joonaleppalahti/CCM/master/puppet/kuvat/2.png "2")
