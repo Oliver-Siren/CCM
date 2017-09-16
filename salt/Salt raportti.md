@@ -26,7 +26,7 @@ Salt minion asentuu komennolla:
 
 ## Minioni etsii isäntää (IP asetukset)
 
-![alt text](https://github.com/joonaleppalahti/CCM/blob/master/saltimg/saltconf.png "Salt Conf guide")
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltconf.png "Salt Conf guide")
 
 Ohjeessa IP tulee vaihtaa Masterin IP:hen.
 
@@ -46,12 +46,12 @@ ja Minionilla:
 `sudo salt-minion`
 
 Masterilla tuli monta riviä Warning tekstiä.
-![alt text](https://github.com/joonaleppalahti/CCM/blob/master/saltimg/saltwarnings.png "Salt warning messages")
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltwarnings.png "Salt warning messages")
 
 Näistä ei ainakaan tässä vaiheessa ole tarvinnut erityisesti välittää, toinen rivi koskee salaus tekniikkaa jonka viesti kehoittaa vaihtamaan parempaan.
 
 Minion antoi error viestiä 
-![alt text](https://github.com/joonaleppalahti/CCM/blob/master/saltimg/minionwarnings.png "Salt warning messages")
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/minionwarnings.png "Salt warning messages")
 
 Ohjeessa kehoitetaan tarkistamaan tunnistus avaimet masterilla komennolla:
 `sudo salt-key -F master`
@@ -65,7 +65,7 @@ Yhteyden varmistamiseksi ohjeessa kehoitettiin pingaamaan minionia komennolla:
 
 Komennossa  sudo salt salt-minion test.ping, salt-minion viittaa minion koneen nimeen.
 
-![alt text](https://github.com/joonaleppalahti/CCM/blob/master/saltimg/saltminiontrue.png "Ping")
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltminiontrue.png "Ping")
 
 Minion vastasi pingiin.
 
@@ -73,8 +73,8 @@ Minion vastasi pingiin.
 
 Salt voi antaa ohjelman asennuskäskyjä, kuten:
 `sudo salt salt-minion pkg.install apache2`
-![alt text](https://github.com/joonaleppalahti/CCM/blob/master/saltimg/saltinstall.png "Istalling something via salt")
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltinstall.png "Istalling something via salt")
 
 Asennus onnistui ja apache toimii koneella salt-minion, tämä tuli todettua hakemalla salt-minionin firefox selaimella osoitetta localhost.
 
-![alt text](https://github.com/joonaleppalahti/CCM/blob/master/saltimg/saltapache.png "Apache is alive")
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltapache.png "Apache is alive")
