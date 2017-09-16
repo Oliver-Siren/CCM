@@ -84,5 +84,26 @@ Asennus onnistui ja apache toimii koneella salt-minion, tämä tuli todettua hak
 Saltissa voidaan luoda puppet moduulien kaltaisia state tiedostoja jotka kuvaavat minionille halutun tilan jonka mukaiseksi minionin tulee muuttua.
 Aluksi luodaan top.sls joka kertoo saltille missä minion koneessa ajetaan mikäkin salt state moduuli.
 Itse loin kansioon /srv kansion pillar ja pillar kansioon tiedoston top.sls.
+
+`sudo mkdir /srv/pillar`
+`sudoedit /srv/pillar/top.sls`
+
 Ensimmäinen top.sls näytti tältä:
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/topsls.png "top.sls moduuli")
+
+Seuraavaksi on aika luoda tiedosto nimeltä data.sls johon ensimmäinen top.sls tiedoston rivi -data viittaa.
+
+`sudoedit /srv/pillar/data.sls`
+jonne tuli rivi
+`info: some data`
+
+info viittaa saltin sisäiseen funktioon joka printtaa tekstiä minion koneelta masterille ja tässä tapauksessa palatutettava teksti on "some data".
+
+Moduulin testaamiseksi ajetaan kaksi riviä komentoja:
+
+`sudo salt '*' saltutil.refresh_pillar`
+`sudo salt '*' pillar.items`
+
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/salttest.png "top.sls moduuli reply")
+
+
