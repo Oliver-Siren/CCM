@@ -78,3 +78,11 @@ Salt voi antaa ohjelman asennuskäskyjä, kuten:
 Asennus onnistui ja apache toimii koneella salt-minion, tämä tuli todettua hakemalla salt-minionin firefox selaimella osoitetta localhost.
 
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltapache.png "Apache is alive")
+
+## Salt state of the minions speech
+
+Saltissa voidaan luoda puppet moduulien kaltaisia state tiedostoja jotka kuvaavat minionille halutun tilan jonka mukaiseksi minionin tulee muuttua.
+Aluksi luodaan top.sls joka kertoo saltille missä minion koneessa ajetaan mikäkin salt state moduuli.
+Itse loin kansioon /srv kansion pillar ja pillar kansioon tiedoston top.sls.
+Ensimmäinen top.sls näytti tältä:
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/topsls.png "top.sls moduuli")
