@@ -2,6 +2,7 @@ class lampstack {
 	package { "apache2": }
 	package { "libapache2-mod-php7.0":
 		require => Package["apache2"], }
+	package { "php7.0": }
 	package { "php-mysql": }
 	package { "phpmyadmin":}
 
