@@ -4,7 +4,6 @@ class lampstack {
 		require => Package["apache2"], }
 	package { "php7.0": }
 	package { "php-mysql": }
-	package { "phpmyadmin":}
 
 	Package { ensure => "installed",
 		allowcdrom => true,
