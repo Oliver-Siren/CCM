@@ -218,10 +218,45 @@ roles/database/tasks/main.yml sisältö. Playbook asentaa MariaDB palvelun ja va
 
 Asennuksen jälkeen otin SSH yhteyden kohdekoneelle ja kokeilin kirjautua tietokantaan `mysql -u vagrant -p`, salasanan syöttämisen jälkeen pääsin sisään. `Welcome to the MariaDB monitor.`
 
+# Windowsin hallinta
+
+### Masterin valmistelu
+
+Seurasin Ansiblen [dokumentaatiota](https://docs.ansible.com/ansible/latest/intro_windows.html) Windowsiin liittyen. Ensimmäiseksi masterille täytyi asentaa pip, jotta sain pywinrm asennettua `sudo apt-get -y install python-pip` ja `pip install "pywinrm>=0.2.2"` Seuraavaksi loin /etc/ansible/group_vars/windows.yml tiedoston, jonka sisällöksi tuli seuraava:
+```
+ansible_user: joona
+ansible_password: salasanatähän
+ansible_port: 5986
+ansible_connection: winrm
+ansible_winrm_server_cert_validation: ignore
+```
+Lisäsin myös Windows koneen IP-osoitteen hosts tiedostoon omaan ryhmäänsä
+```
+[windows]
+10.0.0.149
+```
+
+### Windowsin valmistelu
+
+Asensin virtualboxiin Windows 10 Pro 64-bit käyttöjärjestelmän. Hain [powershell-scriptin](https://github.com/ansible/ansible/blob/devel/examples/scripts/ConfigureRemotingForAnsible.ps1) joka valmistelee Windowsin PowerShell remoting yhteyden käyttöön ja tallensin sen työpöydälle nimellä `ansible.ps1`. Tämän jälkeen avasin PowerShellin pääkäyttäjänä ja yritin ajaa scriptin, mutta Windows sanoi että scriptien ajaminen on estetty. [Stackoverflow](https://stackoverflow.com/questions/4037939/powershell-says-execution-of-scripts-is-disabled-on-this-system) auttoi ja komennon `Set-ExecutionPolicy RemoteSigned` jälkeen scriptin ajo onnistui.
+
+### Windows ping moduulin testaus
+
+`Ansible windows -m win_ping` komento testaa yhteyttä Windowsiin. Vastauksena tuli:
+```
+10.0.0.149 | SUCCESS => {
+    "changed": false, 
+    "ping": "pong"
+}
+```
+
+
 ## Käytettyjä lähteitä
 
-[https://docs.ansible.com/ansible/latest/intro.html](https://docs.ansible.com/ansible/latest/intro.html)
-[https://en.wikipedia.org/wiki/Ansible_(software)](https://en.wikipedia.org/wiki/Ansible_(software))
-[https://docs.ansible.com/ansible/latest/package_module.html](https://docs.ansible.com/ansible/latest/package_module.html)
-[https://www.vagrantup.com/docs/provisioning/ansible.html](https://www.vagrantup.com/docs/provisioning/ansible.html)
-[http://labs.qandidate.com/blog/2013/11/21/installing-a-lamp-server-with-ansible-playbooks-and-roles/](http://labs.qandidate.com/blog/2013/11/21/installing-a-lamp-server-with-ansible-playbooks-and-roles/)
+* https://docs.ansible.com/ansible/latest/intro.html
+* https://en.wikipedia.org/wiki/Ansible_(software)
+* https://docs.ansible.com/ansible/latest/package_module.html
+* https://www.vagrantup.com/docs/provisioning/ansible.html
+* http://labs.qandidate.com/blog/2013/11/21/installing-a-lamp-server-with-ansible-playbooks-and-roles/
+* https://docs.ansible.com/ansible/latest/intro_windows.html
+* https://stackoverflow.com/questions/4037939/powershell-says-execution-of-scripts-is-disabled-on-this-system
