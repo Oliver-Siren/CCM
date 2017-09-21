@@ -105,5 +105,15 @@ Moduulin testaamiseksi ajetaan kaksi riviä komentoja:
 `sudo salt '*' pillar.items`
 
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/salttest.png "top.sls moduuli reply")
+Testi palautti masterilla tämän.
 
+## LAMP -asennus ja työpöydän taustakuvan vaihto
+
+Kun ensimmäinen salt state moduuli oli saatu toimintaan ymmärsin että mitään salt pillaria ei ole oikeasti edes toiminnassa, vaan state moduulit tulisi
+luoda hakemistoon `/srv/salt/` ja niinpä loin hakemiston salt `sudo mkdir /srv/salt/`.
+
+Hakemistossa /srv/salt/ tein uuden top.sls tiedoston `sudoedit /srv/salt/top.sls` ja tiedoston lamp.sls `sudoedit /srv/salt/lamp.sls`, kun top.sls tiedostoon tuli
+`base:
+  '*':
+    - lamp`
 
