@@ -5,6 +5,8 @@ class { "lampstack":}
             lampstack::vhost {"eerokolkki":}
             lampstack::vhost {"pulla":}
 
-        class { "mysql::server":
-            root_password => "K4l4kukk0",
-        }
+        class { '::mysql::server':
+  root_password           => 'K4l4kukk0',
+  remove_default_accounts => true,
+  override_options        => $override_options
+}
