@@ -112,6 +112,8 @@ Testi palautti masterilla tämän.
 Kun ensimmäinen salt state moduuli oli saatu toimintaan ymmärsin että mitään salt pillaria ei ole oikeasti edes toiminnassa, vaan state moduulit tulisi
 luoda hakemistoon `/srv/salt/` ja niinpä loin hakemiston salt `sudo mkdir /srv/salt/`.
 
+`sudo salt '*' salt.apply` komento moduulin ajamiseen.
+
 Hakemistossa /srv/salt/ tein uuden top.sls tiedoston `sudoedit /srv/salt/top.sls` ja tiedoston lamp.sls `sudoedit /srv/salt/lamp.sls`, kun top.sls tiedostoon tuli
 `base:
   '*':
@@ -131,3 +133,4 @@ Tämän saavuttamiseksi tein tiedoston wallE.sls joka näytti tältä:
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltwallE.png "saltwallE state moduuli yritys")
 
 WallE vaihtaa työpöydän taustakuva mutta muutokset tulevat voimaan vasta uudelleen kirjautumisen jälkeen.
+
