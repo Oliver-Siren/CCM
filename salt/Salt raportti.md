@@ -116,4 +116,18 @@ Hakemistossa /srv/salt/ tein uuden top.sls tiedoston `sudoedit /srv/salt/top.sls
 `base:
   '*':
     - lamp`
+	HUOM! Sisennyksillä on väliä ja sisennyksiin tulee käyttää space:ä Tab:in sijaan!
+	
+Lamppi moduuli tuntui alkuun hyvin suoraviivaiselta ja tällä hetkellä yritykseni näyttää tältä:
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltlamp.png "saltlamp state moduuli yritys")
 
+lamp.sls asentaa onnistuneesti kaikki pyydetyt paketit ja vaihtaa samalla apachen default html sivun joka lyötyy osoitteesta `/var/www/html/index.html`. 
+Moduuli epäonnistuu MySQL:n asentamisessa siltä osin että käyttäjänimet ja salasanat jäävät määrittämättä asennusvaiheessa jolloin MySQL on käyttökelvoton.
+Apache palvelin toimii hyvin ja php myös joka todennetaan hakemalla selaimella osoitetta localhost.
+
+Lisäksi top.sls moduulissa käsketään käyttämään wallE.sls tiedostoa jonka tarkoituksena on vaihtaa Xubuntu käyttöjärjestelmän työpöydän taustakuva.
+Tämän saavuttamiseksi tein tiedoston wallE.sls joka näytti tältä:
+
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltwallE.png "saltwallE state moduuli yritys")
+
+WallE vaihtaa työpöydän taustakuva mutta muutokset tulevat voimaan vasta uudelleen kirjautumisen jälkeen.
