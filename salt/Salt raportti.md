@@ -134,3 +134,11 @@ Tämän saavuttamiseksi tein tiedoston wallE.sls joka näytti tältä:
 
 WallE vaihtaa työpöydän taustakuva mutta muutokset tulevat voimaan vasta uudelleen kirjautumisen jälkeen.
 
+## MySQL toimii!!
+
+Joskus auttaa kun ottaa hieman etäisyyttä ongelmaan, ja niin myös tässä tapauksessa. Tero Karvisen sivuilta http://terokarvinen.com/2015/preseed-mysql-server-password-with-salt-stack löytyneen preseedaus menetelmän avulla, 
+root salasanan syöttäminen asennusvaiheessa saltilla onnistui ja sisäänkirjautuminen myös. Nyt siis LAMP toimii ja on aika siirtyä Windowsin ihmettelyyn.
+
+
+## Lets open the Windows
+
