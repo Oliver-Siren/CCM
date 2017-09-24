@@ -250,6 +250,39 @@ Asensin virtualboxiin Windows 10 Pro 64-bit käyttöjärjestelmän. Hain [powers
 }
 ```
 
+### Pakettien asennus
+
+Tein Windowsille oman playbookin windows.yml ja roles hakemistoon sille oman roolin "lab".
+```
+---
+- hosts: windows
+  roles:
+    - lab
+```
+Windows.yml sisältö.
+
+Luin ensin mitä [Windows-moduuleja](https://docs.ansible.com/ansible/latest/list_of_windows_modules.html) Ansiblesta löytyy. Sen jälkeen loin ensin hakemiston `win_file` moduulilla, jonne oli tarkoitus ladata asennustiedostot. Yritin aluksi käyttää `win_get_url` moduulia, jolla olisin ladannut asennustiedoston internetistä, mutta `force: no` asetus ei toiminut, joka olisi estänyt uudelleenlatauksen jos tiedosto ei ole muuttunut. Seuraavaksi kokeilin `win_copy` moduulia, jonka avulla kopioin asennustiedoston masterilta kohteelle. Sitten `win_package` moduulilla WinSCP asennus käyntiin, mutta se ei onnistunut. Asennus lähti käyntiin mutta ei mennyt läpi, sillä en löytynyt oikeita argumentteja asennuksen ajamiseen. Lopulta päädyin käyttämään Chocolatey-paketinhallintaa.  Ensimmäisellä Chocolateyn ajokerralla sain virheilmoituksen:
+```
+fatal: [10.0.0.194]: FAILED! => {"changed": false, "failed": true, "msg": "Exception setting \"changed\": \"The property 'changed' cannot be found on this object. Verify that the property exists and can be set.\""}
+```
+Toisella ajokerralla WinSCP asentui ongelmitta, joten virheilmoituksen alkuperä jäi hämärän peittoon. Asensin aluksi WinSCP:n niin että name kohdassa luki vain winscp, ohjelma asentui, mutta sitä ei saanut poistettua muuttamalla `state: absent`. Lisäsin winscp perään .install, jolloin poistokin onnistui.
+```
+---
+- name: create ansible directory
+  win_file:
+    path: C:\ansible
+    state: directory
+- name: copy winSCP installation file from master
+  win_copy:
+    src: roles/lab/files/WinSCP-5.11.1-Setup.exe
+    dest: C:\ansible\
+- name: install winSCP
+  win_chocolatey:
+    name: winscp.install
+    state: present
+```
+/etc/ansible/roles/lab/tasks/main.yml sisältö. Hakemiston luonti ja asennustiedoston kopiointi ovat tässä tapauksessa turhia, sillä asensin WinSCP:n Chocolateyn avulla, mutta en poistanut niitä tästä esimerkistä koska niistä voi olla myöhemmin hyötyä.
+
 
 ## Käytettyjä lähteitä
 
@@ -260,3 +293,4 @@ Asensin virtualboxiin Windows 10 Pro 64-bit käyttöjärjestelmän. Hain [powers
 * http://labs.qandidate.com/blog/2013/11/21/installing-a-lamp-server-with-ansible-playbooks-and-roles/
 * https://docs.ansible.com/ansible/latest/intro_windows.html
 * https://stackoverflow.com/questions/4037939/powershell-says-execution-of-scripts-is-disabled-on-this-system
+* https://docs.ansible.com/ansible/latest/list_of_windows_modules.html
