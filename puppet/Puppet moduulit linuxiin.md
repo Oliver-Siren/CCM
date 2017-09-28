@@ -3,7 +3,8 @@
 ## Lampstack
 Lampstack moduuli on muokattu versio aiemmin tekemästäni moduulista. Se asentaa tällä hetkellä Apache2, libapache2-mod-php, php7.0 ja php-mysql. Tämän lisäksi se antaa käyttäjälle luvan luoda apache sivun omaan kotihakemistoonsa, ja siirtää esimerkki php-sivun sijaintiin /etc/skel/public_html. Tämä toiminnallisuus todennäköisesti tulee muuttumaan kun pääsemme yhteisymmärrykseen siitä, millainen palvelinasennuksen tulee tarkalleenottaen olla.
 
-```class lampstack {
+```
+class lampstack {
 	package { "apache2": }
 	package { "libapache2-mod-php7.0":
 		require => Package["apache2"], }
@@ -57,7 +58,8 @@ Päädyin MySQL:n kohdalla käyttämään PuppetLabsin MySQL moduulia sen vuoksi
 Yritin aluksi asentaa puppetlabsin uusinta moduulia (https://forge.puppet.com/puppetlabs/mysql/2.2.3), mutta huomasin että se vaati paljon kustomointia ennen asennusta. Päädyin lopulta käyttämään Vanhempaa versiota, jolla olin aiemmin asentanut MySQL:n onnistuneesti siten, että root salasanan voi asettaa site.pp tiedostossa. 
 Se tapahtuu seuraavasti: 
 
-```class { "mysql::server":
+```
+class { "mysql::server":
             root_password => "salasanatähän",
         }
 ```
