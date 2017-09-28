@@ -6,7 +6,7 @@ class lampstack {
 	package { "php-mysql": }
 
 	Package { ensure => "installed",
-		allowcdrom => true,
+		allowcdrom => "true",
 	}
 	file { "/var/www/html/index.php":
 		content => template("lampstack/index.php"),
@@ -24,11 +24,6 @@ class lampstack {
 		content => template("lampstack/public_html/index.php"),
 		require => Package["apache2"],
 	}
-	service { "apache2":
-		ensure => "running",
-		enable => "true",
-		provider => "systemd",
-	}
 	exec { "userdir":
 		notify => Service["apache2"],
 		command => "/usr/sbin/a2enmod userdir",
@@ -42,6 +37,12 @@ class lampstack {
 	file { "/etc/apache2/apache2.conf":
 		content => template("lampstack/apache2.conf"),
 		notify => Service["apache2"],
+		require => Package["apache2"],
+	}
+	service { "apache2":
+		ensure => "running",
+		enable => "true",
+		provider => "systemd",
 		require => Package["apache2"],
 	}
 }
