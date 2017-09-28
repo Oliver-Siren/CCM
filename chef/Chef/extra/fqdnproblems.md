@@ -78,17 +78,16 @@ now to run the same set of commands on the xubuntu virtualbox
 
 sudo hostname https://192.168.1.37 && service avahi-daemon restart
 hostname: the specified hostname is invalid
-
 not really surprinsing then i edited the IP into /etc/hosts and restarted avahi
 
 slave@slave:/etc$ service avahi-daemon restart
 ==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ===
-Authentication is required to restart 'avahi-daemon.service'.
+Authentication is retquired to restart 'avahi-daemon.service'.
 Authenticating as: slave,,, (slave)
 Password: 
 ==== AUTHENTICATION COMPLETE ===
 
-now to redo the certs i tried 
+now to redo the cerits i tried 
 
 sudo chef-server-ctl reconfigure 
 
@@ -113,7 +112,7 @@ Chef SSL Configuration:
 * ssl_ca_file: nil
 * trusted_certs_dir: "/home/jarkko/Chef/CCM/chef/Chef/chef-repo/.chef/trusted_certs"
 
-TO FIX THIS ERROR:
+TO FIX THIS ERROR:w
 
 If the server you are connecting to uses a self-signed certificate, you must
 configure chef to trust that server's certificate.
@@ -132,4 +131,20 @@ and after doin knife ssl fetch and then knife ssl check i got
 Connecting to host 192.168.1.37:443
 Successfully verified certificates from `192.168.1.37'
 
-success?!
+success?! well no 
+
+knife cookbook upload learn_chef_apache2
+ERROR: Failed to authenticate to https://192.168.1.37/organizations/4thcoffee as chefadmin with key /etc/chef/chefadmin.pem
+Response:  Invalid signature for user or client 'chefadmin'
+
+it seems pretty simple tho i simply forgot to copythe chefadmin.pem to my ~/.chef file
+
+afterwards 
+
+knife cookbook upload learn_chef_apache2
+ERROR: Failed to authenticate to https://192.168.1.37/organizations/4thcoffee as chefadmin with key /etc/chef/chefadmin.pem
+Response:  Invalid signature for user or client 'chefadmin'
+
+i decided to reinstall chef server with the script provided to make sure it would work and it actualy did once i copied the chafadmin.pem from the servers /drop to my~/.chef 
+
+Success ()

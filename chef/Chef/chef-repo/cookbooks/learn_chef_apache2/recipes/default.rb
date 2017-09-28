@@ -1,3 +1,8 @@
+#
+# Cookbook Name:: learn_chef_apache2
+# Recipe:: default
+#
+# Copyright (c) 2016 The Authors, All Rights Reserved.
 apt_update 'Update the apt cache daily' do
   frequency 86_400
   action :periodic
@@ -10,6 +15,6 @@ service 'apache2' do
   action [:enable, :start]
 end
 
-template '/var/www/html/index.html' do
+template '/var/www/html/index.html' do # ~FC033
   source 'index.html.erb'
 end

@@ -1,6 +1,6 @@
 #
-# Cookbook:: build_cookbook
+# Cookbook Name:: build_cookbook
 # Recipe:: quality
 #
-# Copyright:: 2017, The Authors, All Rights Reserved.
+# Copyright (c) 2016 The Authors, All Rights Reserved.
 include_recipe 'delivery-truck::quality'
