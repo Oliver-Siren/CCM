@@ -59,8 +59,26 @@ Se tapahtuu seuraavasti:
 
 ```class { "mysql::server":
             root_password => "salasanatähän",
-        }```
+        }
+```
 
 Linkki vanhempaan moduuliin: https://github.com/joonaleppalahti/CCM/tree/master/puppet/modules/mysql
 ## Tausta
  Tausta moduuli on minun aiemmalla Tero Karvisen Palvelinten hallinta kurssilla luomani moduuli, joka vaihtaa moduulin ajamisen yhteydessä käyttäjän taustakuvan.
+ 
+ ```
+ class tausta {
+        file {"/usr/share/xfce4/backdrops/eero.jpeg":
+                source => "puppet:///modules/tausta/eero.jpeg",
+        }
+        file {"/usr/share/xfce4/backdrops/xubuntu-wallpaper.png":
+                ensure => "link",
+                target => "/usr/share/xfce4/backdrops/eero.jpeg",
+        }
+        service {"lightdm":
+                ensure => "running",
+                enable => "true",
+                provider => "systemd",
+    }
+}
+```
