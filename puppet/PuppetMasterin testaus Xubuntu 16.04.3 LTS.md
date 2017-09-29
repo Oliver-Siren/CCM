@@ -55,7 +55,7 @@ ja lisäsin masterin DNS-nimen /etc/puppet/puppet.conf tiedoston loppuun
 `[agent]
 server = master.local`
 
-Tämän jälkeen annoin puppetille luvan käynnistyä
+Tämän jälkeen määräsin koneen orjaksi
 
 `sudo puppet agent --enable`
 
