@@ -1,0 +1,12 @@
+---
+- name: install apache
+  package: name=apache2 state=present
+
+- name: install php
+  package: name=libapache2-mod-php state=present
+
+- name: keep apache running
+  service: name=apache2 state=running enabled=yes
+
+- name: php test page
+  copy: src=index.php dest=/var/www/html/index.php mode=0664

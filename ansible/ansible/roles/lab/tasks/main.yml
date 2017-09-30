@@ -1,0 +1,13 @@
+---
+- name: create ansible directory
+  win_file:
+    path: C:\ansible
+    state: directory
+- name: copy winSCP installation file from master
+  win_copy:
+    src: roles/lab/files/WinSCP-5.11.1-Setup.exe
+    dest: C:\ansible\
+- name: install winSCP
+  win_chocolatey:
+    name: winscp.install
+    state: present

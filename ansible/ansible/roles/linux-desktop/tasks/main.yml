@@ -1,0 +1,11 @@
+---
+- name: change background image
+  copy:
+    src: roles/linux-desktop/files/arctic.jpeg
+    dest: /usr/share/xfce4/backdrops/xubuntu-wallpaper.png
+
+- name: make sure firefox is installed
+  package: name=firefox state=present
+
+- name: add ublock origin to firefox
+  package: name=xul-ext-ublock-origin state=absent
