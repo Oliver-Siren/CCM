@@ -284,6 +284,36 @@ Toisella ajokerralla WinSCP asentui ongelmitta, joten virheilmoituksen alkuperä
 /etc/ansible/roles/lab/tasks/main.yml sisältö. Hakemiston luonti ja asennustiedoston kopiointi ovat tässä tapauksessa turhia, sillä asensin WinSCP:n Chocolateyn avulla, mutta en poistanut niitä tästä esimerkistä koska niistä voi olla myöhemmin hyötyä.
 
 
+### Taustakuvan vaihto Linux-desktop roolille
+
+Lisäsin roolin Linux-desktop ja käytin alussa asentamaani virtuaalikonetta, jossa on käytössä graafinen käyttöliittymä. Muutin playbook.yml tiedoston nimen linux.yml ja lisäsin siihen linux-desktop kohdan.  Sitten katsoin Jorin [Salt raportista](https://github.com/joonaleppalahti/CCM/blob/master/salt/Salt%20raportti.md) miten hän oli vaihtanut työpöydän taustakuvan. Kokeilin aluksi pelkästään kuvan paikalleenlaittamista copy-moduulin avulla.
+```
+---
+- name: change background image
+  copy:
+    src: roles/linux-desktop/files/arctic.jpeg
+    dest: /usr/share/xfce4/backdrops/xubuntu-wallpaper.png
+```
+/etc/ansible/roles/linux-desktop/tasks/main.yml
+
+Kuvatiedosto sijaitsee roolin files hakemistossa. Yritin ajaa playbookia, mutta Ansible valitti salasanan puuttumista.
+```
+fatal: [10.0.0.64]: FAILED! => {"changed": false, "failed": true, "module_stderr": "", "module_stdout": "sudo: a password is required\r\n", "msg": "MODULE FAILURE", "parsed": false}
+```
+Windowsia konfiguroidessani kerkesin jo unohtaa Linuxilla vaadittavan `--ask-become-pass`, jonka lisäämällä komennon perään playbook pyörähti läpi. Kuva kopioitui ja uusi taustakuva tuli heti näkyviin.
+
+### Ublock-Origin Firefoxiin
+
+Asensin paketinhallinnasta xul-ext-ublock-origin paketin, joka asentui mutta ei toiminut vanhasta versiosta johtuen. Yritin eri ohjeilla kopioida githubista lataamaani Ublock-Origin pakettia eri paikkoihin, kuten `/home/joona/.mozilla/extensions/` ja `/usr/lib/firefox-addons/extensions/`. Sitten huomasin että olin saattanut ladata vajaan paketin GitHubista ja latasin [1.14.11rc6](https://github.com/gorhill/uBlock/releases) version .xpi paketin. Purin paketin unzip komennolla ja löysin seuraavan paikan `/home/joona/.mozilla/firefox/nuu7ond9.default/extensions/`. Kopioin puretut tiedostot uBlock0@raymondhill.net hakemistoon, jonka laitoin äskeiseen hakemistoon.
+
+Ublock-origin näkyi Firefoxissa, mutta se ei ollut käytössä koska en ladannut sitä luotettavasta lähteestä. Latasin lisäosan suoraan Mozillan sivuilta ja tein saman purkamisen ja siirtämisen kuin edellisen paketin kanssa ja nyt ublock toimi Firefoxissa. Lisäosa täytyy itse kytkeä päälle, sillä se on oletuksena poissa käytöstä.
+
+Asensin uuden virtuaalikoneen, jotta pääsin testaamaan lisäosan asennusta puhtaalta pöydältä. Latasin uBlock Originin xpi-paketin Mozillan sivuilta, purin sen uBlock0@raymondhill.net hakemistoon, jonka kopioin kohteeseen `/usr/lib/firefox-addons/extensions`. Tuohon hakemistoon lisätyt lisäosat ovat käytössä kaikilla käyttäjillä. Lisäosa näkyi Firefoxissa, mutta valitti ettei se ollut luotettu, eikä sitä saanut käyttöön.
+
+Seuraavaksi siirsin lisäosan `/home/joona/.mozilla/firefox/hwjiesab.default/extensions` hakemistoon. Välissä oleva .default kohta on käyttäjän uniikki id, joka voi aiheuttaa ongelmia uusien käyttäjien kanssa. Nyt Firefoxin käynnistyessä käyttäjän tulee hyväksyä lisäosan asennus, jonka jälkeen uBlock Origin toimii, mainokset ovat hävinneet.
+
+Poistin uBlockin-Originin ja asensin vielä kerran `xul-ext-ublock-origin` paketin ja nyt uBlock-Origin toimi. Käytössä Firefox 54. Ajoin komennon `sudo apt-get upgrade`, jolloin firefox päivittyi versioon 55 ja uBlock-Origin on saanut merkinnän "legacy" eikä enää toimi. Versiossa 55 /usr/lib.. polkuun asennettuna lisäosa valittaa edelleen luotettavuudesta. Käyttäjäkohtaisessa asennuksessa käynnistyksen yhteydessä näkyvä ilmoitus on poistunut ja lisäosa tulee käytä erikseen laittamassa käyttöön add-ons valikosta, mutta silloin se toimii.
+
 ## Käytettyjä lähteitä
 
 * https://docs.ansible.com/ansible/latest/intro.html
@@ -294,3 +324,4 @@ Toisella ajokerralla WinSCP asentui ongelmitta, joten virheilmoituksen alkuperä
 * https://docs.ansible.com/ansible/latest/intro_windows.html
 * https://stackoverflow.com/questions/4037939/powershell-says-execution-of-scripts-is-disabled-on-this-system
 * https://docs.ansible.com/ansible/latest/list_of_windows_modules.html
+* https://github.com/gorhill/uBlock/releases
