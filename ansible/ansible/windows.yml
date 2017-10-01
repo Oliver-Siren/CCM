@@ -1,4 +1,4 @@
 ---
-- hosts: windows
+- hosts: windows-desktop
   roles:
-    - lab
+    - windows-desktop

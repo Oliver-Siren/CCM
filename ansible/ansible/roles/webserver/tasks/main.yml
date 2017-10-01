@@ -10,3 +10,8 @@
 
 - name: php test page
   copy: src=index.php dest=/var/www/html/index.php mode=0664
+
+- name: remove apache default page
+  file:
+    path: /var/www/html/index.html
+    state: absent

@@ -17,3 +17,7 @@
   become: yes
   roles:
     - linux-desktop
+
+- hosts: windows-desktop
+  roles:
+    - windows-desktop

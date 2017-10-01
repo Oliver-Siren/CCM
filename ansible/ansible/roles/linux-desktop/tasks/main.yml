@@ -7,5 +7,14 @@
 - name: make sure firefox is installed
   package: name=firefox state=present
 
-- name: add ublock origin to firefox
-  package: name=xul-ext-ublock-origin state=absent
+- name: install gedit
+  package: name=gedit state=present
+
+- name: allow port 22 through firewall
+  ufw:
+    rule: allow
+    port: 22
+
+- name: enable firewall
+  ufw:
+    state: enabled
