@@ -284,7 +284,7 @@ Toisella ajokerralla WinSCP asentui ongelmitta, joten virheilmoituksen alkuperä
 /etc/ansible/roles/lab/tasks/main.yml sisältö. Hakemiston luonti ja asennustiedoston kopiointi ovat tässä tapauksessa turhia, sillä asensin WinSCP:n Chocolateyn avulla, mutta en poistanut niitä tästä esimerkistä koska niistä voi olla myöhemmin hyötyä.
 
 
-### Taustakuvan vaihto Linux-desktop roolille
+## Taustakuvan vaihto Linux-desktop roolille
 
 Lisäsin roolin Linux-desktop ja käytin alussa asentamaani virtuaalikonetta, jossa on käytössä graafinen käyttöliittymä. Muutin playbook.yml tiedoston nimen linux.yml ja lisäsin siihen linux-desktop kohdan.  Sitten katsoin Jorin [Salt raportista](https://github.com/joonaleppalahti/CCM/blob/master/salt/Salt%20raportti.md) miten hän oli vaihtanut työpöydän taustakuvan. Kokeilin aluksi pelkästään kuvan paikalleenlaittamista copy-moduulin avulla.
 ```
@@ -302,7 +302,7 @@ fatal: [10.0.0.64]: FAILED! => {"changed": false, "failed": true, "module_stderr
 ```
 Windowsia konfiguroidessani kerkesin jo unohtaa Linuxilla vaadittavan `--ask-become-pass`, jonka lisäämällä komennon perään playbook pyörähti läpi. Kuva kopioitui ja uusi taustakuva tuli heti näkyviin.
 
-### Ublock-Origin Firefoxiin
+## Ublock-Origin Firefoxiin
 
 Asensin paketinhallinnasta xul-ext-ublock-origin paketin, joka asentui mutta ei toiminut vanhasta versiosta johtuen. Yritin eri ohjeilla kopioida githubista lataamaani Ublock-Origin pakettia eri paikkoihin, kuten `/home/joona/.mozilla/extensions/` ja `/usr/lib/firefox-addons/extensions/`. Sitten huomasin että olin saattanut ladata vajaan paketin GitHubista ja latasin [1.14.11rc6](https://github.com/gorhill/uBlock/releases) version .xpi paketin. Purin paketin unzip komennolla ja löysin seuraavan paikan `/home/joona/.mozilla/firefox/nuu7ond9.default/extensions/`. Kopioin puretut tiedostot uBlock0@raymondhill.net hakemistoon, jonka laitoin äskeiseen hakemistoon.
 
@@ -313,6 +313,67 @@ Asensin uuden virtuaalikoneen, jotta pääsin testaamaan lisäosan asennusta puh
 Seuraavaksi siirsin lisäosan `/home/joona/.mozilla/firefox/hwjiesab.default/extensions` hakemistoon. Välissä oleva .default kohta on käyttäjän uniikki id, joka voi aiheuttaa ongelmia uusien käyttäjien kanssa. Nyt Firefoxin käynnistyessä käyttäjän tulee hyväksyä lisäosan asennus, jonka jälkeen uBlock Origin toimii, mainokset ovat hävinneet.
 
 Poistin uBlockin-Originin ja asensin vielä kerran `xul-ext-ublock-origin` paketin ja nyt uBlock-Origin toimi. Käytössä Firefox 54. Ajoin komennon `sudo apt-get upgrade`, jolloin firefox päivittyi versioon 55 ja uBlock-Origin on saanut merkinnän "legacy" eikä enää toimi. Versiossa 55 /usr/lib.. polkuun asennettuna lisäosa valittaa edelleen luotettavuudesta. Käyttäjäkohtaisessa asennuksessa käynnistyksen yhteydessä näkyvä ilmoitus on poistunut ja lisäosa tulee käytä erikseen laittamassa käyttöön add-ons valikosta, mutta silloin se toimii.
+
+## Taustakuva Windowsiin
+
+Ensin kopioin taustakuvan kohteelle:
+```
+- name: copy background image to created directory
+  win_copy:
+    src: roles/windows-desktop/files/arctic.jpeg
+    dest: C:\ansible\
+```
+Sitten etsin miten vaihtaa taustakuva komentoriviltä, [windows-commandline.com:ista](https://www.windows-commandline.com/change-windows-wallpaper-command-line/) löysin ohjeen, jota sitten sovelsin koneen rekisteriä tutkimalla Ansiblen [win_regedit](https://docs.ansible.com/ansible/latest/win_regedit_module.html) moduuliin. 
+```
+- name: change background
+  win_regedit:
+    path: HKCU:\Control Panel\Desktop
+    name: Wallpaper
+    type: REG_SZ
+    data: C:\ansible\arctic.jpeg
+```
+Sain virheilmoituksen:
+```
+fatal: [10.0.0.149]: FAILED! => {"changed": false, "failed": true, "msg": "Missing required argument: key"}
+```
+Virhettä Googletellessa löysin [groups.google](https://groups.google.com/forum/#!topic/ansible-project/VQo0Wo9VPYg) keskustelun, jonka perusteella minun tulisi käyttää eri nimiä kuin path, name ja type. Käytössäni on Ansiblen versio 2.0.0.2 ja uudet nimet ovat käytössä versiosta 2.3 eteenpäin. Vaihdoin nimet ja kokeilin uudelleen.
+```
+- name: change background
+  win_regedit:
+    key: HKCU:\Control Panel\Desktop
+    entry: Wallpaper
+    datatype: REG_SZ
+    data: C:\ansible\arctic.jpeg
+```
+Sain erilaisen virheen tällä kertaa:
+```
+fatal: [10.0.0.149]: FAILED! => {"changed": false, "failed": true, "msg": "Argument datatype needs to be one of binary,dword,expandstring,multistring,string,qword but was REG_SZ."}
+```
+Kokeilin datatypen tilalle dword, expandstring ja string, mutta mitään muutosta ei tapahtunut. Otin datatypen kokonaan pois, eikä muutosta tapahtunut. Sitten kokeilin poistaa Wallpaper kohdan kokonaan:
+```
+win_regedit:
+    key: HKCU:\Control Panel\Desktop
+    entry: Wallpaper
+    state: absent
+```
+Hupsista, Desktop osiosta hävisivät kaikki rekisteriavaimet, eli `entry: Wallpaper` ei tunnu toimivan. Ansiblen [vanhassa dokumentaatiossa](https://ansible-manual.readthedocs.io/en/stable-2.2/win_regedit_module.html) on käytetty entryn tilalla value, joten kokeilin sitä. 
+```
+win_regedit:
+    key: HKCU:\Control Panel\Desktop
+    value: Wallpaper
+    data: C:\ansible\arctic.jpeg
+```
+Tämä toimi, Wallpaper kohtaan ilmestyi määrittämäni polku ja uudelleenkirjautumisen jälkeen uusi taustakuva tuli näkyviin.
+
+Lisäsin vielä rekisteriavaimen, joka määrittää ettei taustakuvaa toisteta, jos se ei täytä koko ruutua. Testikuvani resoluutio oli 1440x810, joten sitä toistettiin oletuksena.
+```
+- name: make wallpaper fullscreen
+  win_regedit:
+    key: HKCU:\Control Panel\Desktop
+    value: TileWallpaper
+    data: 0
+```
+Uudelleenkirjautumisen jälkeen taustakuva peitti koko ruudun.
 
 ## Käytettyjä lähteitä
 
@@ -325,3 +386,7 @@ Poistin uBlockin-Originin ja asensin vielä kerran `xul-ext-ublock-origin` paket
 * https://stackoverflow.com/questions/4037939/powershell-says-execution-of-scripts-is-disabled-on-this-system
 * https://docs.ansible.com/ansible/latest/list_of_windows_modules.html
 * https://github.com/gorhill/uBlock/releases
+* https://www.windows-commandline.com/change-windows-wallpaper-command-line/
+* https://docs.ansible.com/ansible/latest/win_regedit_module.html
+* https://groups.google.com/forum/#!topic/ansible-project/VQo0Wo9VPYg
+* https://ansible-manual.readthedocs.io/en/stable-2.2/win_regedit_module.html

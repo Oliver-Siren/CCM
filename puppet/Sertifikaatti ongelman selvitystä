@@ -26,13 +26,13 @@ Sitten asensin puppetmasterin "sudo apt-get install puppetmaster"
 
 sitten 
 
-master$ sudo service puppetmaster stop
-master$ sudo rm -r /var/lib/puppet/ssl
-Add master’s name to config
+master1$ sudo service puppetmaster stop
+master1$ sudo rm -r /var/lib/puppet/ssl
 
-master$ sudoedit /etc/puppet/puppet.conf
-add these names under [master] heading
 
+master1$ sudoedit /etc/puppet/puppet.conf
+
+[master]
 dns_alt_names = puppet, master1.local, master1.zyxel.setup
 
 Lisäsin kohdan certname=master1 joka voisi selvittää ongelman mikä minulla oli aiemmin. https://shapeshed.com/connecting-clients-to-a-puppet-master/
@@ -43,17 +43,15 @@ annoin komennon sudo puppet cert list --all (näytti signed cert for ca?)
 master$ sudo service puppetmaster start
 
 
-
-
 asensin puppetin slaville. sudo apt-get install puppet
 
 Add master DNS name under [agent] heading. Puppet will connect to server.
 
 [agent]
-server = master1.zyxel.setup, master1.local  
+server = master1.zyxel.setup
 
 
-Allow puppet slave (aka agent) to start
+
 
 
 sitten
@@ -624,3 +622,17 @@ On the agent:
 
 Exiting; failed to retrieve certificate and waitforcert is disabled
 slave1@slave1:
+
+Tässä välissä pidin päivän tauon. Seuraavana päivänä puhdistin certifikaatit koneilta ja ajoin testiajon komennolla 
+
+puppet agent --test
+
+
+slave1@slave1puppet agent --test
+Info: Creating a new SSL key for slave1.zyxel.setup
+Info: Caching certificate_request for slave1.zyxel.setup
+Exiting; no certificate found and waitforcert is disabled
+
+Tajusin että tämä komento luo jostain syystä aina uuden certifikaatin, ja sotkee siten aiemmat sertit kokonaan. Hyväksyin tämän testiajon jälkeen sertifikaatin ja päätin antaa koneen odottaa hetken ja sitten huomasin että puppet suostui asentamaan moduulit masterilta itsenäisesti.
+
+Tarinan opetus: kun olet hyväksynyt sertifikaatit niin älä anna enää puppet test komentoja koska ne luovat uuden sertin ja sotkevat tilanteen täysin. Käytä sen sijaan waitforcert määritystä, jolla voit vaikuttaa siihen kuinka usein puppet hakee moduulit masterilta.
