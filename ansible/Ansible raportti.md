@@ -375,6 +375,34 @@ Lisäsin vielä rekisteriavaimen, joka määrittää ettei taustakuvaa toisteta,
 ```
 Uudelleenkirjautumisen jälkeen taustakuva peitti koko ruudun.
 
+Tällä menetelmällä vaihdettu taustakuva vaihtuu sille käyttäjälle, jonka tunnuksilla ansiblea käytetään.
+
+## Käyttäjän lisäys, Linux
+
+Tein user moduulin dokumentaation pohjalta kohdan, joka lisää käyttäjän. Käytin aluksi selväkielistä salasanaa, mutta käyttäjälle ei voinut kirjautua. [Stackoverflowsta](https://stackoverflow.com/questions/19292899/creating-a-new-user-and-password-with-ansible/19318368#19318368) löytyi selvennystä salatun salasanan luontiin. `python -c 'import crypt; print crypt.crypt("This is my Password", "$1$SomeSalt$")'` komennolla voi luoda Ansiblelle sopivan salasanan.
+```
+- name: add user opiskelija
+  user:
+    name: opiskelija
+    password: $1$suola$x3q8bwB9K87WryJYwGJ2j.
+    shell: /bin/bash
+```
+Masterilta `ssh opiskelija@10.0.0.64` toimi ja salasanan syöttämisen jälkeen pääsin sisään käyttäjänä opiskelija.
+
+## Käyttäjän lisäys, Windows
+
+Käynnistin Windows 10 Pro 64-bit virtuaalikoneen, jossa ajoin puolen tunnin päivittämisen jälkeen windows-moduulin testiksi ja se ei toiminut. Päivitys oli rikkonut PowerShellin kautta luotavan yhteyden, mutta valmisteluscriptin uudelleenajo korjasi vian.
+```
+- name: create user opiskelija
+  win_user:
+    name: opiskelija
+    password: salainen
+    state: present
+    groups:
+      - Users
+```
+Win_user moduulin dokumentaation pohjalta tehty playbookin osa käyttäjän lisäykseen. Kokeilin ensin versiota, jossa ei ollut groups kohtaa. Ansible pyörähti läpi ilman ongelmia, mutta käyttäjää ei näkynyt missään. Kokeilin luoda toisen nimisen käyttäjän, jolle lisäsin groups kohdan. Lisäys korjasi ongelman ja käyttäjä ilmestyi. Ensin luotu käyttäjätili ei korjautunut uudelleenajettaessa groups kohdalla.
+
 ## Käytettyjä lähteitä
 
 * https://docs.ansible.com/ansible/latest/intro.html
@@ -390,3 +418,4 @@ Uudelleenkirjautumisen jälkeen taustakuva peitti koko ruudun.
 * https://docs.ansible.com/ansible/latest/win_regedit_module.html
 * https://groups.google.com/forum/#!topic/ansible-project/VQo0Wo9VPYg
 * https://ansible-manual.readthedocs.io/en/stable-2.2/win_regedit_module.html
+* https://stackoverflow.com/questions/19292899/creating-a-new-user-and-password-with-ansible/19318368#19318368
