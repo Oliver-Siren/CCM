@@ -15,3 +15,23 @@
   file:
     path: /var/www/html/index.html
     state: absent
+
+- name: add user opiskelija
+  user:
+    name: opiskelija
+    password: $1$suola$x3q8bwB9K87WryJYwGJ2j.
+    shell: /bin/bash
+
+- name: allow port 22 through firewall
+  ufw:
+    rule: allow
+    port: 22
+
+- name: allow port 80 through firewall
+  ufw:
+    rule: allow
+    port: 80
+
+- name: enable firewall
+  ufw:
+    state: enabled

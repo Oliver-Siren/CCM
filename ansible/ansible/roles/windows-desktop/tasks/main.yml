@@ -9,7 +9,7 @@
     name: notepadplusplus.install
     state: present
 
-- name: install notepad++
+- name: install putty
   win_chocolatey:
     name: putty.install
     state: present
@@ -35,3 +35,16 @@
     key: HKCU:\Control Panel\Desktop
     value: TileWallpaper
     data: 0
+
+- name: install libreoffice
+  win_chocolatey:
+    name: libreoffice
+    state: present
+
+- name: create user opiskelija
+  win_user:
+    name: opiskelija
+    password: salainen
+    state: present
+    groups:
+      - Users
