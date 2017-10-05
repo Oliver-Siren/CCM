@@ -377,6 +377,10 @@ Uudelleenkirjautumisen jälkeen taustakuva peitti koko ruudun.
 
 Tällä menetelmällä vaihdettu taustakuva vaihtuu sille käyttäjälle, jonka tunnuksilla ansiblea käytetään.
 
+### Taustakuvan vaihto kaikille käyttäjille
+
+Seuraavaksi lähdin kokeilemaan oletustaustakuvan korvausta omalla taustakuvallani. Törmäsin heti ongelmaan että edes admin oikeuksilla ei voi muokata kyseistä kuvaa. Kuva ja hakemisto jossa se sijaitsee kuuluu TrustedInstaller käyttäjälle. Win_owner moduuli ei toiminut versiossa 2.0.0.2, joten päädyin päivittämään uudempaan versioon Ansiblesta.
+
 ## Käyttäjän lisäys, Linux
 
 Tein user moduulin dokumentaation pohjalta kohdan, joka lisää käyttäjän. Käytin aluksi selväkielistä salasanaa, mutta käyttäjälle ei voinut kirjautua. [Stackoverflowsta](https://stackoverflow.com/questions/19292899/creating-a-new-user-and-password-with-ansible/19318368#19318368) löytyi selvennystä salatun salasanan luontiin. `python -c 'import crypt; print crypt.crypt("This is my Password", "$1$SomeSalt$")'` komennolla voi luoda Ansiblelle sopivan salasanan.
@@ -403,9 +407,66 @@ Käynnistin Windows 10 Pro 64-bit virtuaalikoneen, jossa ajoin puolen tunnin pä
 ```
 Win_user moduulin dokumentaation pohjalta tehty playbookin osa käyttäjän lisäykseen. Kokeilin ensin versiota, jossa ei ollut groups kohtaa. Ansible pyörähti läpi ilman ongelmia, mutta käyttäjää ei näkynyt missään. Kokeilin luoda toisen nimisen käyttäjän, jolle lisäsin groups kohdan. Lisäys korjasi ongelman ja käyttäjä ilmestyi. Ensin luotu käyttäjätili ei korjautunut uudelleenajettaessa groups kohdalla.
 
+## Päivitys versioon 2.4
+
+Koska win_owner moduuli ei toiminut aikaisemmin käyttämässäni versiossa 2.0.0.2, päätin päivittää uusimpaan versioon. Vanha versio johtui alkuperäisessä asennuksessa oikomisesta, sillä pakettivarastosta löytyi Ansible, mutta vanha versio. Oikein asennettuna olisi otettu käyttöön Ansiblen oma pakettivarasto, josta löytyy uusin versio.
+```
+sudo apt-get update
+sudo apt-get install software-properties-common
+sudo apt-add-repository ppa:ansible/ansible
+sudo apt-get update
+sudo apt-get upgrade
+```
+Lisäsin Ansiblen pakettivaraston [dokumentaation](https://docs.ansible.com/ansible/latest/intro_installation.html) ohjeiden mukaan ja yritin upgradella päivittää sitä, mutta sain seuraavan ilmoituksen: 
+```
+The following packages have been kept back:
+  ansible
+```
+[Askubuntu.comista](https://askubuntu.com/questions/601/the-following-packages-have-been-kept-back-why-and-how-do-i-solve-it/602#602) löysin ratkaisun, jossa kehotettiin antamaan `sudo apt-get install` komento ongelman ratkaisuksi. `sudo apt-get install ansible` komennon jälkeen asennus kysyi haluanko korvata olemassaolevat ansible.cfg ja hosts tiedostot uusilla. Ansible.cfg tiedoston korvasin, sillä en ollut tehnyt siihen muutoksia, mutta hosts tiedoston jätin korvaamatta. Asennus loi ansible.cfg.dpkg-old tiedoston, joka on vanha konfiguraatiotiedosto, sekä hosts.dpkg-dist, joka on esimerkkitiedosto. Poistin molemmat, sillä esimerkki hosts oli turha ja konfiguraatiotiedosto on tallessa GitHubissa. Tarkastin Ansiblen version komennolla `ansible --version` ja tuloste näytti 2.4.0.0.
+
+## Playbookin testiajo päivityksen jälkeen
+
+Käynnistin kaikki kohdevirtuaalikoneeni ja ajoin `ansible-playbook masterbook.yml --ask-become-pass` ja varauduin pahimpaan. Yllättäen kaikkien roolien tehdävät menivät läpi. Ainoa ilmoitus liittyi servicekomennon nimenmuutokseen.
+```
+[DEPRECATION WARNING]: state=running is deprecated. Please use state=started. This feature will be removed in version 2.7. 
+Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+```
+Tein työtä käskettyä, vaihdoin running startediin ja ilmoitusta ei näkynyt seuraavan ajon yhteydessä.
+
+## Windowsin taustakuvan vaihto jatkoa
+
+Yritin vaihtaa oletuskuvan omistajaa win_owner moduulilla, mutta mitään ei tapahtunut. 
+```
+- name: change owner of default wallpaper
+  win_owner:
+    path: C:\WINDOWS\web\wallpaper\Windows\img0.jpg
+    user: joona
+```
+Tiedosto täytyy luultavasti omistaa, jotta sen omistajaa voi muokata. 
+
+Seuraavaksi yritin antaa itselleni lisää oikeuksia, jotta voin muokata kuvaa.
+```
+- name: change user right to access default wallpaper
+  win_acl:
+    path: C:\WINDOWS\web\wallpaper\Windows\img0.jpg
+    user: joona
+    rights: FullControl
+    type: allow
+    state: present
+```
+Sain täydet oikeudet kuvaan, joten seuraavaksi laitoin oman taustakuvani sen tilalle.
+```
+- name: overwrite default windows wallpaper
+  win_copy:
+    src: roles/windows-desktop/files/img0.jpg
+    dest: C:\WINDOWS\web\wallpaper\Windows\
+```
+Alkuperäinen kuva korvautui omallani, mutta käyttäjien taustakuvat eivät vaihtuneet. Tarkastin rekisteristä taustakuvan polun HKEY_CURRENT_USER\Control Panel\Desktop\Wallpaper kohdasta, joka oli sama kuin korvattu tiedosto. Taustakuva on selvästi tallessa jossain muualla ja [superuser.comin keskustelusta](https://superuser.com/questions/966650/path-to-current-desktop-backgrounds-in-windows-10/977582#977582) löysin tämänhetkisen taustakuvan polkuun. `%AppData%\Microsoft\Windows\Themes\CachedFiles` hakemistosta löytyi vanha taustakuva. Sain idean kokeilla uuden käyttäjän luomista niin päin, että ensin laitetaan uusi taustakuva paikalleen windows hakemistoon, jonka jälkeen tehdään uusi käyttäjä. Tämä toimi ja uusille käyttäjille tuli käyttöön oma taustakuvani.
+
 ## Käytettyjä lähteitä
 
 * https://docs.ansible.com/ansible/latest/intro.html
+* https://docs.ansible.com/ansible/latest/intro_installation.html
 * https://en.wikipedia.org/wiki/Ansible_(software)
 * https://docs.ansible.com/ansible/latest/package_module.html
 * https://www.vagrantup.com/docs/provisioning/ansible.html
@@ -419,3 +480,5 @@ Win_user moduulin dokumentaation pohjalta tehty playbookin osa käyttäjän lis�
 * https://groups.google.com/forum/#!topic/ansible-project/VQo0Wo9VPYg
 * https://ansible-manual.readthedocs.io/en/stable-2.2/win_regedit_module.html
 * https://stackoverflow.com/questions/19292899/creating-a-new-user-and-password-with-ansible/19318368#19318368
+* https://askubuntu.com/questions/601/the-following-packages-have-been-kept-back-why-and-how-do-i-solve-it/602#602
+* https://superuser.com/questions/966650/path-to-current-desktop-backgrounds-in-windows-10/977582#977582
