@@ -14,32 +14,23 @@
     name: putty.install
     state: present
 
-- name: create ansible directory
-  win_file:
-    path: C:\ansible
-    state: directory
-
-- name: copy wallpaper image to created directory
-  win_copy:
-    src: roles/windows-desktop/files/arctic.jpeg
-    dest: C:\ansible\
-
-- name: change wallpaper
-  win_regedit:
-    key: HKCU:\Control Panel\Desktop
-    value: Wallpaper
-    data: C:\ansible\arctic.jpeg
-
-- name: make wallpaper fullscreen
-  win_regedit:
-    key: HKCU:\Control Panel\Desktop
-    value: TileWallpaper
-    data: 0
-
 - name: install libreoffice
   win_chocolatey:
     name: libreoffice
     state: present
+
+- name: change user right to access default wallpaper
+  win_acl:
+    path: C:\WINDOWS\web\wallpaper\Windows\img0.jpg
+    user: joona
+    rights: FullControl
+    type: allow
+    state: present
+
+- name: overwrite default windows wallpaper
+  win_copy:
+    src: roles/windows-desktop/files/img0.jpg
+    dest: C:\WINDOWS\web\wallpaper\Windows\
 
 - name: create user opiskelija
   win_user:
