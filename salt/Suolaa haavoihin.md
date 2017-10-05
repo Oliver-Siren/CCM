@@ -2,8 +2,9 @@
 
 ## Working at the Salt mines
 
-Kaivosmiehen päiväkirja.
-1.10.2017
+
+### 1.10.2017
+#### Kaivosmiehen päiväkirja.
 
 On kulunut lähes 5 viikkoa siitä kun Arctic CCM keskitetynhallinnan projekti alkoi ja itselleni langennut Salt hallinta ohjelman toiminnan selvitys alkoi. Nopea Googletus toi minut helpolta kuulostavalle SaltStackin ohje sivulle https://docs.saltstack.com/en/latest/topics/tutorials/walkthrough.html, joka oli hienosti otsikoitu Salt in 10 Minutes!
 
@@ -22,3 +23,12 @@ Alkuun moduulia tehdessäni eksyin Salt Pillariin jonka tarkoituksena ymmärtä�
 Nyt on mennyt noin 5 viikkoa Hello World! :ista ja tulokset ovat olleet mielestäni sangen vähäiset, tuntuu että olen vasta raapaissut vähän pintaa mitä Saltin toiminnallisuuksiin tulee ja Xubuntu minionilla on toimiva LAMP-stack asennus MySQL root salasana preseedattuna ja testattuna sekä työpöydän taustakuva vaihdettuna. Eli se mitä osasin Puppetillakin tehdä. Seuraavaksi olen siirtymässä Windows 10 hallintaan Saltilla ja hieman pelottaa edessä oleva työmäärä ja se että osaanko keskittyä työhön tarpeeksi tulevilla viikoilla jotta marraskuun tavoitteeseen jossa meillä olisi luokka täynnä koneita provisioituna ja Saltilla hallittuna.
 
 Kuluneen viikon osalta voin myöntää että en ole paljon jaksanut paneutua Salt projektiin vaan muut kurssit ja mukavuuden halu ovat menneet etusijalle.
+
+
+### 5.10. 2017
+#### Kaivosmiehen päiväkirja.
+
+Eilen oli projektin ohjauskokous jossa todettiin projektin edenneen osaltani hyvin hitaasti viimeviikon aikana.
+Tavoitteena olisi päästä provisioimaan ja siirtää projektit nykyisestä virtuaaliympäristöstä koulun labraluokkaan oikeille koneille lokakuun loppuun mennessä.
+
+Tänään päänvaivaa aiheuttaa huonon työvireen lisäksi käyttäjätilien hallinta. Päätin laittaa Windowsin odottamaan ja tehdä Xubuntu työasemalle projektissa asetetut määritykset ensin koska ajattelin sen olevan helpompaa ja samalla testata Salt targeting keinoja, jotta selviää miten todellisuudessa ajetaan eri state moduuleja eri koneissa, tavalla jossa kaikki kohteet ja niillä ajettavat moduulit ovat määritettyinä samassa Salt top.sls tiedostossa.

@@ -3,9 +3,6 @@
      - pkgs:
        - apache2
        - libapache2-mod-php
-       - mysql-server
-       - php-mcrypt
-       - php-mysql
 
  /var/www/html/index.php:
   file:
