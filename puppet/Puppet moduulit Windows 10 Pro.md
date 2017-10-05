@@ -9,13 +9,14 @@ Päätin kuitenkin ennen asennusta tehdä uuden master koneen tätä varten virt
 
 Kun sain uuden Puppetmasterin asennettua, niin ensimmäiseksi asensin puppetlabsin windows moduulit komennolla
 
-´sudo puppet module install puppetlabs/windows`
+`sudo puppet module install puppetlabs/windows`
 
 Komento asensi ison kasan Puppetlabsin moduuleita, joiden joukossa oli tarvitsemani chocolatey moduuli.
 
 Ohjeita seuraamalla loin choco nimisen moduulin joka asentaa WinSCP, notepad ++, putty ja libre office. Valitsin asennettavaksi .install pääteiset versiot muista paitsi libreofficesta, sillä ne voidaan poistaa yksinkertaisesti. 
 
-´´´
+```
+
 class choco {
     include chocolatey
 
@@ -27,6 +28,7 @@ class choco {
     package {["winscp.install", "notepadplusplus.install", "putty.install", "libreoffice"
     ]:}
 }
+
 ```
 
 Koska .local eivät toimi puppetmaster-orja rakenteessa kotiverkossani, niin jouduin luomaan hosts tiedoston windows orjalle, jossa oli reitittimeni käyttämä DNS nimi masterista (master2.zyxel.setup). Jouduin tekemään näin siksi, koska sertifikaatit saapuvat tällä nimellä masterille.
