@@ -1,8 +1,5 @@
 # Puppet moduulin tekeminen Windowsiin
 
-Katsoin tätä tehdessäni mallia Tero Karvisen ja Joona Leppälahden artikkeleista: http://terokarvinen.com/2016/automatically-install-a-list-of-software-to-windows-chocolatey-puppet-provider
-https://joonaleppalahti.wordpress.com/2016/12/01/palvelinten-hallinta-harjoitus-12/
-
 Asensin Puppet version aiemmin tekemäni ohjeen mukaan Windows 10 pro orjakoneelle. Käytin matchaavaa versiota Puppetmasterini Puppetista (3.8.5). Olisin voinut myös käyttää agent versiota, mutta aiemmissa ohjeissa sanottiin että tulee käyttää samaa versiota kuin Puppetmaster, joten päätin pysyä tässä ratkaisussa.
 
 Päätin kuitenkin ennen asennusta tehdä uuden master koneen tätä varten virtualboxiin, jotta moduulin rakentaminen olisi helpompaa. 
@@ -95,5 +92,7 @@ class wuserwall {
 }
 ```
 
-
+Katsoin tätä tehdessäni mallia Tero Karvisen ja Joona Leppälahden artikkeleista: http://terokarvinen.com/2016/automatically-install-a-list-of-software-to-windows-chocolatey-puppet-provider
+https://joonaleppalahti.wordpress.com/2016/12/01/palvelinten-hallinta-harjoitus-12/
+https://github.com/joonaleppalahti/CCM/blob/master/ansible/Ansible%20raportti.md
         
