@@ -60,6 +60,9 @@ Minion koneeni salt-minion näkyi listattuna kohdassa Unaccepted Keys ja tämän
 `sudo salt-key -A`
 -A hyväksyy kaikki hyväksymättömät avaimet.
 
+Komento joka poistaa kaikki sammuksissa olevien minioneiden avaimet:
+`sudo salt-run manage.down removekeys=True`
+
 Yhteyden varmistamiseksi ohjeessa kehoitettiin pingaamaan minionia komennolla:
 `sudo salt salt-minion test.ping`
 
@@ -144,8 +147,73 @@ root salasanan syöttäminen asennusvaiheessa saltilla onnistui ja sisäänkirja
 Loin toisen Xubuntu koneen jolle tahdon asentaa eri ohjelmat kuin edelliseen LAMP koneeseen erotellen ajettavat moduulit top.sls tiedostossa.
 
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/tablesalt.png "top.sls state moduuli yritys")
+Viallinen Salt Top.sls state moduuli, joka antoi virhe ilmoituksen.
 
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/tablesalterror.png "top state moduuli yritys virhe")
+
+Virheilmoitus tuli väärin tehdystä top.sls tiedostosta
+
+```
+base:
+  '*':
+    - wallE
+    - user
+
+lamp:
+  'm2':
+    - lamp
+    - mysql
+
+desktop:
+  'mWS':
+    - workstation
+```
+
+kun toimiva on (huom! toimii vain kun kaikki koneet ovat Ubuntuja)
+
+```
+base:
+  '*':
+    - wallE
+    - user
+  'm2':
+    - lamp
+    - mysql
+  'mWS':
+    - workstation
+```
+
+## Käyttäjätilin luonti onnistuu
+
+Löysin ohjeen käyttäjätilien luontiin ja salasanan cryptaukseen https://gist.github.com/UtahDave/3785738 jota sitten hieman muokkasin omiin tarpeisiini.
+
+valmis state moduuli näytti tältä:
+
+```
+ opiskelija:
+   user.present:
+     - fullname: opiskelija
+     - shell: /bin/bash
+     - home: /home/opiskelija
+     - password: $6$7o5/CdYSAA9nKCSc$RfBbK6WDmJYdw/BeytFj8nyPWBEJJwenIPxZsgpk4IZMPVNDh5ZXe4WhqYcaMWR4XG0fjPT7ANuBfybOieN1/0
+     - enforce_password: True
+```
+
+Salasanan cryptaus:
+
+`python -c "import crypt; print(crypt.crypt('password', crypt.mksalt(crypt.METHOD_SHA512)))"`
+kohdallani tuli virheviesti joka ehdotti python3.5
+
+ja toimiva koodi oli lopulta
+
+`python3.5 -c "import crypt; print(crypt.crypt('password', crypt.mksalt(crypt.METHOD_SHA512)))"`
+
+## Palomuuri asetukset
+
+Palomuurin asetukset päätin tehdä muuttamalla ensin yhdellä linux koneella palomuurin asetukset komennolla:
+`sudo ufw allow portti/protokola` esim. `sudo ufw allow 80/tcp` ja sitten kopioimalla tiedostot etc/ufw/user6.rules ja /etc/ufw/user.rules masterin kansioon josta käytän niitä templatena.
+
+https://github.com/patmcnally/salt-states-webapps/blob/master/firewall/ufw.sls palomuurin käynnistämiseen katselin tätä sivua.
 
 
 ## Lets open the Windows
