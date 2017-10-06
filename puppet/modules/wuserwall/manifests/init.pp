@@ -3,7 +3,7 @@ class wuserwall {
         name      => 'opiskelija',
         ensure    => present,
         groups    => ['Users'],
-        password  => 'salasana',
+        password  => 'salainen',
         managehome => true,
     }
 }
