@@ -6,7 +6,7 @@ class wuserwall {
 	],
     }
 
-    file {"C:\WINDOWS\web\wallpaper\Windows\"
+    file {"C:\WINDOWS\web\wallpaper\Windows\":
         source => "puppet:///modules/wuserwall/img0.jpeg"
     }
 
