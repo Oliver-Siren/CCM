@@ -1,13 +1,6 @@
 class wuserwall {
-    user {'opiskelija':
-        name      => 'opiskelija',
-        ensure    => present,
-        groups    => ['Users'],
-        password  => 'salainen',
-        managehome => true,
-    }
-    
-    acl { 'C:\WINDOWS\web\wallpaper\Windows\img0.jpg':
+	
+	acl { 'C:\WINDOWS\web\wallpaper\Windows\img0.jpg':
 	permissions => [
 		{ identity => 'Administrator', rights => ['full'] },
 	],
@@ -15,5 +8,13 @@ class wuserwall {
 
     file {"C:\WINDOWS\web\wallpaper\Windows\"
         source => "puppet:///modules/wuserwall/img0.jpeg"
+    }
+
+    user {'opiskelija':
+        name      => 'opiskelija',
+        ensure    => present,
+        groups    => ['Users'],
+        password  => 'salainen',
+        managehome => true,
     }
 }
