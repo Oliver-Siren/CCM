@@ -1,4 +1,4 @@
-# LAMP moduulin asennus linuxiin
+# Linux palvelin moduulin asennus
 
 Lamp moduulin voi asentaa linuxiin ajamalla seuraavanlaisen site.pp tiedoston
 
