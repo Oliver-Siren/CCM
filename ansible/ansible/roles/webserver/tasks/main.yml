@@ -1,0 +1,37 @@
+---
+- name: install apache
+  package: name=apache2 state=present
+
+- name: install php
+  package: name=libapache2-mod-php state=present
+
+- name: keep apache running
+  service: name=apache2 state=started enabled=yes
+
+- name: php test page
+  copy: src=index.php dest=/var/www/html/index.php mode=0664
+
+- name: remove apache default page
+  file:
+    path: /var/www/html/index.html
+    state: absent
+
+- name: add user opiskelija
+  user:
+    name: opiskelija
+    password: $1$suola$x3q8bwB9K87WryJYwGJ2j.
+    shell: /bin/bash
+
+- name: allow port 22 through firewall
+  ufw:
+    rule: allow
+    port: 22
+
+- name: allow port 80 through firewall
+  ufw:
+    rule: allow
+    port: 80
+
+- name: enable firewall
+  ufw:
+    state: enabled

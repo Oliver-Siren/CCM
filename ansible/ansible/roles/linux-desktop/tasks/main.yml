@@ -1,0 +1,30 @@
+---
+- name: change background image
+  copy:
+    src: roles/linux-desktop/files/arctic.jpeg
+    dest: /usr/share/xfce4/backdrops/xubuntu-wallpaper.png
+
+- name: make sure firefox is installed
+  package: name=firefox state=present
+
+- name: install gedit
+  package: name=gedit state=present
+
+- name: install libreoffice
+  package: name=libreoffice state=present
+
+
+- name: allow port 22 through firewall
+  ufw:
+    rule: allow
+    port: 22
+
+- name: enable firewall
+  ufw:
+    state: enabled
+
+- name: add user opiskelija
+  user:
+    name: opiskelija
+    password: $1$suola$x3q8bwB9K87WryJYwGJ2j.
+    shell: /bin/bash

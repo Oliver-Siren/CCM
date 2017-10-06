@@ -137,7 +137,15 @@ WallE vaihtaa työpöydän taustakuva mutta muutokset tulevat voimaan vasta uude
 ## MySQL toimii!!
 
 Joskus auttaa kun ottaa hieman etäisyyttä ongelmaan, ja niin myös tässä tapauksessa. Tero Karvisen sivuilta http://terokarvinen.com/2015/preseed-mysql-server-password-with-salt-stack löytyneen preseedaus menetelmän avulla, 
-root salasanan syöttäminen asennusvaiheessa saltilla onnistui ja sisäänkirjautuminen myös. Nyt siis LAMP toimii ja on aika siirtyä Windowsin ihmettelyyn.
+root salasanan syöttäminen asennusvaiheessa saltilla onnistui ja sisäänkirjautuminen myös. Nyt siis LAMP toimii.
+
+## Monen koneen hallintaa
+
+Loin toisen Xubuntu koneen jolle tahdon asentaa eri ohjelmat kuin edelliseen LAMP koneeseen erotellen ajettavat moduulit top.sls tiedostossa.
+
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/tablesalt.png "top.sls state moduuli yritys")
+
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/tablesalterror.png "top state moduuli yritys virhe")
 
 
 ## Lets open the Windows

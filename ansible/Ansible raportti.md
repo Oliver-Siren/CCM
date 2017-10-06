@@ -284,9 +284,189 @@ Toisella ajokerralla WinSCP asentui ongelmitta, joten virheilmoituksen alkuperä
 /etc/ansible/roles/lab/tasks/main.yml sisältö. Hakemiston luonti ja asennustiedoston kopiointi ovat tässä tapauksessa turhia, sillä asensin WinSCP:n Chocolateyn avulla, mutta en poistanut niitä tästä esimerkistä koska niistä voi olla myöhemmin hyötyä.
 
 
+## Taustakuvan vaihto Linux-desktop roolille
+
+Lisäsin roolin Linux-desktop ja käytin alussa asentamaani virtuaalikonetta, jossa on käytössä graafinen käyttöliittymä. Muutin playbook.yml tiedoston nimen linux.yml ja lisäsin siihen linux-desktop kohdan.  Sitten katsoin Jorin [Salt raportista](https://github.com/joonaleppalahti/CCM/blob/master/salt/Salt%20raportti.md) miten hän oli vaihtanut työpöydän taustakuvan. Kokeilin aluksi pelkästään kuvan paikalleenlaittamista copy-moduulin avulla.
+```
+---
+- name: change background image
+  copy:
+    src: roles/linux-desktop/files/arctic.jpeg
+    dest: /usr/share/xfce4/backdrops/xubuntu-wallpaper.png
+```
+/etc/ansible/roles/linux-desktop/tasks/main.yml
+
+Kuvatiedosto sijaitsee roolin files hakemistossa. Yritin ajaa playbookia, mutta Ansible valitti salasanan puuttumista.
+```
+fatal: [10.0.0.64]: FAILED! => {"changed": false, "failed": true, "module_stderr": "", "module_stdout": "sudo: a password is required\r\n", "msg": "MODULE FAILURE", "parsed": false}
+```
+Windowsia konfiguroidessani kerkesin jo unohtaa Linuxilla vaadittavan `--ask-become-pass`, jonka lisäämällä komennon perään playbook pyörähti läpi. Kuva kopioitui ja uusi taustakuva tuli heti näkyviin.
+
+## Ublock-Origin Firefoxiin
+
+Asensin paketinhallinnasta xul-ext-ublock-origin paketin, joka asentui mutta ei toiminut vanhasta versiosta johtuen. Yritin eri ohjeilla kopioida githubista lataamaani Ublock-Origin pakettia eri paikkoihin, kuten `/home/joona/.mozilla/extensions/` ja `/usr/lib/firefox-addons/extensions/`. Sitten huomasin että olin saattanut ladata vajaan paketin GitHubista ja latasin [1.14.11rc6](https://github.com/gorhill/uBlock/releases) version .xpi paketin. Purin paketin unzip komennolla ja löysin seuraavan paikan `/home/joona/.mozilla/firefox/nuu7ond9.default/extensions/`. Kopioin puretut tiedostot uBlock0@raymondhill.net hakemistoon, jonka laitoin äskeiseen hakemistoon.
+
+Ublock-origin näkyi Firefoxissa, mutta se ei ollut käytössä koska en ladannut sitä luotettavasta lähteestä. Latasin lisäosan suoraan Mozillan sivuilta ja tein saman purkamisen ja siirtämisen kuin edellisen paketin kanssa ja nyt ublock toimi Firefoxissa. Lisäosa täytyy itse kytkeä päälle, sillä se on oletuksena poissa käytöstä.
+
+Asensin uuden virtuaalikoneen, jotta pääsin testaamaan lisäosan asennusta puhtaalta pöydältä. Latasin uBlock Originin xpi-paketin Mozillan sivuilta, purin sen uBlock0@raymondhill.net hakemistoon, jonka kopioin kohteeseen `/usr/lib/firefox-addons/extensions`. Tuohon hakemistoon lisätyt lisäosat ovat käytössä kaikilla käyttäjillä. Lisäosa näkyi Firefoxissa, mutta valitti ettei se ollut luotettu, eikä sitä saanut käyttöön.
+
+Seuraavaksi siirsin lisäosan `/home/joona/.mozilla/firefox/hwjiesab.default/extensions` hakemistoon. Välissä oleva .default kohta on käyttäjän uniikki id, joka voi aiheuttaa ongelmia uusien käyttäjien kanssa. Nyt Firefoxin käynnistyessä käyttäjän tulee hyväksyä lisäosan asennus, jonka jälkeen uBlock Origin toimii, mainokset ovat hävinneet.
+
+Poistin uBlockin-Originin ja asensin vielä kerran `xul-ext-ublock-origin` paketin ja nyt uBlock-Origin toimi. Käytössä Firefox 54. Ajoin komennon `sudo apt-get upgrade`, jolloin firefox päivittyi versioon 55 ja uBlock-Origin on saanut merkinnän "legacy" eikä enää toimi. Versiossa 55 /usr/lib.. polkuun asennettuna lisäosa valittaa edelleen luotettavuudesta. Käyttäjäkohtaisessa asennuksessa käynnistyksen yhteydessä näkyvä ilmoitus on poistunut ja lisäosa tulee käytä erikseen laittamassa käyttöön add-ons valikosta, mutta silloin se toimii.
+
+## Taustakuva Windowsiin
+
+Ensin kopioin taustakuvan kohteelle:
+```
+- name: copy background image to created directory
+  win_copy:
+    src: roles/windows-desktop/files/arctic.jpeg
+    dest: C:\ansible\
+```
+Sitten etsin miten vaihtaa taustakuva komentoriviltä, [windows-commandline.com:ista](https://www.windows-commandline.com/change-windows-wallpaper-command-line/) löysin ohjeen, jota sitten sovelsin koneen rekisteriä tutkimalla Ansiblen [win_regedit](https://docs.ansible.com/ansible/latest/win_regedit_module.html) moduuliin. 
+```
+- name: change background
+  win_regedit:
+    path: HKCU:\Control Panel\Desktop
+    name: Wallpaper
+    type: REG_SZ
+    data: C:\ansible\arctic.jpeg
+```
+Sain virheilmoituksen:
+```
+fatal: [10.0.0.149]: FAILED! => {"changed": false, "failed": true, "msg": "Missing required argument: key"}
+```
+Virhettä Googletellessa löysin [groups.google](https://groups.google.com/forum/#!topic/ansible-project/VQo0Wo9VPYg) keskustelun, jonka perusteella minun tulisi käyttää eri nimiä kuin path, name ja type. Käytössäni on Ansiblen versio 2.0.0.2 ja uudet nimet ovat käytössä versiosta 2.3 eteenpäin. Vaihdoin nimet ja kokeilin uudelleen.
+```
+- name: change background
+  win_regedit:
+    key: HKCU:\Control Panel\Desktop
+    entry: Wallpaper
+    datatype: REG_SZ
+    data: C:\ansible\arctic.jpeg
+```
+Sain erilaisen virheen tällä kertaa:
+```
+fatal: [10.0.0.149]: FAILED! => {"changed": false, "failed": true, "msg": "Argument datatype needs to be one of binary,dword,expandstring,multistring,string,qword but was REG_SZ."}
+```
+Kokeilin datatypen tilalle dword, expandstring ja string, mutta mitään muutosta ei tapahtunut. Otin datatypen kokonaan pois, eikä muutosta tapahtunut. Sitten kokeilin poistaa Wallpaper kohdan kokonaan:
+```
+win_regedit:
+    key: HKCU:\Control Panel\Desktop
+    entry: Wallpaper
+    state: absent
+```
+Hupsista, Desktop osiosta hävisivät kaikki rekisteriavaimet, eli `entry: Wallpaper` ei tunnu toimivan. Ansiblen [vanhassa dokumentaatiossa](https://ansible-manual.readthedocs.io/en/stable-2.2/win_regedit_module.html) on käytetty entryn tilalla value, joten kokeilin sitä. 
+```
+win_regedit:
+    key: HKCU:\Control Panel\Desktop
+    value: Wallpaper
+    data: C:\ansible\arctic.jpeg
+```
+Tämä toimi, Wallpaper kohtaan ilmestyi määrittämäni polku ja uudelleenkirjautumisen jälkeen uusi taustakuva tuli näkyviin.
+
+Lisäsin vielä rekisteriavaimen, joka määrittää ettei taustakuvaa toisteta, jos se ei täytä koko ruutua. Testikuvani resoluutio oli 1440x810, joten sitä toistettiin oletuksena.
+```
+- name: make wallpaper fullscreen
+  win_regedit:
+    key: HKCU:\Control Panel\Desktop
+    value: TileWallpaper
+    data: 0
+```
+Uudelleenkirjautumisen jälkeen taustakuva peitti koko ruudun.
+
+Tällä menetelmällä vaihdettu taustakuva vaihtuu sille käyttäjälle, jonka tunnuksilla ansiblea käytetään.
+
+### Taustakuvan vaihto kaikille käyttäjille
+
+Seuraavaksi lähdin kokeilemaan oletustaustakuvan korvausta omalla taustakuvallani. Törmäsin heti ongelmaan että edes admin oikeuksilla ei voi muokata kyseistä kuvaa. Kuva ja hakemisto jossa se sijaitsee kuuluu TrustedInstaller käyttäjälle. Win_owner moduuli ei toiminut versiossa 2.0.0.2, joten päädyin päivittämään uudempaan versioon Ansiblesta.
+
+## Käyttäjän lisäys, Linux
+
+Tein user moduulin dokumentaation pohjalta kohdan, joka lisää käyttäjän. Käytin aluksi selväkielistä salasanaa, mutta käyttäjälle ei voinut kirjautua. [Stackoverflowsta](https://stackoverflow.com/questions/19292899/creating-a-new-user-and-password-with-ansible/19318368#19318368) löytyi selvennystä salatun salasanan luontiin. `python -c 'import crypt; print crypt.crypt("This is my Password", "$1$SomeSalt$")'` komennolla voi luoda Ansiblelle sopivan salasanan.
+```
+- name: add user opiskelija
+  user:
+    name: opiskelija
+    password: $1$suola$x3q8bwB9K87WryJYwGJ2j.
+    shell: /bin/bash
+```
+Masterilta `ssh opiskelija@10.0.0.64` toimi ja salasanan syöttämisen jälkeen pääsin sisään käyttäjänä opiskelija.
+
+## Käyttäjän lisäys, Windows
+
+Käynnistin Windows 10 Pro 64-bit virtuaalikoneen, jossa ajoin puolen tunnin päivittämisen jälkeen windows-moduulin testiksi ja se ei toiminut. Päivitys oli rikkonut PowerShellin kautta luotavan yhteyden, mutta valmisteluscriptin uudelleenajo korjasi vian.
+```
+- name: create user opiskelija
+  win_user:
+    name: opiskelija
+    password: salainen
+    state: present
+    groups:
+      - Users
+```
+Win_user moduulin dokumentaation pohjalta tehty playbookin osa käyttäjän lisäykseen. Kokeilin ensin versiota, jossa ei ollut groups kohtaa. Ansible pyörähti läpi ilman ongelmia, mutta käyttäjää ei näkynyt missään. Kokeilin luoda toisen nimisen käyttäjän, jolle lisäsin groups kohdan. Lisäys korjasi ongelman ja käyttäjä ilmestyi. Ensin luotu käyttäjätili ei korjautunut uudelleenajettaessa groups kohdalla.
+
+## Päivitys versioon 2.4
+
+Koska win_owner moduuli ei toiminut aikaisemmin käyttämässäni versiossa 2.0.0.2, päätin päivittää uusimpaan versioon. Vanha versio johtui alkuperäisessä asennuksessa oikomisesta, sillä pakettivarastosta löytyi Ansible, mutta vanha versio. Oikein asennettuna olisi otettu käyttöön Ansiblen oma pakettivarasto, josta löytyy uusin versio.
+```
+sudo apt-get update
+sudo apt-get install software-properties-common
+sudo apt-add-repository ppa:ansible/ansible
+sudo apt-get update
+sudo apt-get upgrade
+```
+Lisäsin Ansiblen pakettivaraston [dokumentaation](https://docs.ansible.com/ansible/latest/intro_installation.html) ohjeiden mukaan ja yritin upgradella päivittää sitä, mutta sain seuraavan ilmoituksen: 
+```
+The following packages have been kept back:
+  ansible
+```
+[Askubuntu.comista](https://askubuntu.com/questions/601/the-following-packages-have-been-kept-back-why-and-how-do-i-solve-it/602#602) löysin ratkaisun, jossa kehotettiin antamaan `sudo apt-get install` komento ongelman ratkaisuksi. `sudo apt-get install ansible` komennon jälkeen asennus kysyi haluanko korvata olemassaolevat ansible.cfg ja hosts tiedostot uusilla. Ansible.cfg tiedoston korvasin, sillä en ollut tehnyt siihen muutoksia, mutta hosts tiedoston jätin korvaamatta. Asennus loi ansible.cfg.dpkg-old tiedoston, joka on vanha konfiguraatiotiedosto, sekä hosts.dpkg-dist, joka on esimerkkitiedosto. Poistin molemmat, sillä esimerkki hosts oli turha ja konfiguraatiotiedosto on tallessa GitHubissa. Tarkastin Ansiblen version komennolla `ansible --version` ja tuloste näytti 2.4.0.0.
+
+## Playbookin testiajo päivityksen jälkeen
+
+Käynnistin kaikki kohdevirtuaalikoneeni ja ajoin `ansible-playbook masterbook.yml --ask-become-pass` ja varauduin pahimpaan. Yllättäen kaikkien roolien tehdävät menivät läpi. Ainoa ilmoitus liittyi servicekomennon nimenmuutokseen.
+```
+[DEPRECATION WARNING]: state=running is deprecated. Please use state=started. This feature will be removed in version 2.7. 
+Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+```
+Tein työtä käskettyä, vaihdoin running startediin ja ilmoitusta ei näkynyt seuraavan ajon yhteydessä.
+
+## Windowsin taustakuvan vaihto jatkoa
+
+Yritin vaihtaa oletuskuvan omistajaa win_owner moduulilla, mutta mitään ei tapahtunut. 
+```
+- name: change owner of default wallpaper
+  win_owner:
+    path: C:\WINDOWS\web\wallpaper\Windows\img0.jpg
+    user: joona
+```
+Tiedosto täytyy luultavasti omistaa, jotta sen omistajaa voi muokata. 
+
+Seuraavaksi yritin antaa itselleni lisää oikeuksia, jotta voin muokata kuvaa.
+```
+- name: change user right to access default wallpaper
+  win_acl:
+    path: C:\WINDOWS\web\wallpaper\Windows\img0.jpg
+    user: joona
+    rights: FullControl
+    type: allow
+    state: present
+```
+Sain täydet oikeudet kuvaan, joten seuraavaksi laitoin oman taustakuvani sen tilalle.
+```
+- name: overwrite default windows wallpaper
+  win_copy:
+    src: roles/windows-desktop/files/img0.jpg
+    dest: C:\WINDOWS\web\wallpaper\Windows\
+```
+Alkuperäinen kuva korvautui omallani, mutta käyttäjien taustakuvat eivät vaihtuneet. Tarkastin rekisteristä taustakuvan polun HKEY_CURRENT_USER\Control Panel\Desktop\Wallpaper kohdasta, joka oli sama kuin korvattu tiedosto. Taustakuva on selvästi tallessa jossain muualla ja [superuser.comin keskustelusta](https://superuser.com/questions/966650/path-to-current-desktop-backgrounds-in-windows-10/977582#977582) löysin tämänhetkisen taustakuvan polkuun. `%AppData%\Microsoft\Windows\Themes\CachedFiles` hakemistosta löytyi vanha taustakuva. Sain idean kokeilla uuden käyttäjän luomista niin päin, että ensin laitetaan uusi taustakuva paikalleen windows hakemistoon, jonka jälkeen tehdään uusi käyttäjä. Tämä toimi ja uusille käyttäjille tuli käyttöön oma taustakuvani.
+
 ## Käytettyjä lähteitä
 
 * https://docs.ansible.com/ansible/latest/intro.html
+* https://docs.ansible.com/ansible/latest/intro_installation.html
 * https://en.wikipedia.org/wiki/Ansible_(software)
 * https://docs.ansible.com/ansible/latest/package_module.html
 * https://www.vagrantup.com/docs/provisioning/ansible.html
@@ -294,3 +474,11 @@ Toisella ajokerralla WinSCP asentui ongelmitta, joten virheilmoituksen alkuperä
 * https://docs.ansible.com/ansible/latest/intro_windows.html
 * https://stackoverflow.com/questions/4037939/powershell-says-execution-of-scripts-is-disabled-on-this-system
 * https://docs.ansible.com/ansible/latest/list_of_windows_modules.html
+* https://github.com/gorhill/uBlock/releases
+* https://www.windows-commandline.com/change-windows-wallpaper-command-line/
+* https://docs.ansible.com/ansible/latest/win_regedit_module.html
+* https://groups.google.com/forum/#!topic/ansible-project/VQo0Wo9VPYg
+* https://ansible-manual.readthedocs.io/en/stable-2.2/win_regedit_module.html
+* https://stackoverflow.com/questions/19292899/creating-a-new-user-and-password-with-ansible/19318368#19318368
+* https://askubuntu.com/questions/601/the-following-packages-have-been-kept-back-why-and-how-do-i-solve-it/602#602
+* https://superuser.com/questions/966650/path-to-current-desktop-backgrounds-in-windows-10/977582#977582
