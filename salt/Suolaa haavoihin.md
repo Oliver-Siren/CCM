@@ -32,3 +32,12 @@ Eilen oli projektin ohjauskokous jossa todettiin projektin edenneen osaltani hyv
 Tavoitteena olisi päästä provisioimaan ja siirtää projektit nykyisestä virtuaaliympäristöstä koulun labraluokkaan oikeille koneille lokakuun loppuun mennessä.
 
 Tänään päänvaivaa aiheuttaa huonon työvireen lisäksi käyttäjätilien hallinta. Päätin laittaa Windowsin odottamaan ja tehdä Xubuntu työasemalle projektissa asetetut määritykset ensin koska ajattelin sen olevan helpompaa ja samalla testata Salt targeting keinoja, jotta selviää miten todellisuudessa ajetaan eri state moduuleja eri koneissa, tavalla jossa kaikki kohteet ja niillä ajettavat moduulit ovat määritettyinä samassa Salt top.sls tiedostossa.
+
+### 6.10.2017
+#### Kaivosmiehen päiväkirja
+
+Eilisen yritys ajaa eri moduuleja eri koneilla saman aikaisesti epäonnistui. Tänään testi onnistui kunhan olin ensin korjannut suurimmat ongelmat top.sls tiedostossa ja muuttanut eilen luomani user.sls moduulin oikeaan muotoon. Hauska juttu sinäänsä on se että tätäkin projektia tehdessä harvoin löytyi ohjeita jotka olisivat toimineet itsellä heti suoraan, vaan lähes aina joutuu muokkaamaan ja sovittamaan koodit omaan projektiin.
+
+Heh yritin ajaa tekemääni firewall state moduulia ja ainavain puski virheilmoitusta. Tosin ensimmäisen yrityksen jälkeen virheilmoitus muuttui ja pitkän pähkäilyn päätteeksi päädyin virheilmoituksen perusteella tarkistamaan tempaltena käyttämäni user.rules ja user6.rules tiedostot jotka osoittautuivat tyhjiksi. Ei ihme ettei palomuuri toiminut kun nämä tiedostot olivat korvanneet minioneilla olleet tiedostot tyhjillä tiedostoilla. Jotain oli siis mennyt pieleen alkuperäisiä tiedostoja siirtäessä template kansioon. No olikin jo aika ajaa tämän hetkinen paketti kokonaan uudella virtuaalikoneella.
+
+Kiertotienä kopioin vain sisällön samannimiseen toiseen tiedostoon user.rules tiedostoista ja käytin niitä templatena ja tämähän toimi sudo ufw status näytti saltin ajon jälkeen minionilla ufw active ja kaikki halutut portit löytyivät allowed listalta.
