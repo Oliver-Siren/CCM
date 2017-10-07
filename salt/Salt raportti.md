@@ -218,3 +218,20 @@ https://github.com/patmcnally/salt-states-webapps/blob/master/firewall/ufw.sls p
 
 ## Lets open the Windows
 
+Windows asentui https://docs.saltstack.com/en/latest/topics/installation/windows.html sivulta ottamastani exe asennustiedostosta onnistuneesti.
+Asennus kysyy tarvittavat tiedot ja luo tiedostopolun joten masterilla täytyy vain käydä hyväksymässä avain. Lisäksi Windows palomuuriin piti tehdä muutos sallien tcp liikenteen porttiin 4505 ja 4506. 
+
+Windowsilla ei ole omaa pakettivarastoa joten sille täytyy luoda sellainen, onneksi SaltStackillä on jo olemassa sellainen ja sen lataamiseen löytyy pätevät ohjeet sivulta https://docs.saltstack.com/en/latest/topics/windows/windows-package-manager.html
+Huom! Itselläni ongelmia tuotti ohjeen ja käyttämäni salt-masterin versioiden yhteensopimattomuus joten jouduin poistamaan vanhan version
+`sudo apt-get purge salt-master` ja asentamaan uuden sivun https://repo.saltstack.com/ ohjeiden mukaisesti, Bootstarp - multi-platform tuntui helpoimmalta tavalta suorittaa tämä ja ohje toimi hyvin. Ensin oli asennettava curli 
+`sudo apt-get install -y curl` ja tämän jälkeen komennot bootstrapin ajamiseksi `curl -L https://bootstrap.saltstack.com -o install_salt.sh` sekä `sudo sh install_salt.sh -P -M` tämä määrittelee isäntäkoneen OS:n ja asentaa sille sekä Masterin että Minionin.
+Lopuksi kannattaa tarkistaa masterin asetus tiedostosta interface osoite masterille `sudoedit /etc/salt/master`.
+
+Kun versio ongelmat on korjattu siirrytään Windows repositoryn rakentamiseen. 
+`sudo salt-run winrepo.update_git_repos` joka lataa windows repon masterille.
+`sudo salt -G 'os:windows' pkg.list_pkg`
+
+Windows state moduuli ohjelmien asentamiseksi valmiista reposta onkin aivan triviaali asia sillä se tapahtuu kuten linux koneille tarkoitetissa moduuleissa.
+
+
+

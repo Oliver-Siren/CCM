@@ -41,3 +41,11 @@ Eilisen yritys ajaa eri moduuleja eri koneilla saman aikaisesti epäonnistui. T�
 Heh yritin ajaa tekemääni firewall state moduulia ja ainavain puski virheilmoitusta. Tosin ensimmäisen yrityksen jälkeen virheilmoitus muuttui ja pitkän pähkäilyn päätteeksi päädyin virheilmoituksen perusteella tarkistamaan tempaltena käyttämäni user.rules ja user6.rules tiedostot jotka osoittautuivat tyhjiksi. Ei ihme ettei palomuuri toiminut kun nämä tiedostot olivat korvanneet minioneilla olleet tiedostot tyhjillä tiedostoilla. Jotain oli siis mennyt pieleen alkuperäisiä tiedostoja siirtäessä template kansioon. No olikin jo aika ajaa tämän hetkinen paketti kokonaan uudella virtuaalikoneella.
 
 Kiertotienä kopioin vain sisällön samannimiseen toiseen tiedostoon user.rules tiedostoista ja käytin niitä templatena ja tämähän toimi sudo ufw status näytti saltin ajon jälkeen minionilla ufw active ja kaikki halutut portit löytyivät allowed listalta.
+
+### 7.10.2017
+#### Kaivosmiehen päiväkirja
+
+Lauantai aamu ja työmotivaatio sen mukainen. Eilinen testi näytti lupaavalta ja nyt näyttää siltä että projektin linux koneet ovat lähes valmiita seuraavaan vaiheeseen eli provisiointiin ja testaukseen labraverkossa.
+
+Salt master versio oli itselläni käytössä eri kuin ohjeet joita noudatin, ja tästä johtuen törmäsin ongelmiin Windows pkg repositorya siirtäessäni masterilta Windows minionille. Olin luvannut että windows kone tulisi tällä työviikolla valmiiksi, joten turhautumisen estämiseksi ja ajan säästämiseksi pyysin projektityöryhmän jäsentä Joona Leppälahtea auttamaan virheviestin selvittämisessä.  Joona huomasi että käyttämässäni Ubuntun paketinhallinnasta tulevassa salt-master versiossa oli jotakin häikkää joka on korjattu uusimmassa versiossa 2017.7.1 (Nitrogen) ja seuraamani ohjekin oli itse asiassa tehty juuri tälle versiolle.
+

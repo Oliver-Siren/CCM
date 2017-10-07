@@ -8,4 +8,5 @@ base:
     - wallE
     - user
     - firewall
-
+  'WinMin':
+    - win
