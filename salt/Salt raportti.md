@@ -60,6 +60,9 @@ Minion koneeni salt-minion näkyi listattuna kohdassa Unaccepted Keys ja tämän
 `sudo salt-key -A`
 -A hyväksyy kaikki hyväksymättömät avaimet.
 
+Komento joka poistaa kaikki sammuksissa olevien minioneiden avaimet:
+`sudo salt-run manage.down removekeys=True`
+
 Yhteyden varmistamiseksi ohjeessa kehoitettiin pingaamaan minionia komennolla:
 `sudo salt salt-minion test.ping`
 
@@ -137,8 +140,98 @@ WallE vaihtaa työpöydän taustakuva mutta muutokset tulevat voimaan vasta uude
 ## MySQL toimii!!
 
 Joskus auttaa kun ottaa hieman etäisyyttä ongelmaan, ja niin myös tässä tapauksessa. Tero Karvisen sivuilta http://terokarvinen.com/2015/preseed-mysql-server-password-with-salt-stack löytyneen preseedaus menetelmän avulla, 
-root salasanan syöttäminen asennusvaiheessa saltilla onnistui ja sisäänkirjautuminen myös. Nyt siis LAMP toimii ja on aika siirtyä Windowsin ihmettelyyn.
+root salasanan syöttäminen asennusvaiheessa saltilla onnistui ja sisäänkirjautuminen myös. Nyt siis LAMP toimii.
+
+## Monen koneen hallintaa
+
+Loin toisen Xubuntu koneen jolle tahdon asentaa eri ohjelmat kuin edelliseen LAMP koneeseen erotellen ajettavat moduulit top.sls tiedostossa.
+
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/tablesalt.png "top.sls state moduuli yritys")
+Viallinen Salt Top.sls state moduuli, joka antoi virhe ilmoituksen.
+
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/tablesalterror.png "top state moduuli yritys virhe")
+
+Virheilmoitus tuli väärin tehdystä top.sls tiedostosta
+
+```
+base:
+  '*':
+    - wallE
+    - user
+
+lamp:
+  'm2':
+    - lamp
+    - mysql
+
+desktop:
+  'mWS':
+    - workstation
+```
+
+kun toimiva on (huom! toimii vain kun kaikki koneet ovat Ubuntuja)
+
+```
+base:
+  '*':
+    - wallE
+    - user
+  'm2':
+    - lamp
+    - mysql
+  'mWS':
+    - workstation
+```
+
+## Käyttäjätilin luonti onnistuu
+
+Löysin ohjeen käyttäjätilien luontiin ja salasanan cryptaukseen https://gist.github.com/UtahDave/3785738 jota sitten hieman muokkasin omiin tarpeisiini.
+
+valmis state moduuli näytti tältä:
+
+```
+ opiskelija:
+   user.present:
+     - fullname: opiskelija
+     - shell: /bin/bash
+     - home: /home/opiskelija
+     - password: $6$7o5/CdYSAA9nKCSc$RfBbK6WDmJYdw/BeytFj8nyPWBEJJwenIPxZsgpk4IZMPVNDh5ZXe4WhqYcaMWR4XG0fjPT7ANuBfybOieN1/0
+     - enforce_password: True
+```
+
+Salasanan cryptaus:
+
+`python -c "import crypt; print(crypt.crypt('password', crypt.mksalt(crypt.METHOD_SHA512)))"`
+kohdallani tuli virheviesti joka ehdotti python3.5
+
+ja toimiva koodi oli lopulta
+
+`python3.5 -c "import crypt; print(crypt.crypt('password', crypt.mksalt(crypt.METHOD_SHA512)))"`
+
+## Palomuuri asetukset
+
+Palomuurin asetukset päätin tehdä muuttamalla ensin yhdellä linux koneella palomuurin asetukset komennolla:
+`sudo ufw allow portti/protokola` esim. `sudo ufw allow 80/tcp` ja sitten kopioimalla tiedostot etc/ufw/user6.rules ja /etc/ufw/user.rules masterin kansioon josta käytän niitä templatena.
+
+https://github.com/patmcnally/salt-states-webapps/blob/master/firewall/ufw.sls palomuurin käynnistämiseen katselin tätä sivua.
 
 
 ## Lets open the Windows
+
+Windows asentui https://docs.saltstack.com/en/latest/topics/installation/windows.html sivulta ottamastani exe asennustiedostosta onnistuneesti.
+Asennus kysyy tarvittavat tiedot ja luo tiedostopolun joten masterilla täytyy vain käydä hyväksymässä avain. Lisäksi Windows palomuuriin piti tehdä muutos sallien tcp liikenteen porttiin 4505 ja 4506. 
+
+Windowsilla ei ole omaa pakettivarastoa joten sille täytyy luoda sellainen, onneksi SaltStackillä on jo olemassa sellainen ja sen lataamiseen löytyy pätevät ohjeet sivulta https://docs.saltstack.com/en/latest/topics/windows/windows-package-manager.html
+Huom! Itselläni ongelmia tuotti ohjeen ja käyttämäni salt-masterin versioiden yhteensopimattomuus joten jouduin poistamaan vanhan version
+`sudo apt-get purge salt-master` ja asentamaan uuden sivun https://repo.saltstack.com/ ohjeiden mukaisesti, Bootstarp - multi-platform tuntui helpoimmalta tavalta suorittaa tämä ja ohje toimi hyvin. Ensin oli asennettava curli 
+`sudo apt-get install -y curl` ja tämän jälkeen komennot bootstrapin ajamiseksi `curl -L https://bootstrap.saltstack.com -o install_salt.sh` sekä `sudo sh install_salt.sh -P -M` tämä määrittelee isäntäkoneen OS:n ja asentaa sille sekä Masterin että Minionin.
+Lopuksi kannattaa tarkistaa masterin asetus tiedostosta interface osoite masterille `sudoedit /etc/salt/master`.
+
+Kun versio ongelmat on korjattu siirrytään Windows repositoryn rakentamiseen. 
+`sudo salt-run winrepo.update_git_repos` joka lataa windows repon masterille.
+`sudo salt -G 'os:windows' pkg.list_pkg`
+
+Windows state moduuli ohjelmien asentamiseksi valmiista reposta onkin aivan triviaali asia sillä se tapahtuu kuten linux koneille tarkoitetissa moduuleissa.
+
+
 
