@@ -10,3 +10,6 @@ base:
     - firewall
   'WinMin':
     - win
+    - winuser
+    - winwallE
+    - winscript
