@@ -463,6 +463,113 @@ Sain täydet oikeudet kuvaan, joten seuraavaksi laitoin oman taustakuvani sen ti
 ```
 Alkuperäinen kuva korvautui omallani, mutta käyttäjien taustakuvat eivät vaihtuneet. Tarkastin rekisteristä taustakuvan polun HKEY_CURRENT_USER\Control Panel\Desktop\Wallpaper kohdasta, joka oli sama kuin korvattu tiedosto. Taustakuva on selvästi tallessa jossain muualla ja [superuser.comin keskustelusta](https://superuser.com/questions/966650/path-to-current-desktop-backgrounds-in-windows-10/977582#977582) löysin tämänhetkisen taustakuvan polkuun. `%AppData%\Microsoft\Windows\Themes\CachedFiles` hakemistosta löytyi vanha taustakuva. Sain idean kokeilla uuden käyttäjän luomista niin päin, että ensin laitetaan uusi taustakuva paikalleen windows hakemistoon, jonka jälkeen tehdään uusi käyttäjä. Tämä toimi ja uusille käyttäjille tuli käyttöön oma taustakuvani.
 
+# Pull-arkkitehtuuri
+
+Ennen provisiointia päätin toteuttaa pull arkkitehtuurin, jotta provisioituja koneita on helpompi hallita.
+
+Muistin että dokumentaation playbook osiossa mainittiin ansible-pull. Sieltä löytyi linkki [playbookiin](https://github.com/ansible/ansible-examples/blob/master/language_features/ansible_pull.yml), jolla voidaan valmistella kohdekone kyselemään ohjeita. Ongelmia ratkoessani päädyin muuttamaan useampaa kohtaa:
+```
+- hosts: pull_mode_hosts
+  remote_user: joona
+  become: yes
+```
+```
+# schedule is fed directly to cron
+    schedule: '*/1 * * * *'
+```
+```
+# Directory to where repository will be cloned
+    workdir: /etc/ansible/local
+```
+```
+- name: Create local directory to work from
+      file: path={{workdir}} state=directory owner=root group=root mode=0755
+```
+
+Repo_url kohtaan lisäsin `git://github.com/joonaleppalahti/ansible-pull.git`, jonka loin ansible-pull testausta varten.
+
+Playbookin lopussa olevat templatetiedostot hain GitHubista ja lisäsin ne masterille `/etc/ansible/templates` hakemistoon.
+
+### Ansible-pull repository
+
+Loin GitHubiin ansible-pull repositoryn, jonne tein localhost.yml playbookin. 
+```
+---
+- hosts: webserver
+  remote_user: vagrant
+  become: yes
+  roles:
+    - webserver
+```
+Päätin asentaa testiksi vain webserver roolin, jonka sisällön otin suoraan masterilta. 
+
+Myöhemmin muutin playbookin ja hosts sisältöä [Ansible-Pull-Example](https://github.com/RaymiiOrg/Ansible-Pull-Example) repositoryn perusteella.
+```
+---
+- hosts: localhost
+  remote_user: root
+  roles:
+    - webserver
+```
+Hosts tiedoston sisällöksi tuli:
+```
+localhost              ansible_connection=local
+```
+### Testaus
+
+Käytin Vagrantin avulla tehtyä virtuaalikonetta. `ansible-playbook ansible_pull.yml --ask-become-pass` komento meni masterilla läpi, mutta kun kohde ajoi Ansiblea cronin kautta, sain virheilmoituksia `/var/log/ansible-pull.log` tiedostoon.
+```
+/usr/bin/ansible-pull -d /var/lib/ansible/local -U git://github.com/joonaleppala
+hti/ansible-pull.git
+ [WARNING]: Could not match supplied host pattern, ignoring: vagrant
+ [WARNING]: Could not match supplied host pattern, ignoring: vagrant.vm
+ERROR! Specified --limit does not match any hosts
+```
+Etsiessäni ratkaisua ongelmaan, päädyin vaihtamaan localhost.yml nimen local.yml, sekä loin hosts tiedoston, jossa oli vain testattava kone.
+
+En päässyt eteenpäin ja päätin asentaa tavallisen Virtualbox-koneen, sillä Vagrant on ennenkin aiheuttanut ongelmia.
+
+Uudella koneella sain erilaisen virheilmoituksen, edistystä!
+```
+/usr/bin/ansible-pull -d /var/lib/ansible/local -U git://github.com/joonaleppalahti/ansible-pull.git
+127.0.0.1 | FAILED! => {
+	"changed": false,
+	"failed": true,
+	"msg": "Failed to find required executable git"
+}
+localhost | FAILED! => {
+	"changed": false,
+	"failed": true,
+	"msg": "Failed to find required executable git"
+}
+```
+Näyttää siltä että git täytyy asentaa, lisäsin sen masterille ansible_pull.yml.
+
+Repository kopioitui kohdekoneelle, mutta playbookin ajo pysähtyi heti apachen asennukseen. Virheilmoitus oli todella pitkä, mutta lopusta löytyi oleellisin.
+```
+"dpkg: warning: 'ldconfig' not found in PATH or not executable", "dpkg: warning: 'start-stop-daemon' not found in PATH or not executable", "dpkg: error: 2 expected programs not found in PATH or not executable", "Note: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin"
+```
+Manuaalisesti ajettuna `sudo ansible-pull -d /etc/ansible/local -U git://github.com/joonaleppalahti/ansible-pull.git` toimi ja apache ja muut roolin osat asentuivat.
+
+Etsin pitkään ratkaisua ongelmaan. Tarkastin muun muassa että PATH oli kunnossa, sekä sudoers tiedosto oli kunnossa.
+```
+sudo -s
+echo "$PATH"
+```
+```
+less /etc/sudoers
+```
+Molempien polut näyttivät olevan kunnossa.
+
+Lopulta löysin [stavros.io](https://www.stavros.io/posts/automated-large-scale-deployments-ansibles-pull-mo/) sivustolla Ansible-pullia käsittelevän artikkelin, jossa cron tiedostoon oli määritelty PATH.
+```
+# Cron job to git clone/pull a repo and then run locally
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+{{ schedule }} {{ cron_user }} ansible-pull -d {{ workdir }} -U {{ repo_url }} >>{{ logfile }} 2>&1
+```
+Tämän lisäyksen jälkeen playbook pyörähti läpi ja Apache asentui. Ansible-pull on nyt testattu onnistuneesti, mutta se tarvitsee vielä säätämistä, sillä nyt se ajaa playbookin joka kerta, vaikka muutoksia ei olisi tehty. Tämä tyyli ei myöskään sovi suoraan provisiointiin, sillä ansible_pull.yml playbook täytyy ajaa kerran manuaalisesti.
+
 ## Käytettyjä lähteitä
 
 * https://docs.ansible.com/ansible/latest/intro.html
@@ -482,3 +589,6 @@ Alkuperäinen kuva korvautui omallani, mutta käyttäjien taustakuvat eivät vai
 * https://stackoverflow.com/questions/19292899/creating-a-new-user-and-password-with-ansible/19318368#19318368
 * https://askubuntu.com/questions/601/the-following-packages-have-been-kept-back-why-and-how-do-i-solve-it/602#602
 * https://superuser.com/questions/966650/path-to-current-desktop-backgrounds-in-windows-10/977582#977582
+* https://github.com/ansible/ansible-examples/blob/master/language_features/ansible_pull.yml
+* https://github.com/RaymiiOrg/Ansible-Pull-Example
+* https://www.stavros.io/posts/automated-large-scale-deployments-ansibles-pull-mo
