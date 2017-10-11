@@ -1,4 +1,4 @@
-class luser
+class luser {
 user { 'opiskelija':
       ensure  => 'present',
       comment => 'Opiskelija käyttäjätili,,,',
