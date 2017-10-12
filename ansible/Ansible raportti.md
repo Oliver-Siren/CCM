@@ -5,7 +5,7 @@
 	1. [Playbook](#playbook) 
 	2. [Pakettien asennus playbookilla](#pakettien-asennus-playbookilla)
 2. [Testiympäristö Vagrantilla](#testiympäristö-vagrantilla)
-	1. [Provisiointi](#provisiointi)
+	1. [Vagrantin provisiointi](#vagrantin-provisiointi)
 	2. [Vagrantfile](#vagrantfile)
 	3. [Provisiointi Ansiblella](#provisiointi-ansiblella)
 3. [LAMP, roolit ja hakemistorakenne](#lamp-roolit-ja-hakemistorakenne)
@@ -21,7 +21,7 @@
 	1. [Taustakuvan vaihto kaikille käyttäjille](#taustakuvan-vaihto-kaikille-käyttäjille)
 8. [Käyttäjän lisäys, Linux](#käyttäjän-lisäys-linux)
 9. [Käyttäjän lisäys, Windows](#käyttäjän-lisäys-windows)
-10. [Päivitys versioon 2.4](#päivitys-versioon-2.4)
+10. [Päivitys versioon 2.4](#päivitys-versioon-24)
 	1. [Playbookin testiajo päivityksen jälkeen](#playbookin-testiajo-päivityksen-jälkeen)
 11. [Windowsin taustakuvan vaihto, jatkoa](#windowsin-taustakuvan-vaihto-jatkoa)
 12. [Pull-arkkitehtuuri](#pull-arkkitehtuuri)
@@ -32,6 +32,7 @@
 	2. [TFTP](#tftp)
 	3. [Preseed](#preseed)
 	4. [Ansiblen provisiointi](#ansiblen-provisiointi)
+14. [Käytettyjä lähteitä](#käytettyjä-lähteitä)
 
 ## Tutustuminen Ansibleen
 Aloitin testauksen asentamalla kaksi kappaletta Xubuntua (16.04.3) Virtualboxiin. Toinen kone toimii masterina ja toinen kohteena. Tämän jälkeen aloin lukemaan Ansiblen [dokumentaatiota](https://docs.ansible.com/ansible/latest/intro.html) ja [Wikipedia-artikkelia](https://en.wikipedia.org/wiki/Ansible_(software)). 
