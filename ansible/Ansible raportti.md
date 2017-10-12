@@ -143,7 +143,7 @@ vagrant init bento/ubuntu-16.04
 ```
 Tämän jälkeen virtuaalikoneen saa käyntiin `vagrant up` komennolla, mutta Ansible tarvitsee SSH-avaimen kohteelle, jotta se pystyy ottamaan siihen yhteyden. Siispä konfiguroin seuraavaksi provisioinnin, joka lisää virtuaalikoneeseen käyttäjän ja asettaa SSH-avaimen paikalleen.
 
-### Provisiointi
+### Vagrantin provisiointi
 
 Vagrant tukee provisiointia shell-scriptillä, Puppetilla, Chefillä, Saltilla, Dockerilla ja myös Ansiblella. Tutkin Vagrantin [dokumentaatiota](https://www.vagrantup.com/docs/provisioning/ansible.html), jonka perusteella määritin Ansiblen suorittamaan provisioinnin. 
 
