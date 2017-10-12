@@ -1,4 +1,38 @@
 # Ansible
+
+## Sisällysluettelo
+1. [Tutustuminen Ansibleen](#tutustuminen-ansibleen)
+	1. [Playbook](#playbook) 
+	2. [Pakettien asennus playbookilla](#pakettien-asennus-playbookilla)
+2. [Testiympäristö Vagrantilla](#testiympäristö-vagrantilla)
+	1. [Provisiointi](#provisiointi)
+	2. [Vagrantfile](#vagrantfile)
+	3. [Provisiointi Ansiblella](#provisiointi-ansiblella)
+3. [LAMP, roolit ja hakemistorakenne](#lamp-roolit-ja-hakemistorakenne)
+	1. [MariaDB](#mariadb)
+4. [Windowsin hallinta](#windowsin-hallinta)
+	1. [Masterin valmistelu](#masterin-valmistelu)
+	2. [Windowsin valmistelu](#windowsin-valmistelu)
+	3. [Windows ping moduulin testaus](#windows-ping-moduulin-testaus)
+	4. [Pakettien asennus](#pakettien-asennus)
+5. [Taustakuvan vaihto Linux-desktop roolille](#taustakuvan-vaihto-linux-desktop-roolille)
+6. [Ublock-Origin Firefoxiin](#ublock-origin-firefoxiin)
+7. [Taustakuva Windowsiin](#taustakuva-windowsiin)
+	1. [Taustakuvan vaihto kaikille käyttäjille](#taustakuvan-vaihto-kaikille-käyttäjille)
+8. [Käyttäjän lisäys, Linux](#käyttäjän-lisäys-linux)
+9. [Käyttäjän lisäys, Windows](#käyttäjän-lisäys-windows)
+10. [Päivitys versioon 2.4](#päivitys-versioon-2.4)
+	1. [Playbookin testiajo päivityksen jälkeen](#playbookin-testiajo-päivityksen-jälkeen)
+11. [Windowsin taustakuvan vaihto, jatkoa](#windowsin-taustakuvan-vaihto-jatkoa)
+12. [Pull-arkkitehtuuri](#pull-arkkitehtuuri)
+	1. [Ansible-pull repository](#ansible-pull-repository)
+	2. [Pull testaus](#pull-testaus)
+13. [Provisiointi](#provisiointi)
+	1. [DHCP](#dhcp)
+	2. [TFTP](#tftp)
+	3. [Preseed](#preseed)
+	4. [Ansiblen provisiointi](#ansiblen-provisiointi)
+
 ## Tutustuminen Ansibleen
 Aloitin testauksen asentamalla kaksi kappaletta Xubuntua (16.04.3) Virtualboxiin. Toinen kone toimii masterina ja toinen kohteena. Tämän jälkeen aloin lukemaan Ansiblen [dokumentaatiota](https://docs.ansible.com/ansible/latest/intro.html) ja [Wikipedia-artikkelia](https://en.wikipedia.org/wiki/Ansible_(software)). 
 
@@ -424,7 +458,7 @@ The following packages have been kept back:
 ```
 [Askubuntu.comista](https://askubuntu.com/questions/601/the-following-packages-have-been-kept-back-why-and-how-do-i-solve-it/602#602) löysin ratkaisun, jossa kehotettiin antamaan `sudo apt-get install` komento ongelman ratkaisuksi. `sudo apt-get install ansible` komennon jälkeen asennus kysyi haluanko korvata olemassaolevat ansible.cfg ja hosts tiedostot uusilla. Ansible.cfg tiedoston korvasin, sillä en ollut tehnyt siihen muutoksia, mutta hosts tiedoston jätin korvaamatta. Asennus loi ansible.cfg.dpkg-old tiedoston, joka on vanha konfiguraatiotiedosto, sekä hosts.dpkg-dist, joka on esimerkkitiedosto. Poistin molemmat, sillä esimerkki hosts oli turha ja konfiguraatiotiedosto on tallessa GitHubissa. Tarkastin Ansiblen version komennolla `ansible --version` ja tuloste näytti 2.4.0.0.
 
-## Playbookin testiajo päivityksen jälkeen
+### Playbookin testiajo päivityksen jälkeen
 
 Käynnistin kaikki kohdevirtuaalikoneeni ja ajoin `ansible-playbook masterbook.yml --ask-become-pass` ja varauduin pahimpaan. Yllättäen kaikkien roolien tehdävät menivät läpi. Ainoa ilmoitus liittyi servicekomennon nimenmuutokseen.
 ```
@@ -433,7 +467,7 @@ Deprecation warnings can be disabled by setting deprecation_warnings=False in an
 ```
 Tein työtä käskettyä, vaihdoin running startediin ja ilmoitusta ei näkynyt seuraavan ajon yhteydessä.
 
-## Windowsin taustakuvan vaihto jatkoa
+## Windowsin taustakuvan vaihto, jatkoa
 
 Yritin vaihtaa oletuskuvan omistajaa win_owner moduulilla, mutta mitään ei tapahtunut. 
 ```
@@ -492,7 +526,7 @@ Playbookin lopussa olevat templatetiedostot hain GitHubista ja lisäsin ne maste
 
 ### Ansible-pull repository
 
-Loin GitHubiin ansible-pull repositoryn, jonne tein localhost.yml playbookin. 
+Loin GitHubiin ansible-pull repositoryn, jonne tein localhost.yml playbookin. https://github.com/joonaleppalahti/ansible-pull
 ```
 ---
 - hosts: webserver
@@ -515,7 +549,7 @@ Hosts tiedoston sisällöksi tuli:
 ```
 localhost              ansible_connection=local
 ```
-### Testaus
+### Pull testaus
 
 Käytin Vagrantin avulla tehtyä virtuaalikonetta. `ansible-playbook ansible_pull.yml --ask-become-pass` komento meni masterilla läpi, mutta kun kohde ajoi Ansiblea cronin kautta, sain virheilmoituksia `/var/log/ansible-pull.log` tiedostoon.
 ```
@@ -570,6 +604,207 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 ```
 Tämän lisäyksen jälkeen playbook pyörähti läpi ja Apache asentui. Ansible-pull on nyt testattu onnistuneesti, mutta se tarvitsee vielä säätämistä, sillä nyt se ajaa playbookin joka kerta, vaikka muutoksia ei olisi tehty. Tämä tyyli ei myöskään sovi suoraan provisiointiin, sillä ansible_pull.yml playbook täytyy ajaa kerran manuaalisesti.
 
+# Provisiointi
+
+Käytin hyväkseni aikaisemmin toteuttamaani provisiointikonfiguraatiota https://joonaleppalahti.wordpress.com/2016/11/18/palvelinten-hallinta-harjoitus-8/. Ensin käynnistin kohteen ja aktivoin verkkobootin manuaalisesti, jotta sain selville kohteen MAC-osoitteen. Sitten kokeilin wake-on-lan komentoa.
+```
+sudo apt-get -y install wakeonlan
+wakeonlan 00:21:85:01:6E:2E
+```
+Kone käynnistyi ja lähti tekemään verkkoboottia. 
+
+## DHCP
+
+Seuraavaksi asensin DHCP-palvelun masterille, joka antaa kohteelle IP-osoitteen, sekä toimintaohjeet.
+```
+sudo apt-get -y install isc-dhcp-server
+```
+Lisäsin `etc/default/isc-dhcp-server` tiedostoon INTERFACES tiedon masterin verkkokortista, jonka katsoin `ip addr` komennolla.
+```
+INTERFACES="enp0s3"
+```
+Sitten muokkasin `etc/dhcp/dhcpd.conf` tiedostoa, jonka sisällöksi tuli:
+```
+ddns-update-style none;
+
+default-lease-time 600;
+max-lease-time 7200;
+
+authoritative;
+
+log-facility local7;
+
+next-server 10.0.0.221;
+filename "pxelinux.0";
+
+subnet 10.0.0.0 netmask 255.255.255.0 {
+        host ansible {
+                hardware ethernet 00:21:85:01:6e:2e;
+                fixed-address 10.0.0.9;
+                option subnet-mask 255.255.255.0;
+                option routers 10.0.0.1;
+                option domain-name-servers 8.8.8.8, 8.8.4.4;
+        }
+}
+```
+Kokeilin jälleen käynnistää kohteen taikapaketilla. Kohde sai määritetyn IP-osoitteen 10.0.0.9 ja kävi kyselemään TFTP-palvelua.
+
+## TFTP
+
+Asensin TFTP-palvelun, jonka jälkeen loin työskentelyhakemiston, jonne latasin Ubuntun netboot version, purin sen, poistin pakatun tiedoston ja kopioin puretut tiedostot hakemistoon `/var/lib/tftpboot/`
+```
+sudo apt-get -y install tftpd-hpa
+mkdir netboot
+cd netboot
+wget http://archive.ubuntu.com/ubuntu/dists/xenial-updates/main/installer-amd64/current/images/netboot/netboot.tar.gz
+tar -xvf netboot.tar.gz
+rm netboot.tar.gz
+sudo cp -r * /var/lib/tftpboot
+```
+Näytin kohteelle taikapakettia ja nyt pääsin jo Ubuntun asennusvalikkoon.
+
+Lisäsin vielä valmistelut preseediä varten muokkaamalla `/var/lib/tftpboot/ubuntu-installer/amd64/boot-screens/syslinux.cfg` tiedostoa.
+```
+path ubuntu-installer/amd64/boot-screens/
+include ubuntu-installer/amd64/boot-screens/menu.cfg
+default ubuntu-installer/amd64/boot-screens/vesamenu.c32
+
+label ansible
+        kernel ubuntu-installer/amd64/linux
+        append initrd=ubuntu-installer/amd64/initrd.gz auto=true auto url=tftp://10.0.0.221/ubuntu-installer/amd64/preseed.cfg locale=en_US.UTF-8 classes=minion DEBCONF_DEBUG=5 priority=critical preseed/url/=ubuntu-installer/amd64/preseed.cfg netcfg/choose_interface=auto
+
+prompt 1
+timeout 5
+default ansible
+```
+Huom. append kohta täytyy olla samalla rivillä.
+
+Tiedoston muokkauksen jälkeen asennus etenee preseedin hakemiseen asti.
+
+## Preseed
+
+Kohde tarvitsee asennusohjeet, jotka määritellään preseedissä. Verkkokortin valinta määritellään syslinuxissa, sillä se ei toimi preseedissä. Loin `preseed.cfg` tiedoston hakemistoon `/var/lib/tftpboot/ubuntu-installer/amd64/`
+```
+d-i mirror/http/proxy string http://10.0.0.221:8000/
+
+d-i passwd/user-fullname string Joona
+d-i passwd/username string joona
+d-i passwd/user-password-crypted password $1$suola$x3q8bwB9K87WryJYwGJ2j.
+
+d-i partman-auto/method string regular
+
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-lvm/confirm boolean true
+d-i partman-lvm/confirm_nooverwrite boolean true
+
+d-i partman-auto/choose_recipe select atomic
+
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+
+d-i pkgsel/include string ansible git ssh tftp-hpa
+
+d-i pkgsel/update-policy select unattended-upgrades
+
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/with_other_os boolean true
+
+d-i finish-install/reboot_in_progress note
+```
+Asensin tässä vaiheessa `squid-deb-proxy` palvelun, joka säästää aikaa seuraavien asennuskertojen kohdalla. Lisäsin myös preseediin sille kohdan.
+
+Ajoin asennuksen ensin ensin niin että `d-i passwd/user-password password $1$suola$x3q8bwB9K87WryJYwGJ2j.` kohdassa ei ollut crypted sanaa, jolloin password jälkeinen merkkijono oli selkokielinen salasana, cryptedin lisättyäni cryptattu salasana tulkittiin oikein ja pääsin kirjautumaan käyttäjälleni asennuksen valmistuttua.
+
+Tämä konfiguraatio ei vielä aseta kohdetta vastaanottamaan käskyjä Ansiblella.
+
+### Ansiblen provisiointi
+
+Haluan että ansible hallitsee konetta automaattisesti, ilman että asentava playbook tarvitsee ajaa. Aikaisemman toteutukseni https://joonaleppalahti.wordpress.com/2016/11/22/palvelinten-hallinta-harjoitus-9/ pohjalta lisäsin preseedin loppuun late command osion:
+```
+d-i preseed/late_command string \
+in-target tftp 10.0.0.221 -c get postinstall.sh ; \
+in-target sudo /bin/bash postinstall.sh
+```
+Jonka sisältö on:
+```
+sudo tftp 10.0.0.221 -c get firstboot
+sudo mv firstboot /etc/init.d/
+sudo chmod +x /etc/init.d/firstboot
+update-rc.d firstboot defaults
+```
+Postinstall scripti hakee firstboot scriptin, jonka se asettaa ajettavaksi ensimmäisen käynnistyksen yhteydessä. Tämä vaihe saattaa olla turha ja firstboot scripti voisi olla suoraan tämän tilalla, mutta testaan tämän vaihtoehdon ensin ja kokeilen suoraviivaistaa prosessia myöhemmin. Firstboot scriptin sisältö:
+```
+#!/bin/bash
+
+sleep 10
+
+cat <<EOF > /home/joona/.ssh/authorized_keys
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDfr7ZiTa2/dj9mH3UVdOvQO7uitaqRD7U5mtQO/7yE4waw8aKuRxc5XCSafi1nr1l577mQVwefT9AKIoBFz9XbMk3f49fap0/kxoJ0iN70PIo22m3tVOGOh3roZAzcNQA/TKFI8QTORx7f7YlYPqi1wwdZwPh2TNoAoOwhVVL3Pj7SI1zCZB8FaEfJ/GFU6gIqHQG9NhZo3gFYZaSw8V7mY673HZUNXeyRqoFjvtwjVc06XB17xLOUeuLtk2iLF6hqdam8WlH1yh3K7VKA3L9MpDOquHY8uO6+kOvt+wo5XAEIh+I2sKVRu0XtGLz+tzc95kOLj9HXfr5VL8J1StQX joona@ansiblemaster
+
+EOF
+
+chown joona /home/joona/.ssh/authorized_keys
+
+mkdir /etc/ansible/local
+
+cat <<EOF > /etc/cron.d/ansible-pull
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+*/1 * * * * root ansible-pull -d /etc/ansible/local -U git://github.com/joonaleppalahti/ansible-pull.git >>/var/log/ansible-pull.log 2>&1
+
+EOF
+
+cat <<EOF > /etc/logrotate.d/ansible-pull
+
+/var/log/ansible-pull.log {
+  rotate 7
+  daily
+  compress
+  missingok
+  notifempty
+}
+
+EOF
+```
+Scripti lisää masterkoneen SSH-avaimen kohteelle, määrittää ansible-pull komennon ajettavaksi tietyin väliajoin cronin avulla (minuutin välein testausta varten) ja määrittää lokiasetuksia.
+
+Kokeilin jälleen kohteen asennusta. SSH-avain ei mennyt paikoilleen, sillä .ssh hakemistoa ei löytynyt mihin authorized_keys tiedostoa yritettiin luoda. Lisäsin kyseisen hakemiston luonnin, sekä käyttöoikeuden korjauksen.
+```
+mkdir /home/joona/.ssh
+chown joona /home/joona/.ssh
+```
+
+Esimerkkirepository https://github.com/joonaleppalahti/ansible-pull
+
+Kone haki GitHubista esimerkkirepositoryn ja asensi Apachen ja muut webserver roolin asiat. Ansiblen lokeista löytyi rivi `[WARNING]: provided hosts list is empty, only localhost is available` sillä en kopioinut hosts tiedostoa masterilta. Mikäli käytössä on useita koneita, tulee hosts tiedosto olla mukana, mutta sitten kaikki koneet saavat tietoonsa toisten koneiden IP-osoitteet, sekä roolien tehtävät. 
+
+Lisäsin ansible-pull komentoon -o parametrin, jotta Ansible ajaa playbookin vain jos repositoryyn on tullut muutoksia. Lisäksi poistin sleepin scriptin alusta.
+
+Nyt pääsin kirjautumaan SSH-avainta käyttäen, mutta Ansible ei tehnyt mitään, vaan sanoi:
+```
+Repository has not changed, quitting.
+```
+Olisin olettanut että Ansible pyörähtää kerran, jonka jälkeen se ei tee mitään jos muutoksia ei ole tapahtunut, mutta Ansible ei pyörähtänyt kertaakaan, joten webserver roolia ei toteutettu.
+
+Poistin -o parametrin ja muutin cronin ajon tiheyden viiteen minuuttiin.
+
+Näyttää siltä että ensimmäisellä ansible-pull ajokerralla repository ladataan kohteelle, mutta sitä ei ajeta. Toisella ajokerralla repositoryn sitältö ajetaan ja webserver rooli asentuu. Eli jos ansible-pull komennon ajotiheys on esimerkiksi 30 minuuttia, roolin asennus tapahtuu vasta tunnin kohdalla.
+
+Tilanteen korjaamiseksi lisäsin ansible-pull ajamisen firstboot scriptiin kaksi kertaa, jotta ensimmäisellä kerralla haetaan repositoryn sisältö ja toisella asennetaa ne. Aluksi lisäsin vain 10 sekuntia komentojen väliin, mutta ensimmäinen komento epäonnistui, joten lisäsin sen alkuun 30 sekuntin odotuksen ja nostin odotuksen ennen toista komentoa 15 sekuntiin. Lisäsin myös firstboot scriptin loppuun unohtamani osan, joka poistaa sen, ettei sitä ajeta enää seuraavilla käynnistyskerroilla. Lisäsin myös -o parametrin takaisin cronilla ajettavaan ansible-pull komentoon.
+```
+rm /etc/init.d/firstboot
+update-rc.d firstboot remove
+```
+Nyt webserver rooli asentuu onnistuneesti firstboot scriptillä ja Ansible tarkastaa viiden minuutin välein onko repositoryyn tullut muutoksia. Muutin repositoryssä määritetyn käyttäjän opiskelija -> opiskelija2 ja Ansible huomasi muutoksen ja loi käyttäjän opiskelija2.
+
+Otin `ansible.cfg` tiedostossa kommentin pois riviltä `host_key_checking = False` sillä useisiin uusiin palvelimiin samanaikaisesti otettava yhteys aiheuttaa ongelmia, kun kaikkiin pitäisi vastata erikseen yes.
+
+Masterilta voi edelleen ajaa playbookeja, jotka hallitsevat kohdekonetta ja kohdekone tarkastelee ja hakee ohjeita GitHub repositorystä automaattisesti.
+
 ## Käytettyjä lähteitä
 
 * https://docs.ansible.com/ansible/latest/intro.html
@@ -592,3 +827,7 @@ Tämän lisäyksen jälkeen playbook pyörähti läpi ja Apache asentui. Ansible
 * https://github.com/ansible/ansible-examples/blob/master/language_features/ansible_pull.yml
 * https://github.com/RaymiiOrg/Ansible-Pull-Example
 * https://www.stavros.io/posts/automated-large-scale-deployments-ansibles-pull-mo
+* https://joonaleppalahti.wordpress.com/2016/11/18/palvelinten-hallinta-harjoitus-8/
+* https://joonaleppalahti.wordpress.com/2016/11/22/palvelinten-hallinta-harjoitus-9/
+* https://stackoverflow.com/questions/32297456/how-to-ignore-ansible-ssh-authenticity-checking
+* https://stackoverflow.com/questions/11948245/markdown-to-create-pages-and-table-of-contents
