@@ -84,3 +84,8 @@ Linkki vanhempaan moduuliin: https://github.com/joonaleppalahti/CCM/tree/master/
     }
 }
 ```
+
+## Lopputuloksia
+
+![alt text](https://raw.githubusercontent.com/joonaleppalahti/CCM/master/puppet/kuvat/5.png "5")
+![alt text](https://raw.githubusercontent.com/joonaleppalahti/CCM/master/puppet/kuvat/6.png "6")
