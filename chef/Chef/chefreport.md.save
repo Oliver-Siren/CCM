@@ -30,80 +30,9 @@ and then install use apt and the path to the file
 sudo apt install /home/vagrant/chef-server-core_12.16.14-1_amd64.deb 
 
 ´´´
-once apt is doen give the command to prepare the server
+once apt is done give the command to prepare the server
 
 ´´´
 sudo chef-server-ctl reconfigure
 
 ´´´
-after this create the user for the server with
-´´´
-sudo chef-server-ctl user-create USER_NAME FIRST_NAME LAST_NAME EMAIL 'PASSWORD' --filename FILE_NAME
-´´´
-where you replace the obvious bits with your own credidentials. Your RSA key will be saved to the FILE_NAME location. 
-Then you should create a organization with
-´´´
-chef-server-ctl org-create short_name 'full_organization_name' --association_user user_name --filename ORGANIZATION-validator.pem
-´´´
-again replace the obvious bits with your own desired inputs.
-Having now created the required things to use your chef-server you should now transmit the keys to your desktop and create a file to manage the connection to your server. You need to create a folder for storing your chef cookbooks and the control file for sending instructions to your chef server. I named the folder 'chef-repo' in the example configurationprovided with this document, but you can name the folder anyway you like of course. In the folder createa a hidden folder '.chef' and create a text file 'knife.rb' in the folder.
-The 'knife.rb' should be structured as follows
-´´´
-
-current_dir = File.dirname(__FILE__)
-log_level                 :info
-log_location              STDOUT
-node_name                 "pingviinilaeppa"
-client_key                "#{current_dir}/chefadmin.pem"
-chef_server_url           "https://vagrant.vm.organizations/arcti$
-cookbook_path             ["#{current_dir}/../cookbooks"]
-
-´´´
-
-where 'current_dir = File.dirname(__FILE__)' is simply a setting to access the directory where the knife.rb is located to ease the locationg of the other parts. 'log_level' is the level of logging for debugging. 'log_location' is where the logs are stored. 'node_name' is the name of the machine or user which runs the knife modue. 'client_key' is teh location of RSA key for authentication the connection to you chef server. 'chef_server_url' is the FQDN name of your chef server location. 'cookbook_path' is the location of your cookbooks.
-Now that you have determined where you want the RSA key to be located you should copy it from your server to your chosen location. I find it easiest to simply copy+paste the key but you may of course transmit it over the net with wget scp or similar.
-
-once you have a done the starting setup you should verify that your settings are correct with
-
-´´´
-knife ssl check
-´´´
-
-You propably will recieve a error message about teh cert not being trusted if you have configured this correctly. To fix this you need to follow the instructions of the error message, in short:
-
-´´´
-copy the cert from your server at
-/var/opt/opscode/nginx/ca/SERVER_HOSTNAME.crt
-to your trusted_certs_dir (currently: /home/~USER/chef-repo/.chef/trusted_certs)
-
-´´´
-again simply copy+paste will do and is the easiest im my experience although you sill need to use sudo to get the premission to read the file contents with less as in 
-
-´´´
-sudo less /var/opt/opscode/nginx/ca/vagrant.vm.crt
-´´´
-
-or whatever your machines hostname is. you can also use sudo with ls to see waht the filenames are so you can copy the appropriate one as in 
-
-´´´
-sudo ls /var/opt/opscode/nginx/ca
-´´´ 
-
-create a file with nano and deposit the key in there and the ssl check should complete.
-
-If you cant connect at all due to the FQDN requirement modify your desktops /etc/hosts file to contain your server so taht you can easily connect. Like this
-
-´´´
-127.0.0.1       localhost
-127.0.1.1       pingviinilaeppa
-192.168.1.62    vagrant.vm
-´´´
-
-now that the server is set up you can connect to your node and start giving it instructions. Easiest way to connect to a node is by instruction your server to establish a node withan ssh connection. Your node needs to have ssh for this to work but otherwise chef does the work for you and stored the nodes information for future use. 
-
-You can initialize a node with the command
-
-´´´
-knife node 
-´´´
-
