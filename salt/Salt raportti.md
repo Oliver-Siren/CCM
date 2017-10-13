@@ -233,5 +233,50 @@ Kun versio ongelmat on korjattu siirrytään Windows repositoryn rakentamiseen.
 
 Windows state moduuli ohjelmien asentamiseksi valmiista reposta onkin aivan triviaali asia sillä se tapahtuu kuten linux koneille tarkoitetissa moduuleissa.
 
+## Oman ohjelman asennus moduulin lisääminen windowsin repositoryyn
 
+Aluksi otin mallia muista asennus moduuleista ja tein oman moduulin joka asentaisi Blizzard App:in.
+Tätä varten tein kaksi tiedostoa nimellä battlenet.sls. Ensimmäiseen laitoin:
+```
+battlenet:
+  '1.9':
+    full_name: 'Battle.net'
+    installer: 'https://eu.battle.net/download/getInstaller?os=win&installer=Battle.net-Setup.exe'
+    install_flags: '/S'
+    uninstaller: 'https://eu.battle.net/download/getInstaller?os=win&installer=Battle.net-Setup.exe'
+    msiexec: False
+    locale: en_US
+    reboot: False
+```
+Tämä meni kansioon /srv/salt/win/repo/salt-winrepo/
+ja toiseen tuli:
+```
+# just 32-bit x86 installer available
+{% if grains['cpuarch'] == 'AMD64' %}
+    {% set PROGRAM_FILES = "%ProgramFiles(x86)%" %}
+{% else %}
+    {% set PROGRAM_FILES = "%ProgramFiles%" %}
+{% endif %}
+battlenet:
+  '1.9':
+    full_name: 'Battle.net'
+    installer: 'https://eu.battle.net/download/getInstaller?os=win&installer=Battle.net-Setup.exe'
+    install_flags: '/S'
+    uninstaller: 'https://eu.battle.net/download/getInstaller?os=win&installer=Battle.net-Setup.exe'
+    msiexec: False
+    locale: en_US
+    reboot: False
+```
+Tämä tiedosto tuli kansioon /srv/salt/win/repo-ng/salt-winrepo-ng/
+
+Ajoin tämän käskyn one-liner komennolla `sudo salt 'WinMin' pkg.install 'battlenet'`
+tuloksena hieman odottelua ja kun katsoin windows minionin task manageria näkyi sielä nyt Blizzard App Setup. Moduuli oli siis onnistunut lataamaan exe paketin mutta jossakin oli vikaa koska asennus ei näyttänyt etenevän.
+Luettuani Salt dokumentaatiota https://docs.saltstack.com/en/latest/topics/windows/windows-package-manager.html#creating-a-package-definition-sls-file windows repository moduulin luonnista päädyin lopputulokseen että asennusohjelma odotti vastauksia asennusprosessin aikana esitettäviin kysymyksiin kuten asennuskieli ja asennus polku.
+Kokeilin erilaisia install_flagsejä mutta mikään ei näyttänyt toimivan ja suuri ongelma oli löytää mahdollisia flagejä kunne törmäsin googlatessa sivuun https://msdn.microsoft.com/en-us/library/windows/desktop/aa367988(v=vs.85).aspx.
+
+Testi epäonnistui siis ja lopulta päätin lopettaa kun löysin Blizzardin palaute osiosta keskustelun https://us.battle.net/forums/en/bnet/topic/20754376631 jonka perusteella tulin johtopäätökseen että ehkä yritän mahdotonta.
+
+Ehkäpä olisi pitäny valita jokin muu ohjelma asennettavaksi ja voihan olla että kokeilen myöhemmin uudestaan luoda vastaavan moduulin asentamaan jotakin muuta.
+
+## Windows käyttäjän lisääminen
 

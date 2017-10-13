@@ -1,4 +1,4 @@
-# Moduulit jotka asentuvat Xubuntuun
+# Puppet moduulit Linux palvelimeen
 
 ## Lampstack
 Lampstack moduuli on muokattu versio aiemmin tekemästäni moduulista. Se asentaa tällä hetkellä Apache2, libapache2-mod-php, php7.0 ja php-mysql. Tämän lisäksi se antaa käyttäjälle luvan luoda apache sivun omaan kotihakemistoonsa, ja siirtää esimerkki php-sivun sijaintiin /etc/skel/public_html. Tämä toiminnallisuus todennäköisesti tulee muuttumaan kun pääsemme yhteisymmärrykseen siitä, millainen palvelinasennuksen tulee tarkalleenottaen olla.
@@ -84,3 +84,8 @@ Linkki vanhempaan moduuliin: https://github.com/joonaleppalahti/CCM/tree/master/
     }
 }
 ```
+
+## Lopputuloksia
+
+![alt text](https://raw.githubusercontent.com/joonaleppalahti/CCM/master/puppet/kuvat/5.png "5")
+![alt text](https://raw.githubusercontent.com/joonaleppalahti/CCM/master/puppet/kuvat/6.png "6")

@@ -49,3 +49,14 @@ Lauantai aamu ja työmotivaatio sen mukainen. Eilinen testi näytti lupaavalta j
 
 Salt master versio oli itselläni käytössä eri kuin ohjeet joita noudatin, ja tästä johtuen törmäsin ongelmiin Windows pkg repositorya siirtäessäni masterilta Windows minionille. Olin luvannut että windows kone tulisi tällä työviikolla valmiiksi, joten turhautumisen estämiseksi ja ajan säästämiseksi pyysin projektityöryhmän jäsentä Joona Leppälahtea auttamaan virheviestin selvittämisessä.  Joona huomasi että käyttämässäni Ubuntun paketinhallinnasta tulevassa salt-master versiossa oli jotakin häikkää joka on korjattu uusimmassa versiossa 2017.7.1 (Nitrogen) ja seuraamani ohjekin oli itse asiassa tehty juuri tälle versiolle.
 
+State moduuli windowsille asensi onnistuneesti Firefox selaimen ja LibreOffice paketin.
+
+
+### 8.10.2017
+#### Kaivosmiehen päiväkirja
+
+Eilinen onnistunut Windows työskentely rohkaisi ja herätti hieman innostusta kokeilemaan enemmän. Tänään ajattelin katsella Salt Pillar rakennetta ja käyttäjien lisäystä Saltilla sekä katsoa miten windows taustakuva vaihdetaan Saltilla.
+
+Kolme tuntia työskentelyä ja tuloksena pyöreä nolla. suunnitelmasta poiketen yritinkin luoda oman windows pkg asennus state tiedoston ja asentaa Blizzard App nimisen ohjelman. Useiden yritysten jälkeen huomasin että asennus exe tiedosto kyllä latautui windows minionille ja ohjelma lähti käyntiin mutta mitään ei tapahtunut, asennusohjelma ilmeisesti jäi odottamaan joitakin vastauksia. Yritin vastata installer_flag:ien avulla mutta turhaan. Salt dokumentaatiosta ei löydy listaa mahdollisista flageistä ja vaikka microsoftin sivulta https://msdn.microsoft.com/en-us/library/windows/desktop/aa367988(v=vs.85).aspx löytyikin, niin en silti saanut asennusta läpi. Myöhemmin törmäsin Blizzardin palaute osasta https://us.battle.net/forums/en/bnet/topic/20754376631  kommentin joka viittasi että silent installation ei ehkä ole edes mahdollinen joten hylkään tämän kokeilun. 
+
+Windows käyttäjän lisääminen oli helpoin homma tänään, tosin salasanaa ei saanut menemään muuten kuin plain texti muodossa. Vaikeimmaksi on nyt osoittautunut Windows default taustakuvan vaihto Saltilla. Tätä tarkoitusta varten loin powershell scriptin joka ottaa oikeudet itselleni ja antaa täydet oikeudet käyttäjälle System jota Salt ilmeisesti käyttää. Mutta tällä hetkellä powershell komennot pitää ajaa admin oikeuksilla ja jostakin syystä eivät toimi kun manuaalisesti komento kerrallaan ajettuna. Nyt ajattelin tuhota Windows Minionin ja aloittaa puhtaalta pöydältä.
