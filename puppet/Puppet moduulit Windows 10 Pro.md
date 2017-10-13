@@ -96,3 +96,6 @@ Katsoin tätä tehdessäni mallia Tero Karvisen ja Joona Leppälahden artikkelei
 https://joonaleppalahti.wordpress.com/2016/12/01/palvelinten-hallinta-harjoitus-12/
 https://github.com/joonaleppalahti/CCM/blob/master/ansible/Ansible%20raportti.md
         
+## Lopputuloksia
+
+![alt text](https://raw.githubusercontent.com/joonaleppalahti/CCM/master/puppet/kuvat/10.png "10")
