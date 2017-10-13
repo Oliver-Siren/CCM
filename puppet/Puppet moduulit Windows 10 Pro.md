@@ -98,4 +98,6 @@ https://github.com/joonaleppalahti/CCM/blob/master/ansible/Ansible%20raportti.md
         
 ## Lopputuloksia
 
+![alt text](https://raw.githubusercontent.com/joonaleppalahti/CCM/master/puppet/kuvat/12,5.png "12,5")
 ![alt text](https://raw.githubusercontent.com/joonaleppalahti/CCM/master/puppet/kuvat/10.png "10")
+![alt text](https://raw.githubusercontent.com/joonaleppalahti/CCM/master/puppet/kuvat/11.png "11")
