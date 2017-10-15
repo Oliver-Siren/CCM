@@ -104,6 +104,7 @@ now that the server is set up you can connect to your node and start giving it i
 You can initialize a node with the command
 
 ´´´
-knife node 
+knife bootstrap 
 ´´´
 
+the command connects to the node with ssh and can work with either key authentication or username and password.
