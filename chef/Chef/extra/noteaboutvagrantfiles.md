@@ -1,0 +1,1 @@
+I have separate vagrant folders for the same instances of vagrant here i find working this way easier than trying to make vagrants multimachine run work. Simply placing the files in diferent folders seems to work fine enough.

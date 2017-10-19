@@ -40,7 +40,7 @@ after this create the user for the server with
 ´´´
 sudo chef-server-ctl user-create USER_NAME FIRST_NAME LAST_NAME EMAIL 'PASSWORD' --filename FILE_NAME
 ´´´
-where you replace the obvious bits with your own credidentials. Your RSA key will be saved to the FILE_NAME location. 
+where you replace the obvious bits with your own credidentials do note that using your workstations name for the username makes configuring the user much simpler and i wont provide instructions to use RSA key based authetication for creating nodes here. Your RSA key will be saved to the FILE_NAME location. 
 Then you should create a organization with
 ´´´
 chef-server-ctl org-create short_name 'full_organization_name' --association_user user_name --filename ORGANIZATION-validator.pem
@@ -104,7 +104,20 @@ now that the server is set up you can connect to your node and start giving it i
 You can initialize a node with the command
 
 ´´´
-knife bootstrap 
+knife bootstrap USER@IP_ADDRESS -N NODENAME
 ´´´
 
 the command connects to the node with ssh and can work with either key authentication or username and password.
+
+## Running cookbooks
+
+if you already have a cookbook runing it is easy you simply enter
+
+´´´
+knife cookbook upload COOKBOOKSNAME
+´´´
+to upload it to your server and then run it in your chosen node with
+
+´´´
+
+´´´
