@@ -2,12 +2,12 @@
 
 ## Sisällysluettelo
 1. [Esivalmistelut](#esivalmistelut)
-2. [Minioni etsii isäntää IP asetukset](#minioni-etsii-isäntää-IP-asetukset)
+2. [Minioni etsii isäntää IP asetukset](#minioni-etsii-isäntää-ip-asetukset)
 3. [Löytyykö isäntä](#löytyykö-isäntä)
 4. [Ensimmäisen ohjelman asennus](#ensimmäisen-ohjelman-asennus)
 5. [Salt state of the minions speech](#salt-state-of-the-minions-speech)
 6. [LAMP-asennus ja työpöydän taustakuvan vaihto](#LAMP-asennus-ja-työpöydän-taustakuvan-vaihto)
-7. [MySQL toimii!!](#MySQL-toimii!!)
+7. [MySQL toimii!!](#mysql-toimii!!)
 8. [Monen koneen hallintaa](#monen-koneen-hallintaa)
 9. [Käyttäjätilin luonti onnistuu](#käyttäjätilin-luonti-onnistuu)
 10.[Palomuuri asetukset](#palomuuri-asetukset)
