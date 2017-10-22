@@ -1,15 +1,10 @@
 # SaltStack
 
 ## Sisällysluettelo
-1. [Esivalmistelu](#Esivalmistelu)
-2. [Minioni etsii isäntää (IP asetukset)](#Minioni etsii isäntää (IP asetukset))
-3. [LAMP, roolit ja hakemistorakenne](#lamp-roolit-ja-hakemistorakenne)
-	1. [MariaDB](#mariadb)
+1. [Esivalmistelut](#Esivalmistelut)
+2. [Minioni etsii isäntää IP asetukset](#Minioni etsii isäntää IP asetukset)
+3. [Löytyykö isäntä](#Löytyykö isäntä)
 4. [Windowsin hallinta](#windowsin-hallinta)
-	1. [Masterin valmistelu](#masterin-valmistelu)
-	2. [Windowsin valmistelu](#windowsin-valmistelu)
-	3. [Windows ping moduulin testaus](#windows-ping-moduulin-testaus)
-	4. [Pakettien asennus](#pakettien-asennus)
 5. [Taustakuvan vaihto Linux-desktop roolille](#taustakuvan-vaihto-linux-desktop-roolille)
 6. [Ublock-Origin Firefoxiin](#ublock-origin-firefoxiin)
 7. [Taustakuva Windowsiin](#taustakuva-windowsiin)
@@ -55,7 +50,7 @@ Sama Xubuntu asennus ja päivitykset kuin edellisessä.
 Salt minion asentuu komennolla:
 `sudo apt-get install -y salt-minion`
 
-## Minioni etsii isäntää (IP asetukset)
+## Minioni etsii isäntää IP asetukset
 
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltconf.png "Salt Conf guide")
 
