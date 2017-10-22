@@ -1,27 +1,19 @@
 # SaltStack
 
 ## Sisällysluettelo
-1. [Esivalmistelut](#Esivalmistelut)
-2. [Minioni etsii isäntää IP asetukset](#Minioni etsii isäntää IP asetukset)
-3. [Löytyykö isäntä](#Löytyykö isäntä)
-4. [Windowsin hallinta](#windowsin-hallinta)
-5. [Taustakuvan vaihto Linux-desktop roolille](#taustakuvan-vaihto-linux-desktop-roolille)
-6. [Ublock-Origin Firefoxiin](#ublock-origin-firefoxiin)
-7. [Taustakuva Windowsiin](#taustakuva-windowsiin)
-	1. [Taustakuvan vaihto kaikille käyttäjille](#taustakuvan-vaihto-kaikille-käyttäjille)
-8. [Käyttäjän lisäys, Linux](#käyttäjän-lisäys-linux)
-9. [Käyttäjän lisäys, Windows](#käyttäjän-lisäys-windows)
-10. [Päivitys versioon 2.4](#päivitys-versioon-24)
-	1. [Playbookin testiajo päivityksen jälkeen](#playbookin-testiajo-päivityksen-jälkeen)
+1. [Esivalmistelut](#esivalmistelut)
+2. [Minioni etsii isäntää IP asetukset](#minioni-etsii-isäntää-IP-asetukset)
+3. [Löytyykö isäntä](#löytyykö-isäntä)
+4. [Ensimmäisen ohjelman asennus](#ensimmäisen-ohjelman-asennus)
+5. [Salt state of the minions speech](#salt-state-of-the-minions-speech)
+6. [LAMP-asennus ja työpöydän taustakuvan vaihto](#LAMP-asennus-ja-työpöydän-taustakuvan-vaihto)
+7. [MySQL toimii!!](#MySQL-toimii!!)
+8. [Monen koneen hallintaa](#monen-koneen-hallintaa)
+9. [Käyttäjätilin luonti onnistuu](#käyttäjätilin-luonti-onnistuu)
+10.[Palomuuri asetukset](#palomuuri-asetukset)
 11. [Windowsin taustakuvan vaihto, jatkoa](#windowsin-taustakuvan-vaihto-jatkoa)
 12. [Pull-arkkitehtuuri](#pull-arkkitehtuuri)
-	1. [Ansible-pull repository](#ansible-pull-repository)
-	2. [Pull testaus](#pull-testaus)
 13. [Provisiointi](#provisiointi)
-	1. [DHCP](#dhcp)
-	2. [TFTP](#tftp)
-	3. [Preseed](#preseed)
-	4. [Ansiblen provisiointi](#ansiblen-provisiointi)
 14. [Käytettyjä lähteitä](#käytettyjä-lähteitä)
 
 
@@ -98,7 +90,7 @@ Komennossa  sudo salt salt-minion test.ping, salt-minion viittaa minion koneen n
 
 Minion vastasi pingiin.
 
-## Ensimmäisen ohjelman asennus.
+## Ensimmäisen ohjelman asennus
 
 Salt voi antaa ohjelman asennuskäskyjä, kuten:
 `sudo salt salt-minion pkg.install apache2`
@@ -136,7 +128,7 @@ Moduulin testaamiseksi ajetaan kaksi riviä komentoja:
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/salttest.png "top.sls moduuli reply")
 Testi palautti masterilla tämän.
 
-## LAMP -asennus ja työpöydän taustakuvan vaihto
+## LAMP-asennus ja työpöydän taustakuvan vaihto
 
 Kun ensimmäinen salt state moduuli oli saatu toimintaan ymmärsin että mitään salt pillaria ei ole oikeasti edes toiminnassa, vaan state moduulit tulisi
 luoda hakemistoon `/srv/salt/` ja niinpä loin hakemiston salt `sudo mkdir /srv/salt/`.
