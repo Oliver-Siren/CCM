@@ -1,5 +1,35 @@
 # SaltStack
 
+## Sisällysluettelo
+1. [Esivalmistelu](#Esivalmistelu)
+2. [Minioni etsii isäntää (IP asetukset)](#Minioni etsii isäntää (IP asetukset))
+3. [LAMP, roolit ja hakemistorakenne](#lamp-roolit-ja-hakemistorakenne)
+	1. [MariaDB](#mariadb)
+4. [Windowsin hallinta](#windowsin-hallinta)
+	1. [Masterin valmistelu](#masterin-valmistelu)
+	2. [Windowsin valmistelu](#windowsin-valmistelu)
+	3. [Windows ping moduulin testaus](#windows-ping-moduulin-testaus)
+	4. [Pakettien asennus](#pakettien-asennus)
+5. [Taustakuvan vaihto Linux-desktop roolille](#taustakuvan-vaihto-linux-desktop-roolille)
+6. [Ublock-Origin Firefoxiin](#ublock-origin-firefoxiin)
+7. [Taustakuva Windowsiin](#taustakuva-windowsiin)
+	1. [Taustakuvan vaihto kaikille käyttäjille](#taustakuvan-vaihto-kaikille-käyttäjille)
+8. [Käyttäjän lisäys, Linux](#käyttäjän-lisäys-linux)
+9. [Käyttäjän lisäys, Windows](#käyttäjän-lisäys-windows)
+10. [Päivitys versioon 2.4](#päivitys-versioon-24)
+	1. [Playbookin testiajo päivityksen jälkeen](#playbookin-testiajo-päivityksen-jälkeen)
+11. [Windowsin taustakuvan vaihto, jatkoa](#windowsin-taustakuvan-vaihto-jatkoa)
+12. [Pull-arkkitehtuuri](#pull-arkkitehtuuri)
+	1. [Ansible-pull repository](#ansible-pull-repository)
+	2. [Pull testaus](#pull-testaus)
+13. [Provisiointi](#provisiointi)
+	1. [DHCP](#dhcp)
+	2. [TFTP](#tftp)
+	3. [Preseed](#preseed)
+	4. [Ansiblen provisiointi](#ansiblen-provisiointi)
+14. [Käytettyjä lähteitä](#käytettyjä-lähteitä)
+
+
 ## Esivalmistelut
 
 Salt testaus alkoi osaltani asentamalla (Lataa tämä jos tarvitset VirtualBoxin) Oracle VM VirtualBox Version 5.1.26 r117224 (Qt5.6.2),
@@ -14,6 +44,7 @@ Kun Xubuntu oli asentunut ajoin terminaalissa komennot:
 
 sekä ensimmäisen komennon saltin asentamiseksi.
 `sudo apt-get install -y salt-master`
+
 
 Lähdin seuraamaan ohjeita sivustolta https://docs.saltstack.com/en/latest/topics/installation/index.html
 tällä sivustolla kehoitettiin ensin asentamaan yhdelle koneelle tai virtuaalikoneelle salt-master jonka teinkin.
@@ -280,3 +311,4 @@ Ehkäpä olisi pitäny valita jokin muu ohjelma asennettavaksi ja voihan olla et
 
 ## Windows käyttäjän lisääminen
 
+Windows käyttäjän lisääminen oli yllättävän helppo ja lähes samanlainen kuin Linux käyttäjän lisääminen.

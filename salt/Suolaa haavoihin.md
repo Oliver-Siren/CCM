@@ -60,3 +60,31 @@ Eilinen onnistunut Windows työskentely rohkaisi ja herätti hieman innostusta k
 Kolme tuntia työskentelyä ja tuloksena pyöreä nolla. suunnitelmasta poiketen yritinkin luoda oman windows pkg asennus state tiedoston ja asentaa Blizzard App nimisen ohjelman. Useiden yritysten jälkeen huomasin että asennus exe tiedosto kyllä latautui windows minionille ja ohjelma lähti käyntiin mutta mitään ei tapahtunut, asennusohjelma ilmeisesti jäi odottamaan joitakin vastauksia. Yritin vastata installer_flag:ien avulla mutta turhaan. Salt dokumentaatiosta ei löydy listaa mahdollisista flageistä ja vaikka microsoftin sivulta https://msdn.microsoft.com/en-us/library/windows/desktop/aa367988(v=vs.85).aspx löytyikin, niin en silti saanut asennusta läpi. Myöhemmin törmäsin Blizzardin palaute osasta https://us.battle.net/forums/en/bnet/topic/20754376631  kommentin joka viittasi että silent installation ei ehkä ole edes mahdollinen joten hylkään tämän kokeilun. 
 
 Windows käyttäjän lisääminen oli helpoin homma tänään, tosin salasanaa ei saanut menemään muuten kuin plain texti muodossa. Vaikeimmaksi on nyt osoittautunut Windows default taustakuvan vaihto Saltilla. Tätä tarkoitusta varten loin powershell scriptin joka ottaa oikeudet itselleni ja antaa täydet oikeudet käyttäjälle System jota Salt ilmeisesti käyttää. Mutta tällä hetkellä powershell komennot pitää ajaa admin oikeuksilla ja jostakin syystä eivät toimi kun manuaalisesti komento kerrallaan ajettuna. Nyt ajattelin tuhota Windows Minionin ja aloittaa puhtaalta pöydältä.
+
+### 12.10.2017
+#### Kaivosmiehen päiväkirja
+
+Yritys ottaa selvää Saltin omistajan tiedostojen omistajan sekä oikeuksien enforce:aus järjestelmästä ei lyhyen tutkiskelun jälkeen tuottanut tulosta.
+
+### 14.10.2017
+#### Kaivosmiehen päiväkirja
+
+Eilen oli perjantai 13. päivä joten hyvä syy olla tekemättä mitään :D Tänään työt jatkuvat täysillä. Uuden Windows 10 minionin tekeminen on nyt yllättävän kauan aikaa ja koska on lauantai on pian mentävä saunaan.
+
+### 15.10.2017
+#### Kaivosmiehen päiväkirja
+
+Syystä tai toisesta Salt-Master service ei tänään käynnistynyt yrityksistä huolimatta. Lopulta päädyin poistamaan koko alkuperäisen master koneen ja aloittamaan alusta. Uudessa masterissa IP oli eri kuin edellisellä joten minioneille oli annettava uusi masterin IP.
+
+### 20.10.2017
+#### Kaivosmiehen päiväkirja
+
+Yritin ajaa powershell scriptin saltilla ja tämä ei onnistunut, ensin ongelmana oli että salt jäi jumiin, syy tälle selvisi myöhemmin, Olin avannut yhden poweshell scriptin aikaisemmin notepadilla ja nyt Windows avasi saltin käskemän scriptin myös Notepadillä eikä Powershellillä. Seuraava ongelma tuli kun ilmeisesti salt ei ajanut powershelliä admin oikeuksilla.. Tähänkin löytyi ratkaisu ja powershell scriptini pyörähti admininä.
+Seuraava virhe koski itse scriptiä. Olin antanut käyttäjälle System täydetoikeudet tiedostoon img0.jpg Windowsin default taustakuva kansiossa. Tämä ei kuitenkaan riittänyt oikeuksiksi kun halusin korvata olemassa olevan kuvan toisella, lopulta päädyin kokeilemaan että antaisin Systemin sijaan käyttäjälle Administrators ne oikeudet ja tämän uskoin toimivan, (Alunperin annoin oikeudet Systemille koska olin ymmärtänyt että Salt käyttää juuri tätä käyttäjää tehdessää asioita Windowsissa). No uusi pyöräytys taltilla ja yhä puski virhesanomaa, mutta tällä kertaa virhesanoma oli eri ja se viittasi microsoftin sivustolle jossa kerrottiin että Windowsissa on estetty etä-scriptejen ajaminen. Kerroin tästä Joonalle joka oli törmännyt samaan ongelmaan aikaisemmin ja sain häneltä neuvon jonka avulla sain muutettua tätä asetusta ja lopulta Windows state moduulit pyörähtivät läpi onnistuneesti tehden juuri sen mitä piti ja ilman yhtäkään virhesanomaa.
+
+Seuraavaksi voisin siirtyä provisiointia miettimään mutta se pitäisi saada toimimaan virtuaaliboxissa sillä käytössäni ei ole toista konetta.
+
+### 22.10.2017
+#### Kaivosmiehen päiväkirja
+
+Tällä viikolla ei ole tullut tehtyä paljoakaan. Syysloma viikko. Nyt hieman raportointia.
