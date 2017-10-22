@@ -6,14 +6,14 @@
 3. [Löytyykö isäntä](#löytyykö-isäntä)
 4. [Ensimmäisen ohjelman asennus](#ensimmäisen-ohjelman-asennus)
 5. [Salt state of the minions speech](#salt-state-of-the-minions-speech)
-6. [LAMP-asennus ja työpöydän taustakuvan vaihto](#LAMP-asennus-ja-työpöydän-taustakuvan-vaihto)
-7. [MySQL toimii!!](#mysql-toimii!!)
+6. [LAMP-asennus ja työpöydän taustakuvan vaihto](#lamp-asennus-ja-työpöydän-taustakuvan-vaihto)
+7. [MySQL toimii](#mysql-toimii)
 8. [Monen koneen hallintaa](#monen-koneen-hallintaa)
 9. [Käyttäjätilin luonti onnistuu](#käyttäjätilin-luonti-onnistuu)
-10.[Palomuuri asetukset](#palomuuri-asetukset)
-11. [Windowsin taustakuvan vaihto, jatkoa](#windowsin-taustakuvan-vaihto-jatkoa)
-12. [Pull-arkkitehtuuri](#pull-arkkitehtuuri)
-13. [Provisiointi](#provisiointi)
+10. [Palomuuri asetukset](#palomuuri-asetukset)
+11. [Lets open the Windows](#lets-open-the-windows)
+12. [Oman ohjelman asennus moduulin lisääminen windowsin repositoryyn](#oman-ohjelman-asennus-moduulin-lisääminen-windowsin-repositoryyn)
+13. [Windows käyttäjän lisäämine](#windows-käyttäjän-lisääminen)
 14. [Käytettyjä lähteitä](#käytettyjä-lähteitä)
 
 
@@ -155,7 +155,7 @@ Tämän saavuttamiseksi tein tiedoston wallE.sls joka näytti tältä:
 
 WallE vaihtaa työpöydän taustakuva mutta muutokset tulevat voimaan vasta uudelleen kirjautumisen jälkeen.
 
-## MySQL toimii!!
+## MySQL toimii
 
 Joskus auttaa kun ottaa hieman etäisyyttä ongelmaan, ja niin myös tässä tapauksessa. Tero Karvisen sivuilta http://terokarvinen.com/2015/preseed-mysql-server-password-with-salt-stack löytyneen preseedaus menetelmän avulla, 
 root salasanan syöttäminen asennusvaiheessa saltilla onnistui ja sisäänkirjautuminen myös. Nyt siis LAMP toimii.
