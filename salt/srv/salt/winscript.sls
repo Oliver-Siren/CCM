@@ -1,4 +1,10 @@
-  Run myscript:
+ C:\Replacewallpaper.ps1:
+   file:
+     - managed
+     - source: salt://ReplaceWallpaper.ps1
+ 
+ Run myscript:
    cmd:
      - run
-     - name: C:\Windows\Web\Wallpaper\Windows\ReplaceWallpaper.ps1
+     - name: C:\ReplaceWallpaper.ps1
+     - shell: powershell

@@ -1,5 +1,22 @@
 # SaltStack
 
+## Sisällysluettelo
+1. [Esivalmistelut](#esivalmistelut)
+2. [Minioni etsii isäntää IP asetukset](#minioni-etsii-isäntää-ip-asetukset)
+3. [Löytyykö isäntä](#löytyykö-isäntä)
+4. [Ensimmäisen ohjelman asennus](#ensimmäisen-ohjelman-asennus)
+5. [Salt state of the minions speech](#salt-state-of-the-minions-speech)
+6. [LAMP-asennus ja työpöydän taustakuvan vaihto](#lamp-asennus-ja-työpöydän-taustakuvan-vaihto)
+7. [MySQL toimii](#mysql-toimii)
+8. [Monen koneen hallintaa](#monen-koneen-hallintaa)
+9. [Käyttäjätilin luonti onnistuu](#käyttäjätilin-luonti-onnistuu)
+10. [Palomuuri asetukset](#palomuuri-asetukset)
+11. [Lets open the Windows](#lets-open-the-windows)
+12. [Oman ohjelman asennus moduulin lisääminen windowsin repositoryyn](#oman-ohjelman-asennus-moduulin-lisääminen-windowsin-repositoryyn)
+13. [Windows käyttäjän lisäämine](#windows-käyttäjän-lisääminen)
+14. [Käytettyjä lähteitä](#käytettyjä-lähteitä)
+
+
 ## Esivalmistelut
 
 Salt testaus alkoi osaltani asentamalla (Lataa tämä jos tarvitset VirtualBoxin) Oracle VM VirtualBox Version 5.1.26 r117224 (Qt5.6.2),
@@ -15,6 +32,7 @@ Kun Xubuntu oli asentunut ajoin terminaalissa komennot:
 sekä ensimmäisen komennon saltin asentamiseksi.
 `sudo apt-get install -y salt-master`
 
+
 Lähdin seuraamaan ohjeita sivustolta https://docs.saltstack.com/en/latest/topics/installation/index.html
 tällä sivustolla kehoitettiin ensin asentamaan yhdelle koneelle tai virtuaalikoneelle salt-master jonka teinkin.
 Ohjeena seurasin Ubuntulle tarkoitettua ohjetta.
@@ -24,7 +42,7 @@ Sama Xubuntu asennus ja päivitykset kuin edellisessä.
 Salt minion asentuu komennolla:
 `sudo apt-get install -y salt-minion`
 
-## Minioni etsii isäntää (IP asetukset)
+## Minioni etsii isäntää IP asetukset
 
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltconf.png "Salt Conf guide")
 
@@ -72,7 +90,7 @@ Komennossa  sudo salt salt-minion test.ping, salt-minion viittaa minion koneen n
 
 Minion vastasi pingiin.
 
-## Ensimmäisen ohjelman asennus.
+## Ensimmäisen ohjelman asennus
 
 Salt voi antaa ohjelman asennuskäskyjä, kuten:
 `sudo salt salt-minion pkg.install apache2`
@@ -110,7 +128,7 @@ Moduulin testaamiseksi ajetaan kaksi riviä komentoja:
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/salttest.png "top.sls moduuli reply")
 Testi palautti masterilla tämän.
 
-## LAMP -asennus ja työpöydän taustakuvan vaihto
+## LAMP-asennus ja työpöydän taustakuvan vaihto
 
 Kun ensimmäinen salt state moduuli oli saatu toimintaan ymmärsin että mitään salt pillaria ei ole oikeasti edes toiminnassa, vaan state moduulit tulisi
 luoda hakemistoon `/srv/salt/` ja niinpä loin hakemiston salt `sudo mkdir /srv/salt/`.
@@ -137,7 +155,7 @@ Tämän saavuttamiseksi tein tiedoston wallE.sls joka näytti tältä:
 
 WallE vaihtaa työpöydän taustakuva mutta muutokset tulevat voimaan vasta uudelleen kirjautumisen jälkeen.
 
-## MySQL toimii!!
+## MySQL toimii
 
 Joskus auttaa kun ottaa hieman etäisyyttä ongelmaan, ja niin myös tässä tapauksessa. Tero Karvisen sivuilta http://terokarvinen.com/2015/preseed-mysql-server-password-with-salt-stack löytyneen preseedaus menetelmän avulla, 
 root salasanan syöttäminen asennusvaiheessa saltilla onnistui ja sisäänkirjautuminen myös. Nyt siis LAMP toimii.
@@ -280,3 +298,4 @@ Ehkäpä olisi pitäny valita jokin muu ohjelma asennettavaksi ja voihan olla et
 
 ## Windows käyttäjän lisääminen
 
+Windows käyttäjän lisääminen oli yllättävän helppo ja lähes samanlainen kuin Linux käyttäjän lisääminen.
