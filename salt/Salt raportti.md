@@ -6,14 +6,14 @@
 3. [Minioni etsii isäntää IP asetukset](#minioni-etsii-isäntää-ip-asetukset)
 4. [Löytyykö isäntä](#löytyykö-isäntä)
 5. [Ensimmäisen ohjelman asennus](#ensimmäisen-ohjelman-asennus)
-6. [Salt state of the minions speech](#salt-state-of-the-minions-speech)
+6. [Salt state](#salt-state)
 7. [LAMP-asennus ja työpöydän taustakuvan vaihto](#lamp-asennus-ja-työpöydän-taustakuvan-vaihto)
 8. [MySQL toimii](#mysql-toimii)
 9. [Monen koneen hallintaa](#monen-koneen-hallintaa)
 10. [Käyttäjätilin luonti onnistuu](#käyttäjätilin-luonti-onnistuu)
 11. [Palomuuri asetukset](#palomuuri-asetukset)
-12. [Lets open the Windows](#lets-open-the-windows)
-13. [Oman ohjelman asennus moduulin lisääminen windowsin repositoryyn](#oman-ohjelman-asennus-moduulin-lisääminen-windowsin-repositoryyn)
+12. [Windows](#windows)
+13. [Oman ohjelman asennus moduulin lisääminen Windowsin repositoryyn](#oman-ohjelman-asennus-moduulin-lisääminen-windowsin-repositoryyn)
 14. [Windows käyttäjän lisäämine](#windows-käyttäjän-lisääminen)
 15. [Windows wallpaper vaihto](#windows-wallpaper-vaihto)
 16. [Käytettyjä lähteitä](#käytettyjä-lähteitä)
@@ -27,6 +27,7 @@ vedin vääriä johtopäätöksiä asioista joita sain sitten korjailla jälkeen
 niin toivottavasti tämä dokumentti antaa edes jonkinlaisen kuvan siitä mitä kaikkea olen tutkinut ja missä olen pysähtynyt lyömään päätäni seinään.
 
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/virtuaalikoneet.png "Virtuaalikoneet")
+Projektin testiympäristö on yhdellä Windows PC:llä toimivat neljä virtuaalikonetta, joista 2 Linux Xubuntu ja 1 Windows 10 pro kone.
 
 ## Esivalmistelut
 
@@ -111,7 +112,7 @@ Asennus onnistui ja apache toimii koneella salt-minion, tämä tuli todettua hak
 
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltapache.png "Apache is alive")
 
-## Salt state of the minions speech
+## Salt state
 
 Saltissa voidaan luoda puppet moduulien kaltaisia state tiedostoja jotka kuvaavat minionille halutun tilan jonka mukaiseksi minionin tulee muuttua.
 Aluksi luodaan top.sls joka kertoo saltille missä minion koneessa ajetaan mikäkin salt state moduuli.
@@ -245,9 +246,9 @@ Palomuurin asetukset päätin tehdä muuttamalla ensin yhdellä linux koneella p
 https://github.com/patmcnally/salt-states-webapps/blob/master/firewall/ufw.sls palomuurin käynnistämiseen katselin tätä sivua.
 
 
-## Lets open the Windows
+## Windows
 
-Windows asentui https://docs.saltstack.com/en/latest/topics/installation/windows.html sivulta ottamastani exe asennustiedostosta onnistuneesti.
+Windows asentui https://docs.saltstack.com/en/latest/topics/installation/windows.html sivulta ottamastani .exe asennustiedostosta onnistuneesti.
 Asennus kysyy tarvittavat tiedot ja luo tiedostopolun joten masterilla täytyy vain käydä hyväksymässä avain. Lisäksi Windows palomuuriin piti tehdä muutos sallien tcp liikenteen porttiin 4505 ja 4506. 
 
 Windowsilla ei ole omaa pakettivarastoa joten sille täytyy luoda sellainen, onneksi SaltStackillä on jo olemassa sellainen ja sen lataamiseen löytyy pätevät ohjeet sivulta https://docs.saltstack.com/en/latest/topics/windows/windows-package-manager.html
@@ -271,7 +272,7 @@ esim.
 ```
 
 
-## Oman ohjelman asennus moduulin lisääminen windowsin repositoryyn
+## Oman ohjelman asennus moduulin lisääminen Windowsin repositoryyn
 
 Aluksi otin mallia muista asennus moduuleista ja tein oman moduulin joka asentaisi Blizzard App:in.
 Tätä varten tein kaksi tiedostoa nimellä battlenet.sls. Ensimmäiseen laitoin:
