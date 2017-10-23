@@ -1,21 +1,31 @@
 # SaltStack
 
 ## Sisällysluettelo
-1. [Esivalmistelut](#esivalmistelut)
-2. [Minioni etsii isäntää IP asetukset](#minioni-etsii-isäntää-ip-asetukset)
-3. [Löytyykö isäntä](#löytyykö-isäntä)
-4. [Ensimmäisen ohjelman asennus](#ensimmäisen-ohjelman-asennus)
-5. [Salt state of the minions speech](#salt-state-of-the-minions-speech)
-6. [LAMP-asennus ja työpöydän taustakuvan vaihto](#lamp-asennus-ja-työpöydän-taustakuvan-vaihto)
-7. [MySQL toimii](#mysql-toimii)
-8. [Monen koneen hallintaa](#monen-koneen-hallintaa)
-9. [Käyttäjätilin luonti onnistuu](#käyttäjätilin-luonti-onnistuu)
-10. [Palomuuri asetukset](#palomuuri-asetukset)
-11. [Lets open the Windows](#lets-open-the-windows)
-12. [Oman ohjelman asennus moduulin lisääminen windowsin repositoryyn](#oman-ohjelman-asennus-moduulin-lisääminen-windowsin-repositoryyn)
-13. [Windows käyttäjän lisäämine](#windows-käyttäjän-lisääminen)
-14. [Käytettyjä lähteitä](#käytettyjä-lähteitä)
+1. [Alkusanat](#alkusanat) 
+2. [Esivalmistelut](#esivalmistelut)
+3. [Minioni etsii isäntää IP asetukset](#minioni-etsii-isäntää-ip-asetukset)
+4. [Löytyykö isäntä](#löytyykö-isäntä)
+5. [Ensimmäisen ohjelman asennus](#ensimmäisen-ohjelman-asennus)
+6. [Salt state of the minions speech](#salt-state-of-the-minions-speech)
+7. [LAMP-asennus ja työpöydän taustakuvan vaihto](#lamp-asennus-ja-työpöydän-taustakuvan-vaihto)
+8. [MySQL toimii](#mysql-toimii)
+9. [Monen koneen hallintaa](#monen-koneen-hallintaa)
+10. [Käyttäjätilin luonti onnistuu](#käyttäjätilin-luonti-onnistuu)
+11. [Palomuuri asetukset](#palomuuri-asetukset)
+12. [Lets open the Windows](#lets-open-the-windows)
+13. [Oman ohjelman asennus moduulin lisääminen windowsin repositoryyn](#oman-ohjelman-asennus-moduulin-lisääminen-windowsin-repositoryyn)
+14. [Windows käyttäjän lisäämine](#windows-käyttäjän-lisääminen)
+15. [Windows wallpaper vaihto](#windows-wallpaper-vaihto)
+16. [Käytettyjä lähteitä](#käytettyjä-lähteitä)
 
+
+##Alkusanat
+SaltStack projekti on panokseni Arctic CCM projektiin jossa tarkoituksena on tutkia eri keskitetynhallinnan ohjelmia.
+Alkuun lähdin kokeilemaan Salttia aivan sokkona ja alla oleva dokumentti heijastaa mielestäni juuri tätä. Usein en tiennyt mitä tein ja ajoittan
+vedin vääriä johtopäätöksiä asioista joita sain sitten korjailla jälkeenpäin. Testaus on ollut kuitenkin hauskaa ja vaikka itsestä tuntuu että olen vasta tehnyt pintaraapaisun Saltin moniin ominaisuuksiin,
+niin toivottavasti tämä dokumentti antaa edes jonkinlaisen kuvan siitä mitä kaikkea olen tutkinut ja missä olen pysähtynyt lyömään päätäni seinään.
+
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/virtuaalikoneet.png "Virtuaalikoneet")
 
 ## Esivalmistelut
 
@@ -250,6 +260,15 @@ Kun versio ongelmat on korjattu siirrytään Windows repositoryn rakentamiseen.
 `sudo salt -G 'os:windows' pkg.list_pkg`
 
 Windows state moduuli ohjelmien asentamiseksi valmiista reposta onkin aivan triviaali asia sillä se tapahtuu kuten linux koneille tarkoitetissa moduuleissa.
+esim.
+```
+ install_windows:
+   pkg.installed:
+     - pkgs:
+       - firefox
+       - libreoffice
+```
+
 
 ## Oman ohjelman asennus moduulin lisääminen windowsin repositoryyn
 
@@ -299,3 +318,42 @@ Ehkäpä olisi pitäny valita jokin muu ohjelma asennettavaksi ja voihan olla et
 ## Windows käyttäjän lisääminen
 
 Windows käyttäjän lisääminen oli yllättävän helppo ja lähes samanlainen kuin Linux käyttäjän lisääminen.
+```
+ CreateUser:
+   user.present:
+    - name: opiskelija
+    - fullname: opiskelija
+    - password: 'salainen'
+    - groups:
+      - Administrators
+```
+Windowsissa salasana meni plaintext muodossa eikä se edes hyväksynyt cryptattua salasanaa.
+
+## Windows wallpaper vaihto
+
+Ensinnäkin yritin vaihtaa Windowsin default taustakuvan kansiosta C:\Windows\Web\Wallpaper\Windows\img0.jpg mutta eihän se onnistunut koska Windowsin mukaan minulla ei ollut oikeuksia kyseiseen tiedostoon.
+Lyhyt kuvan tarkastelu kertoi käyttäjällä TrustedIstaller olevan tämän kuvan oikeudet. No tästä alkoi selvittely että miten saisin oikeudet itselle. http://ccmexec.com/2015/08/replacing-default-wallpaper-in-windows-10-using-scriptmdtsccm/
+sivulla kerrottiin asiasta ja tein ohjeen mukaisen scriptin siirtämään ensin omistuksen ja sitten antamaan täydet oikeudet käyttäjälle System jonka jälkeen kuva korvattaiin.
+
+Scripti ei itselläni ainakaan suoraan toiminut ja päädyin kokeilemaan scriptiin kirjoitettuja käskyjä itse admin oikeuksilla varustetulla Powershellissä rivi riviltä. Tämä toimi ja mutta itse scriptin pyöräyttäminen ei.
+Päädyin tulokseen että scripti ei oletuksena pyörähtänyt admin oikeuksilla joten lisäsin scriptiin rivin. `if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }`
+
+Salt moduulini ei siltikään onnistunut ajamaan scriptiä ja kokeiltuani montaa eri formaattia ja tapaa kirjoittaa moduuli joka ajaisi Powershell scriptini Windows minionilla, tuloksena oli silti pyöreä nolla.
+Lopulta korjattuani useat kirjoitusvirheet ja saatuani hieman apua päädyin ensin siirtämään scriptin Windows minionille ja sitten ajamaan sen sielä.
+```
+ C:\Replacewallpaper.ps1:
+   file:
+     - managed
+     - source: salt://ReplaceWallpaper.ps1
+ 
+ Run myscript:
+   cmd:
+     - run
+     - name: C:\ReplaceWallpaper.ps1
+     - shell: powershell
+```
+
+No nyt yllättäen virheilmoitus salt moduulia ajaessa muuttui. Tuli ilmoitus joka kertoi scriptien ajamisen etänä olevan estetty tietoturvasyistä Windows 10 koneissa. Kerroin tästä Artic projektitiimin jäsenille ja sain nopean vastauksen,
+joka korjasi ongelman.
+
+`Set-ExecutionPolicy RemoteSigned`
