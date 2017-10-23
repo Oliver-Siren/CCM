@@ -19,7 +19,8 @@
 16. [Käytettyjä lähteitä](#käytettyjä-lähteitä)
 
 
-##Alkusanat
+## Alkusanat
+
 SaltStack projekti on panokseni Arctic CCM projektiin jossa tarkoituksena on tutkia eri keskitetynhallinnan ohjelmia.
 Alkuun lähdin kokeilemaan Salttia aivan sokkona ja alla oleva dokumentti heijastaa mielestäni juuri tätä. Usein en tiennyt mitä tein ja ajoittan
 vedin vääriä johtopäätöksiä asioista joita sain sitten korjailla jälkeenpäin. Testaus on ollut kuitenkin hauskaa ja vaikka itsestä tuntuu että olen vasta tehnyt pintaraapaisun Saltin moniin ominaisuuksiin,
