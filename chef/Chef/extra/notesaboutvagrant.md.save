@@ -1,7 +1,0 @@
-I have separate vagrant folders for the same instances of vagrant here i find working this way easier than trying to make vagrants multimachine run work. Simply placing the files in diferent folders seems to work fine enough.
-
-Vagrant sems to be a poor platform to run chef server. I dont know if my setup is to blame but the srver instance seems to get corrupted from time to time and stop working for some reason. knife ssl check tell me thaqt the certificate is in order but if i actualytry to do anything such as bootsrrapping a node i get the following error
-
-´´´
-
-´´´
