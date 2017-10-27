@@ -88,3 +88,5 @@ Seuraavaksi voisin siirtyä provisiointia miettimään mutta se pitäisi saada t
 #### Kaivosmiehen päiväkirja
 
 Tällä viikolla ei ole tullut tehtyä paljoakaan. Syysloma viikko. Nyt hieman raportointia.
+Provisiointi on edelleen hieman mietinnäsää että miten..
+Ajattelin tehdä lisää tutkimusta saltin ominaisuuksiin ja avata hieman syvemmin oppimaani salt pillarista.
