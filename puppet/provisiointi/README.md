@@ -27,7 +27,7 @@ sudo apt-get install -y squid-deb-proxy
 
 Tarkistin aluksi kohdekoneen mac osoitteen. Sitten yritin käynnistää kohdekoneen wakeonlan ohjelman avulla. Annoin komennon:
 
-`wakeonlan "mac tähän"`
+`wakeonlan "44:8a:5b:c1:44:9b"`
 
 Ja kone käynnistyi. 
 
