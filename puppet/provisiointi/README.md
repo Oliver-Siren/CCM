@@ -1,7 +1,7 @@
 # Linux provisiointi
 Aloitin Palvelinympäristön valmistelun Xubuntu 16.04.3 LTS Puppetmaster viertuaalikoneessani.
 
-Olin Kokeillut verkkoaboottia jo Tero Karvisen kurssilla, mutta käytin ohjeena Joona Leppälahden tekemiä kattavia artikkeleita aiheesta: 
+Olin Kokeillut verkkoboottia jo Tero Karvisen kurssilla, mutta käytin ohjeena Joona Leppälahden tekemiä kattavia artikkeleita aiheesta: 
 https://joonaleppalahti.wordpress.com/2016/12/11/pupxegrant-puppet-pxe-ja-vagrant-konfiguraatio/ https://joonaleppalahti.wordpress.com/2016/11/18/palvelinten-hallinta-harjoitus-8/
 https://joonaleppalahti.wordpress.com/2016/11/18/palvelinten-hallinta-harjoitus-9/
 
