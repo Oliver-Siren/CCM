@@ -1,7 +1,7 @@
 # Linux provisiointi
 Aloitin Palvelinympäristön valmistelun Xubuntu 16.04.3 LTS Puppetmaster viertuaalikoneessani.
 
-Olin Kokeillut verkkoaboottia jo Tero Karvisen kurssilla, mutta käytin ohjeena Joona Leppälahden tekemiä kattavia artikkeleita aiheesta: 
+Olin Kokeillut verkkoboottia jo Tero Karvisen kurssilla, mutta käytin ohjeena Joona Leppälahden tekemiä kattavia artikkeleita aiheesta: 
 https://joonaleppalahti.wordpress.com/2016/12/11/pupxegrant-puppet-pxe-ja-vagrant-konfiguraatio/ https://joonaleppalahti.wordpress.com/2016/11/18/palvelinten-hallinta-harjoitus-8/
 https://joonaleppalahti.wordpress.com/2016/11/18/palvelinten-hallinta-harjoitus-9/
 
@@ -135,3 +135,99 @@ Sain Virheilmoituksen:
 Tajusin että masterissa oli palomuuri päällä, ja kun suljin sen, niin TFTP yhteys toimi.
 
 Asennus onnistui, ja tarkistin että ohjelmat olivat myös asentuneet. Huomasin että sisällyttämäni xubuntu-desktop pidensi asennusaikaa huomattavasti, joten jatkossa testaisin ilman sitä.
+
+Seuraavaksi rupesin testaamaan firsboot skriptiä. Päätin toimia hieman eri tavalla kuin Joona, ja ajaa firstbootin suoraan preseed tiedoston lopusta.
+
+Tein muutoksia preseedin loppuun:
+```
+d-i mirror/http/proxy string http://192.168.1.48:8000/
+
+d-i passwd/user-fullname string opiskelija
+d-i passwd/username string opiskelija
+d-i passwd/user-password password salainen
+d-i passwd/user-password-again password salainen
+
+d-i partman-auto/method string regular
+
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-lvm/confirm boolean true
+d-i partman-lvm/confirm_nooverwrite boolean true
+
+d-i partman-auto/choose_recipe select atomic
+
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+
+d-i pkgsel/include string puppet ssh tftp-hpa avahi-daemon
+
+d-i pkgsel/update-policy select none
+
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/with_other_os boolean true
+
+d-i finish-install/reboot_in_progress note
+
+d-i preseed/late_command string \
+in-target tftp 192.168.1.48 -c get /var/lib/tftpboot/firstboot ; \
+in-target sudo mv firstboot /etc/init.d/ ; \
+in-target sudo chmod +x /etc/init.d/firstboot ; \
+in-target update-rc.d firstboot defaults
+```
+
+ Firstboot:
+```
+#!/bin/bash
+
+sleep 10
+
+sudo service puppet stop
+
+sudo hostnamectl set-hostname provorja
+
+sudo cat < /etc/hosts
+
+127.0.0.1       localhost
+127.0.1.1       ubuntu provorja
+192.168.1.48    master2.zyxel.setup
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+
+EOF
+
+sudo service avahi-daemon restart
+
+sudo cat < /etc/puppet/puppet.conf
+
+[main]
+logdir=/var/log/puppet
+vardir=/var/lib/puppet
+ssldir=/var/lib/puppet/ssl
+rundir=/run/puppet
+factpath=$vardir/lib/facter
+prerun_command=/etc/puppet/etckeeper-commit-pre
+postrun_command=/etc/puppet/etckeeper-commit-post
+
+[master]
+ssl_client_header = SSL_CLIENT_S_DN
+ssl_client_verify_header = SSL_CLIENT_VERIFY
+
+[agent]
+server = master2.zyxel.setup
+
+EOF
+
+sudo rm -r /var/lib/puppet/ssl
+sudo puppet agent --enable
+sudo service puppet restart
+
+update-rc.d firstboot remove
+```
+
+Päätin kokeilla aluksi tätä. Kun asennus valmistui kävin tutkimassa oliko firstboot scriptiä ajettu, mutta näin ei ollut. Jatkan ensiviikolla tämän tutkimista.
