@@ -19,5 +19,14 @@ knife ssh 'name:node1-ubuntu' 'sudo chef-client' --ssh-user USER --identity-file
 
 ´´´
 
-since the vagrant instance get the wrong ipaddress with attribute
+since the vagrant instance get the wrong ipaddress with attribute i tried to find if some of the attributes got the correct ipaddress. I trid reading the out pust of the attrivute with 
+´´´
+knife search node "name:node1" -F json -V -V |grep 
+´´´
+and giving grep diferent arguments since my console wouldnt disply the whole list of items. I did not find the appropriate attribute to use despite finding the ipaddress i wanted to target so i also added the ip to etc/hosts of both my desktop and server but it did not fix the problem. 
+Rereading the knife ssh documentation i realized tah the modifier -G for gateway takes a IP address so i dont needto run the ip address to teh command with ohai but can instead simply use gateway so
+´´´
+knife ssh 'name:node1' 'sudo chef-client' --ssh-user vagrant --ssh-password vagrant -G 192.168.1.64 -V
 
+´´´
+works to run the cookbook i wanted to run

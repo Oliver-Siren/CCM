@@ -116,8 +116,14 @@ if you already have a cookbook runing it is easy you simply enter
 ´´´
 knife cookbook upload COOKBOOKSNAME
 ´´´
-to upload it to your server and then run it in your chosen node with
+to upload it to your server and then add it to your chosen node with
 
 ´´´
+knife node run_list add NODENAME COOKBOOKNAME
+´´´
+Finally to run it you can use
+´´´
+knife ssh 'name:NODENAME' 'sudo chef-client' --ssh-user USERNAME --ssh-password PASSWORD -G GATEWAYIP
 
 ´´´
+here name looks for all nodes with the argument provided at NAME. * would apply the run to all nodes. -G or --gateway gives a way to access the node when knife wont figure out how to reach it otherwise the nodes ip works.
