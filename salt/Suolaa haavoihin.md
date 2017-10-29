@@ -90,3 +90,11 @@ Seuraavaksi voisin siirtyä provisiointia miettimään mutta se pitäisi saada t
 Tällä viikolla ei ole tullut tehtyä paljoakaan. Syysloma viikko. Nyt hieman raportointia.
 Provisiointi on edelleen hieman mietinnäsää että miten..
 Ajattelin tehdä lisää tutkimusta saltin ominaisuuksiin ja avata hieman syvemmin oppimaani salt pillarista.
+
+### 29.10.2017
+#### Kaivosmiehen päiväkirja
+
+Asennus scriptin tekoa olen ajatellut tänään helpottamaan ja nopeuttamaan Masterin ja minioneiden luontia.
+Ongelmaksi muodostunut IP - osoitteen lisääminen Masterin asetus tiedostoon. Kun masterin IP on muuttuva.
+
+Törmäsin ongelmaan masterin keyprintin kanssa ja päädyin asentaamaan kaikki minionit uudelleen jotta voin samalla kokeilla asennus scriptiä. Kokeilimme myös hallita julkisen verkon ja kahden NATtauksen takana olevaa minionia. Masteri piti vain olla verkkoon näkyvillä julkisella IPllä tai kuten itse tein PortForwarding päällä mahdollistamaan reitityksen Masterille. Lisäksi piti omassa koti-reitittimessä/modeemissa sallia sen ping:aaminen etänä julkisesta verkosta.
