@@ -187,7 +187,7 @@ service puppet stop
 
 hostnamectl set-hostname provorja
 
-cat < /etc/hosts
+cat <<EOF > /etc/hosts
 
 127.0.0.1       localhost
 127.0.1.1       ubuntu provorja
@@ -204,7 +204,7 @@ EOF
 
 service avahi-daemon restart
 
-cat < /etc/puppet/puppet.conf
+cat <<EOF > /etc/puppet/puppet.conf
 
 [main]
 logdir=/var/log/puppet
