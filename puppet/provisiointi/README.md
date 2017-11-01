@@ -52,14 +52,17 @@ next-server 192.168.1.48;
 filename "pxelinux.0";
 
 subnet 192.168.1.0 netmask 255.255.255.0 {
-	host provorja {
-		hardware ethernet 44:8a:5b:c1:44:9b;
-		fixed-address 192.168.1.44;
-		option subnet-mask 255.255.255.0;
-		option routers 192.168.1.1;
-		option domain-name-servers 8.8.8.8, 8.8.4.4;
-	}
+        host provorja {
+                hardware ethernet 44:8a:5b:c1:44:9b;
+                fixed-address 192.168.1.44;
+                option subnet-mask 255.255.255.0;
+                option routers 192.168.1.1;
+                option domain-name-servers 8.8.8.8, 8.8.4.4;
+                option host-name "provorja";
+        }
 }
+
+
 
 ```
 
