@@ -123,7 +123,7 @@ d-i finish-install/reboot_in_progress note
 
 d-i preseed/late_command string \
 in-target tftp 192.168.1.48 -c get postinstall.sh ; \
-in-target sudo /bin/bash postinstall.sh
+in-target /bin/bash postinstall.sh
 ```
 
 Yritin käynnistää koneen mutta TFTP yhteys ei mennyt läpi masteriin.
@@ -182,11 +182,11 @@ in-target update-rc.d firstboot defaults
 
 sleep 10
 
-sudo service puppet stop
+service puppet stop
 
-sudo hostnamectl set-hostname provorja
+hostnamectl set-hostname provorja
 
-sudo cat < /etc/hosts
+cat < /etc/hosts
 
 127.0.0.1       localhost
 127.0.1.1       ubuntu provorja
@@ -201,9 +201,9 @@ ff02::2 ip6-allrouters
 
 EOF
 
-sudo service avahi-daemon restart
+service avahi-daemon restart
 
-sudo cat < /etc/puppet/puppet.conf
+cat < /etc/puppet/puppet.conf
 
 [main]
 logdir=/var/log/puppet
@@ -223,11 +223,10 @@ server = master2.zyxel.setup
 
 EOF
 
-sudo rm -r /var/lib/puppet/ssl
-sudo puppet agent --enable
-sudo service puppet restart
+rm -r /var/lib/puppet/ssl
+puppet agent --enable
+service puppet restart
 
-update-rc.d firstboot remove
 ```
 
 Päätin kokeilla aluksi tätä. Kun asennus valmistui kävin tutkimassa oliko firstboot scriptiä ajettu, mutta näin ei ollut. Jatkan ensiviikolla tämän tutkimista.
