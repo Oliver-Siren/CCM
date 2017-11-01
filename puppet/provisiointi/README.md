@@ -139,6 +139,7 @@ Asennus onnistui, ja tarkistin että ohjelmat olivat myös asentuneet. Huomasin 
 Seuraavaksi rupesin testaamaan firsboot skriptiä. Päätin toimia hieman eri tavalla kuin Joona, ja ajaa firstbootin suoraan preseed tiedoston lopusta.
 
 Tein muutoksia preseedin loppuun:
+(Hylkäsin tämän tavan, ja palasin edelliseen.)
 ```
 d-i mirror/http/proxy string http://192.168.1.48:8000/
 
@@ -176,7 +177,7 @@ in-target sudo chmod +x /etc/init.d/firstboot ; \
 in-target update-rc.d firstboot defaults
 ```
 
- Firstboot:
+ postinstall.sh
 ```
 #!/bin/bash
 
