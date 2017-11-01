@@ -13,6 +13,7 @@ Autosign.conffin sisältö:
 provorja.zyxel.setup
 *.zyxel.setup
 *.local
+provorja
 ```
 
 Tämän jälkeen asensin koneelle sellaisia ohjelmia, joita tulisin tarvitsemaan provisionnissa. (Puppetmaster oli jo koneella asennettuna).
