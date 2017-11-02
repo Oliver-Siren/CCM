@@ -98,3 +98,16 @@ Asennus scriptin tekoa olen ajatellut tänään helpottamaan ja nopeuttamaan Mas
 Ongelmaksi muodostunut IP - osoitteen lisääminen Masterin asetus tiedostoon. Kun masterin IP on muuttuva.
 
 Törmäsin ongelmaan masterin keyprintin kanssa ja päädyin asentaamaan kaikki minionit uudelleen jotta voin samalla kokeilla asennus scriptiä. Kokeilimme myös hallita julkisen verkon ja kahden NATtauksen takana olevaa minionia. Masteri piti vain olla verkkoon näkyvillä julkisella IPllä tai kuten itse tein PortForwarding päällä mahdollistamaan reitityksen Masterille. Lisäksi piti omassa koti-reitittimessä/modeemissa sallia sen ping:aaminen etänä julkisesta verkosta.
+
+### 01.11.2017
+#### Kaivosmiehen päiväkirja
+
+Toteutus 1.0 deployment test labraluokassa 5004, ongelmia Wake-on-LAN:in kanssa. Osa luokan koneista ei ole asetettu heräämään magic packetilla ja kaikkien koneiden BIOS on lukossa salasanan takana joten asetuksia ei pääse muuttamaan. Mietimme miten toteuttaa 1.0 esitys ja palaamme luokkaan huomenna klo 16 keräämään MAC osoitteita testataksemme mitkä koneista on herätettävissä.
+
+### 02.11.2017
+#### Kaivosmiehen päiväkirja
+
+Keräsimme tänään MAC osoitteet koneista jotka eivät olleet käytössä sillä hetkellä. Suunnitelmissa palata huomenna testaamaan mutta selvisi että luokka 5004 ei ole vapaana ennen klo 16 ja aikataulu ongelmien takia voi olla että Perjantai ei tule onnistumaan ja Lauantai on pyhäpäivä joten koulu on ilmeisesti kiinni tuolloin. 
+
+Masterin ja DHCP palvelimen asentaminen kannettavalle luodulle virtuaalikoneelle nyt illan ohjelmassa.
+Lisäksi preseedin ja postinstall scriptin tekoa.
