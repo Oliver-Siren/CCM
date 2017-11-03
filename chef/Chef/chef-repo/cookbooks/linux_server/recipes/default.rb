@@ -1,5 +1,5 @@
 #
-# Cookbook:: linux_server_v1
+# Cookbook:: linux_server
 # Recipe:: default
 #
 # The MIT License (MIT)
@@ -48,4 +48,11 @@ end
 
 template '/var/www/html/index.php' do
 	source 'index.erb'	
+end
+
+mysql_service 'foo' do
+	port '3306'
+	version '5.5'
+	initial_root_password 'unsecurepasswordsarebadchangeonceyoucan'
+	action [:create, :start]
 end

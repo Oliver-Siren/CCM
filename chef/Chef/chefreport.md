@@ -127,3 +127,5 @@ knife ssh 'name:NODENAME' 'sudo chef-client' --ssh-user USERNAME --ssh-password 
 
 ´´´
 here name looks for all nodes with the argument provided at NAME. * would apply the run to all nodes. -G or --gateway gives a way to access the node when knife wont figure out how to reach it otherwise the nodes ip works.
+
+
