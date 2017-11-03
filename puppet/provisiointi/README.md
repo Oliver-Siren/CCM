@@ -13,6 +13,7 @@ Autosign.conffin sisältö:
 provorja.zyxel.setup
 *.zyxel.setup
 *.local
+provorja
 ```
 
 Tämän jälkeen asensin koneelle sellaisia ohjelmia, joita tulisin tarvitsemaan provisionnissa. (Puppetmaster oli jo koneella asennettuna).
@@ -52,14 +53,17 @@ next-server 192.168.1.48;
 filename "pxelinux.0";
 
 subnet 192.168.1.0 netmask 255.255.255.0 {
-	host provorja {
-		hardware ethernet 44:8a:5b:c1:44:9b;
-		fixed-address 192.168.1.44;
-		option subnet-mask 255.255.255.0;
-		option routers 192.168.1.1;
-		option domain-name-servers 8.8.8.8, 8.8.4.4;
-	}
+        host provorja {
+                hardware ethernet 44:8a:5b:c1:44:9b;
+                fixed-address 192.168.1.44;
+                option subnet-mask 255.255.255.0;
+                option routers 192.168.1.1;
+                option domain-name-servers 8.8.8.8, 8.8.4.4;
+                option host-name "provorja";
+        }
 }
+
+
 
 ```
 
@@ -123,7 +127,7 @@ d-i finish-install/reboot_in_progress note
 
 d-i preseed/late_command string \
 in-target tftp 192.168.1.48 -c get postinstall.sh ; \
-in-target sudo /bin/bash postinstall.sh
+in-target /bin/bash postinstall.sh
 ```
 
 Yritin käynnistää koneen mutta TFTP yhteys ei mennyt läpi masteriin.
@@ -139,6 +143,7 @@ Asennus onnistui, ja tarkistin että ohjelmat olivat myös asentuneet. Huomasin 
 Seuraavaksi rupesin testaamaan firsboot skriptiä. Päätin toimia hieman eri tavalla kuin Joona, ja ajaa firstbootin suoraan preseed tiedoston lopusta.
 
 Tein muutoksia preseedin loppuun:
+(Hylkäsin tämän tavan, ja palasin edelliseen.)
 ```
 d-i mirror/http/proxy string http://192.168.1.48:8000/
 
@@ -176,17 +181,17 @@ in-target sudo chmod +x /etc/init.d/firstboot ; \
 in-target update-rc.d firstboot defaults
 ```
 
- Firstboot:
+ postinstall.sh
 ```
 #!/bin/bash
 
 sleep 10
 
-sudo service puppet stop
+service puppet stop
 
-sudo hostnamectl set-hostname provorja
+hostnamectl set-hostname provorja
 
-sudo cat < /etc/hosts
+cat <<EOF > /etc/hosts
 
 127.0.0.1       localhost
 127.0.1.1       ubuntu provorja
@@ -201,9 +206,9 @@ ff02::2 ip6-allrouters
 
 EOF
 
-sudo service avahi-daemon restart
+service avahi-daemon restart
 
-sudo cat < /etc/puppet/puppet.conf
+cat <<EOF > /etc/puppet/puppet.conf
 
 [main]
 logdir=/var/log/puppet
@@ -223,11 +228,10 @@ server = master2.zyxel.setup
 
 EOF
 
-sudo rm -r /var/lib/puppet/ssl
-sudo puppet agent --enable
-sudo service puppet restart
+rm -r /var/lib/puppet/ssl
+puppet agent --enable
+service puppet restart
 
-update-rc.d firstboot remove
 ```
 
 Päätin kokeilla aluksi tätä. Kun asennus valmistui kävin tutkimassa oliko firstboot scriptiä ajettu, mutta näin ei ollut. Jatkan ensiviikolla tämän tutkimista.

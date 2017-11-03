@@ -14,7 +14,7 @@
 11. [Palomuuri asetukset](#palomuuri-asetukset)
 12. [Windows](#windows)
 13. [Oman ohjelman asennus moduulin lisääminen Windowsin repositoryyn](#oman-ohjelman-asennus-moduulin-lisääminen-windowsin-repositoryyn)
-14. [Windows käyttäjän lisäämine](#windows-käyttäjän-lisääminen)
+14. [Windows käyttäjän lisääminen](#windows-käyttäjän-lisääminen)
 15. [Windows wallpaper vaihto](#windows-wallpaper-vaihto)
 16. [Käytettyjä lähteitä](#käytettyjä-lähteitä)
 
