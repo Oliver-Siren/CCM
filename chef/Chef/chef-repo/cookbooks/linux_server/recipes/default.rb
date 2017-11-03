@@ -41,3 +41,11 @@ package 'libapache2-mod-php7.0'
 package 'php7.0'
 
 package 'php-mysql'
+
+file '/var/www/html/index.html' do
+	action :delete
+end
+
+template '/var/www/html/index.php' do
+	source 'index.erb'	
+end

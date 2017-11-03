@@ -1,11 +1,13 @@
-name 'linux_server_v1'
+name 'linux_server'
 maintainer 'The Authors'
 maintainer_email 'you@example.com'
 license 'MIT'
-description 'Installs/Configures linux_server_v1'
-long_description 'Installs/Configures linux_server_v1'
+description 'Installs/Configures linux_server'
+long_description 'Installs/Configures linux_server'
 version '0.1.0'
 chef_version '>= 12.1' if respond_to?(:chef_version)
+
+depends 'mysql', '~>8.0'
 
 # The `issues_url` points to the location where issues for this cookbook are
 # tracked.  A `View Issues` link will be displayed on this cookbook's page when

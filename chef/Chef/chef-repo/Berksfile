@@ -1,3 +1,2 @@
 source 'https://supermarket.chef.io'
-cookbook 'chef-client'
-cookbook 'lamp_role'
+cookbook 'linux_server'
