@@ -30,3 +30,5 @@ knife ssh 'name:node1' 'sudo chef-client' --ssh-user vagrant --ssh-password vagr
 
 ´´´
 works to run the cookbook i wanted to run
+
+i ran in to further problems in using the mysql cookbook since it seems the example on setting the mysql password only configures the initial password and i was at fisrt unable to log in usgin it. Therefore to change it i needed to reinstall mysql on my vagrant instance which i figured would be easiest to do by destroying it and bootstrapping it again. This still resulted in an erro with unpermitted access on inspecting what i did previously to solve the problem i decided to reinstall chef server aswell, but having done that i still had the same problem wtih the mysql instal it seems that the mysql cookbook does not configure correctly and that it instead attains a random password which sems to be a feature if you do a hands off install of mysql otherwise.

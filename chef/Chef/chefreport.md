@@ -128,4 +128,34 @@ knife ssh 'name:NODENAME' 'sudo chef-client' --ssh-user USERNAME --ssh-password 
 ´´´
 here name looks for all nodes with the argument provided at NAME. * would apply the run to all nodes. -G or --gateway gives a way to access the node when knife wont figure out how to reach it otherwise the nodes ip works.
 
+Managing your cookbook with berkshelf is an easier method once your cookbook has dependencies. Berks is fairly straightforward to use and is installed with ChefDK. 
 
+Using berks is simple if everything is configured correctly. You create a file called Berksfile and add your cookbooks in it as follows
+
+´´´
+source 'https://supermarket.chef.io'
+source chef_repo: "../chef-repo/cookbooks"
+
+cookbook 'linux_server'
+cookbook 'mysql'
+
+
+´´´
+where the first source gives the address for the chef supermarket which is a repository of cookbooks maintaines by chef. The second source declares a local resource in a folder. And the cookbook entries name teh cookbooks which Berks seeks from the source location you have defined.
+
+Once Berksfile is created you use the command "berks install" to make berks find and retain the files to instal in your server with the command "berks upload". In the case of this cookbook the result of giving the command is a s follows 
+
+´´´
+/opt/chefdk/embedded/lib/ruby/gems/2.4.0/gems/ridley-5.1.1/lib/ridley/client.rb:271:in `server_url': Ridley::Client#url_prefix at /opt/chefdk/embedded/lib/ruby/gems/2.4.0/gems/ridley-5.1.1/lib/ridley/client.rb:79 forwarding to private method Celluloid::PoolManager#url_prefix
+Uploaded linux_server (0.1.0) to: 'https://vagrant.vm:443/organizations/arctic'
+/opt/chefdk/embedded/lib/ruby/gems/2.4.0/gems/ridley-5.1.1/lib/ridley/client.rb:271:in `server_url': Ridley::Client#url_prefix at /opt/chefdk/embedded/lib/ruby/gems/2.4.0/gems/ridley-5.1.1/lib/ridley/client.rb:79 forwarding to private method Celluloid::PoolManager#url_prefix
+Uploaded mysql (8.5.1) to: 'https://vagrant.vm:443/organizations/arctic'
+
+´´´
+once the cookbooks are uploaded you can again run them with teh command
+
+´´´
+knife ssh 'name:NODENAME' 'sudo chef-client' --ssh-user USERNAME --ssh-password --sudo
+
+´´´
+as before
