@@ -1,0 +1,31 @@
+d-i mirror/http/proxy string http://{{ ansible_default_ipv4.address }}:8000/
+
+d-i passwd/user-fullname string Joona
+d-i passwd/username string joona
+d-i passwd/user-password-crypted password $1$suola$x3q8bwB9K87WryJYwGJ2j.
+
+d-i partman-auto/method string regular
+
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-lvm/confirm boolean true
+d-i partman-lvm/confirm_nooverwrite boolean true
+
+d-i partman-auto/choose_recipe select atomic
+
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+
+d-i pkgsel/include string ssh tftp-hpa python
+
+d-i pkgsel/update-policy select unattended-upgrades
+
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/with_other_os boolean true
+
+d-i finish-install/reboot_in_progress note
+
+d-i preseed/late_command string \
+in-target tftp {{ ansible_default_ipv4.address }} -c get setup.sh ; \
+in-target sudo /bin/bash setup.sh

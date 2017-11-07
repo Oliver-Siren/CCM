@@ -11,6 +11,9 @@
 # Ex 1: Ungrouped hosts, specify before any group headers.
 
 
+[master]
+localhost ansible_connection=local
+
 [windows-desktop]
 10.0.0.149
 10.0.0.194
