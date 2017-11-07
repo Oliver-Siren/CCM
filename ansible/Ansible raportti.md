@@ -32,7 +32,9 @@
 	2. [TFTP](#tftp)
 	3. [Preseed](#preseed)
 	4. [Ansiblen provisiointi](#ansiblen-provisiointi)
-14. [Käytettyjä lähteitä](#käytettyjä-lähteitä)
+14. [Masterin automaattinen asennus playbookilla](#masterin-automaattinen-asennus-playbookilla)
+	1. [Labratestauksen tulokset](#labratestauksen-tulokset)
+15. [Käytettyjä lähteitä](#käytettyjä-lähteitä)
 
 ## Tutustuminen Ansibleen
 Aloitin testauksen asentamalla kaksi kappaletta Xubuntua (16.04.3) Virtualboxiin. Toinen kone toimii masterina ja toinen kohteena. Tämän jälkeen aloin lukemaan Ansiblen [dokumentaatiota](https://docs.ansible.com/ansible/latest/intro.html) ja [Wikipedia-artikkelia](https://en.wikipedia.org/wiki/Ansible_(software)). 
@@ -620,11 +622,11 @@ Seuraavaksi asensin DHCP-palvelun masterille, joka antaa kohteelle IP-osoitteen,
 ```
 sudo apt-get -y install isc-dhcp-server
 ```
-Lisäsin `etc/default/isc-dhcp-server` tiedostoon INTERFACES tiedon masterin verkkokortista, jonka katsoin `ip addr` komennolla.
+Lisäsin `/etc/default/isc-dhcp-server` tiedostoon INTERFACES tiedon masterin verkkokortista, jonka katsoin `ip addr` komennolla.
 ```
 INTERFACES="enp0s3"
 ```
-Sitten muokkasin `etc/dhcp/dhcpd.conf` tiedostoa, jonka sisällöksi tuli:
+Sitten muokkasin `/etc/dhcp/dhcpd.conf` tiedostoa, jonka sisällöksi tuli:
 ```
 ddns-update-style none;
 
@@ -648,6 +650,8 @@ subnet 10.0.0.0 netmask 255.255.255.0 {
         }
 }
 ```
+Tässä vaiheessa käynnistin dhcp-palvelun uudelleen `sudo service isc-dhcp-server restart`.
+
 Kokeilin jälleen käynnistää kohteen taikapaketilla. Kohde sai määritetyn IP-osoitteen 10.0.0.9 ja kävi kyselemään TFTP-palvelua.
 
 ## TFTP
@@ -806,6 +810,146 @@ Otin `ansible.cfg` tiedostossa kommentin pois riviltä `host_key_checking = Fals
 
 Masterilta voi edelleen ajaa playbookeja, jotka hallitsevat kohdekonetta ja kohdekone tarkastelee ja hakee ohjeita GitHub repositorystä automaattisesti.
 
+# Masterin automaattinen asennus playbookilla
+
+Tarkastelin ensin mitä tietoja ansible osaa etsiä `ansible all -m setup --tree /tmp/facts` komennolla ja tietoja löytyi todella paljon. Tarvitsin lähinnä IP-osoitteen ja verkkokortin nimen, jotta saan konfiguroitua asennustiedostot oikein. 
+
+Tein uuden virtuaalikoneen testausta varten. Ensimmäiseksi asensin Ansiblen käsin, kloonasin olemassaolevan Git repositoryn ja loin SSH-avaimen
+```
+sudo apt-get update
+sudo apt-get -y install software-properties-common
+sudo apt-add-repository ppa:ansible/ansible
+sudo apt-get update
+sudo apt-get -y install ansible git
+ssh-keygen -t rsa
+git clone https://github.com/joonaleppalahti/CCM.git
+sudo cp -r CCM/ansible/ansible /etc/
+```
+Loin master.yml playbookin.
+```
+---
+- hosts: master
+  become: yes
+  roles:
+    -  master
+```
+Lisäksi lisäsin hosts tiedostoon localhostin http://ansible.pickle.io/post/86598332429/running-ansible-playbook-in-localhost ohjeen perusteella.
+```
+[master]
+localhost ansible_connection=local
+```
+Tein vielä masterille roolihakemiston, johon tuli files ja tasks hakemistot. Sitten aloin kasata main.yml playbookiin palvelimen tarvitsemia osia. Testasin osat yksi kerrallaan ja uutta moduulia tarvittaessa löysin sopivan työkalun Ansiblen dokumentaatiosta pikaisella googletuksella.
+```
+---
+- name: install pip
+  package: name=python-pip state=present
+
+- name: install pywinrm for Windows remoting
+  pip:
+    name: pywinrm
+    version: 0.2.2
+
+- name: install wakeonlan
+  package: name=wakeonlan state=present
+
+- name: install isc-dhcp-server
+  package: name=isc-dhcp-server state=present
+
+- name: install tftp-server
+  package: name=tftpd-hpa
+
+- name: download Ubuntu netboot files
+  get_url:
+    url: http://archive.ubuntu.com/ubuntu/dists/xenial-updates/main/installer-amd64/current/images/netboot/netboot.tar.gz
+    dest: /tmp/
+
+- name: unzip netboot files
+  unarchive:
+    src: /tmp/netboot.tar.gz
+    dest: /var/lib/tftpboot/
+```
+Seuraavaksi testasin muuttujia, jotta sain automaattisesti asetettua palvelimen tiedot asetustiedostoihin. Komennolla `ansible master -m setup` sain Ansiblen keräämät faktat näkyviin, jossa oli kohta:
+```
+"ansible_default_ipv4": {
+            "address": "10.0.0.191",
+```
+Tein master roolin files hakemistoon iptest.j2 tiedoston, jonka sisällöksi tuli `{{ ansible_default_ipv4.address }}`. Playbookiin lisäsin rivin:
+```
+- name: test variables
+  template: src=roles/master/files/iptest.j2 dest=/tmp/iptest
+```
+Playbookin ajettuani /tmp/ hakemistosta löytyi iptest tiedosto, josta IP-osoite löytyi. Nyt faktat toimivat, mutta ongelmana oli vielä masterin julkisen avaimen kopioiminen setup.sh tiedostoon. Löysin stackoverflow ketjun https://stackoverflow.com/questions/24003880/ansible-set-variable-to-file-content, joka ratkaisi ongelmani. Ansiblen lookups ominaisuuden avulla pystyin kopioimaan tiedoston sisällön muuttujaksi. Lisäsin master.yml playbookiin vars kohdan:
+```
+- hosts: master
+  become: yes
+  vars:
+    pubkey: "{{ lookup('file', '/home/joona/.ssh/id_rsa.pub') }}"
+  roles:
+    -  master
+```
+Setup.sh tiedostoon laitoin pubkey muuttujan:
+```
+#!/bin/bash
+
+mkdir /home/joona/.ssh
+
+chown joona /home/joona/.ssh
+
+cat <<EOF > /home/joona/.ssh/authorized_keys
+
+{{ pubkey }}
+
+EOF
+
+chown joona /home/joona/.ssh/authorized_keys
+```
+Vaihdoin master roolin main.yml muuttujatestin setup.sh tiedoston paikalleenlaittamiseksi.
+```
+- name: copy setup.sh to tftpboot
+  template: src=roles/master/files/setup.sh.j2 dest=/var/lib/tftpboot/setup.sh mode=0755
+```
+Playbookin ajon jälkeen setup.sh oli paikoillaan ja masterin julkinen SSH-avain oli paikallaan.
+
+Lisäsin muihin asetustiedostoihin `{{ ansible_default_ipv4.address }}` kohtiin joihin tuli masterin IP-osoite. Isc-dhcp-server.j2 tiedostoon tuli verkkokortin interface, joten siihen lisäsin `{{ ansible_default_ipv4.interface }}`.
+
+Lisäsin myös kohdan joka pitää huolen että dhcp-palvelu pysyy päällä.
+```
+- name: keep dhcp running
+  service: name=isc-dhcp-server state=started enabled=yes
+```
+Kokeilin tässä välissä asentaa kohdekoneen, eli `wakeonlan 00:21:85:01:6E:2E`. Koneen asennuttua yritin ajaa linux.yml playbookin, mutta sain virheilmoituksen:
+```
+fatal: [10.0.0.9]: FAILED! => {"changed": false, "failed": true, "module_stderr": "Shared connection to 10.0.0.9 closed.\r\n", "module_stdout": "\r\n/bin/sh: 1: /usr/bin/python: not found\r\n", "msg": "MODULE FAILURE", "rc": 0}
+```
+Ubuntu netboot paketissa ei näytä tulevan pythonia mukana, joten lisäsin sen preseedin asennettaviin paketteihin.  En ole aikaisemmin törmännyt tähän ongelmaan, sillä jokin asentamistani paketeista on aina sisältänyt pythonin. Seuraavalla asennuskerralla ongelmia ei esiintynyt ja linux.yml playbookin ajo onnistui. Kohteen IP-osoitteesta 10.0.0.9 löytyi php-testisivu.
+
+Lisäsin lopuksi SSH-avaimen luomisen master playbookiin.
+```
+- name: generate SSH key
+  user:
+    name: joona
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_file: .ssh/id_rsa
+```
+### Labratestauksen tulokset
+
+Koulun labrakoneet on päivitetty, joten preseediä täytyi muokata niihin sopivaksi. Partman kohtaan /dev/sda ja grub kohtaan bootdev.
+```
+...
+d-i partman-auto/disk string /dev/sda
+d-i partman-auto/method string regular
+...
+...
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/with_other_os boolean true
+d-i grub-installer/bootdev string default
+...
+```
+
+Ubuntu asennetaan sda osiolle, mutta sdb käynnistyy automaattisesti, joten käynnistyvä käyttöjärjestelmä täytyy valita manuaalisesti.
+
+
 ## Käytettyjä lähteitä
 
 * https://docs.ansible.com/ansible/latest/intro.html
@@ -832,3 +976,11 @@ Masterilta voi edelleen ajaa playbookeja, jotka hallitsevat kohdekonetta ja kohd
 * https://joonaleppalahti.wordpress.com/2016/11/22/palvelinten-hallinta-harjoitus-9/
 * https://stackoverflow.com/questions/32297456/how-to-ignore-ansible-ssh-authenticity-checking
 * https://stackoverflow.com/questions/11948245/markdown-to-create-pages-and-table-of-contents
+* http://docs.ansible.com/ansible/latest/setup_module.html
+* http://ansible.pickle.io/post/86598332429/running-ansible-playbook-in-localhost
+* http://docs.ansible.com/ansible/latest/pip_module.html
+* http://docs.ansible.com/ansible/latest/playbooks_variables.html
+* http://docs.ansible.com/ansible/latest/get_url_module.html
+* http://docs.ansible.com/ansible/latest/unarchive_module.html
+* https://stackoverflow.com/questions/24003880/ansible-set-variable-to-file-content
+* http://docs.ansible.com/ansible/latest/user_module.html
