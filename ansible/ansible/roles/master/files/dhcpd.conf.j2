@@ -10,13 +10,30 @@ log-facility local7;
 next-server {{ ansible_default_ipv4.address }};
 filename "pxelinux.0";
 
-subnet 10.0.0.0 netmask 255.255.255.0 {
+subnet {{ ansible_default_ipv4.network }} netmask {{ ansible_default_ipv4.netmask }} {
 	host ansible1 {
-		hardware ethernet 00:21:85:01:6e:2e;
-		fixed-address 10.0.0.9;
+		hardware ethernet a0:8c:fd:d0:53:3c;
+		fixed-address 172.28.55.101;
 		option host-name "ansible1";
-		option subnet-mask 255.255.255.0;
-		option routers 10.0.0.1;
+		option subnet-mask {{ ansible_default_ipv4.netmask }};
+		option routers {{ ansible_default_ipv4.gateway }};
 		option domain-name-servers 8.8.8.8, 8.8.4.4;
 	}
+	host ansible2 {
+		hardware ethernet a0:8c:fd:cd:0b:29;
+		fixed-address 172.28.55.102;
+		option host-name "ansible2";
+		option subnet-mask {{ ansible_default_ipv4.netmask }};
+		option routers {{ ansible_default_ipv4.gateway }};
+		option domain-name-servers 8.8.8.8, 8.8.4.4;
+	}
+	host ansible3 {
+		hardware ethernet a0:8c:fd:cc:65:d5;
+		fixed-address 172.28.55.103;
+		option host-name "ansible3";
+		option subnet-mask {{ ansible_default_ipv4.netmask }};
+		option routers {{ ansible_default_ipv4.gateway }};
+		option domain-name-servers 8.8.8.8, 8.8.4.4;
+	}
+
 }
