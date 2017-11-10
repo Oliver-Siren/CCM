@@ -1,3 +1,0 @@
-chef generate cookbook 'linux_server_v1' -b -I mit
-
--b Berksfile -I licence mit
