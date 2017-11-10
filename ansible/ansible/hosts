@@ -11,20 +11,21 @@
 # Ex 1: Ungrouped hosts, specify before any group headers.
 
 
+[master]
+localhost ansible_connection=local
+
 [windows-desktop]
 10.0.0.149
 10.0.0.194
 
 [webserver]
-10.0.0.108
-10.0.0.9
 
 [webdatabase]
-10.0.0.115
+172.28.55.103
 
 [linux-desktop]
-10.0.0.64
-10.0.0.43
+172.28.55.101
+172.28.55.102
 
 [pull_mode_hosts]
 10.0.0.108

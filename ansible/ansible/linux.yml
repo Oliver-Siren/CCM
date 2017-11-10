@@ -6,7 +6,7 @@
     - webserver
 
 - hosts: webdatabase
-  remote_user: vagrant
+  remote_user: joona
   become: yes
   roles:
     - webserver
