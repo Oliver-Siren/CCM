@@ -4,5 +4,4 @@
        - ssh
        - gedit
        - libreoffice
-
- 
+       - xubuntu-desktop

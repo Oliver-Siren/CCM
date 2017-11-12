@@ -1,5 +1,5 @@
 base:
-  'm2':
+  'mSRV':
     - lamp
     - mysql
     - firewall
@@ -10,6 +10,6 @@ base:
     - firewall
   'WinMin':
     - win
-    - winscript
     - winwallE
+    - winscript
     - winuser
