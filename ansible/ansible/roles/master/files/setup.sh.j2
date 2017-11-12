@@ -1,0 +1,13 @@
+#!/bin/bash
+
+mkdir /home/joona/.ssh
+
+chown joona /home/joona/.ssh
+
+cat <<EOF > /home/joona/.ssh/authorized_keys
+
+{{ pubkey }}
+
+EOF
+
+chown joona /home/joona/.ssh/authorized_keys

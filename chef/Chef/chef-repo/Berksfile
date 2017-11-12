@@ -1,3 +1,5 @@
 source 'https://supermarket.chef.io'
-cookbook 'chef-client'
-cookbook 'lamp_role'
+source chef_repo: "../chef-repo/cookbooks"
+
+cookbook 'linux_server'
+cookbook 'mysql'

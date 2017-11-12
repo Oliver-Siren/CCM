@@ -1,5 +1,5 @@
 #
-# Cookbook:: linux_server_v1
+# Cookbook:: linux_server
 # Recipe:: default
 #
 # The MIT License (MIT)
@@ -41,3 +41,18 @@ package 'libapache2-mod-php7.0'
 package 'php7.0'
 
 package 'php-mysql'
+
+file '/var/www/html/index.html' do
+	action :delete
+end
+
+template '/var/www/html/index.php' do
+	source 'index.erb'	
+end
+
+mysql_service 'foo' do
+	port '3306'
+	version '5.7'
+	initial_root_password 'unsecurepassword'
+	action [:create, :start]
+end

@@ -30,3 +30,17 @@ knife ssh 'name:node1' 'sudo chef-client' --ssh-user vagrant --ssh-password vagr
 
 ´´´
 works to run the cookbook i wanted to run
+
+i ran into further problems in using the mysql cookbook since it seems the example on setting the mysql password only configures the initial password and i was at first unable to log in usign it. Therefore to change it i needed to reinstall mysql on my vagrant instance which i figured would be easiest to do by destroying it and bootstrapping it again. This still resulted in an error with unpermitted access. On inspecting what i did previously to solve the problem i decided to reinstall chef server aswell, but having done that i still had the same problem wtih the mysql install it seems that the mysql cookbook does not configure correctly and that it instead attains a random password which sems to be a feature if you do a hands off install of mysql otherwise. i tried looking for an answer to changing the password with the mysql module instead it seems that as of the writing there is a known bug in the module that dosent properly set the root password on certain mysql versions. I there fore decided to abandon using the chef provided mysql cookbook and istead find some othr solution to instaling mysql with a predifeined password. I wasnt really sure what the state of the current distibution of mysql was so i first tied installing it into my node to sind out how it is simply installing it manually. after instaling i was unable to use mysql since when i tried to login it gave the following error on "mysql -u root"
+
+´´´
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
+
+´´´
+correcting the error seemed like it'd need installation of mysql server which i was reluctant to do again because it sets a randomized password for root on install if one isnt provided i found a script from [https://gist.github.com/sheikhwaqas/9088872] that did the job in a hands on test so i decided to use it for my cookbook as well. the relative bit was 
+´´´
+echo "mysql-server-5.6 mysql-server/root_password password root" | sudo debconf-set-selections & echo "mysql-server-5.6 mysql-server/root_password_again password root" | sudo debconf-set-selections & sudo apt-get -y install mysql-server
+
+
+´´´
+despite the mysql-server package being "Ver 14.14 Distrib 5.7.20, for Linux" the password was indeed set to root on istall i decided to try the install with another password aswell to make sure and while the first install failes after giving "sudo apt update" the install succeedd also a second time. Since there was a problem with the install idecided to try a third time and now the install failed. I then tried to modify the commands to account for the version by amending the bit where the version is stated but this did not retify the problem. 

@@ -1,0 +1,55 @@
+---
+- name: generate SSH key
+  user:
+    name: joona
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_file: .ssh/id_rsa
+
+- name: install squid-deb-proxy
+  package: name=squid-deb-proxy state=present
+
+- name: install pip
+  package: name=python-pip state=present
+
+- name: install pywinrm for Windows remoting
+  pip:
+    name: pywinrm
+    version: 0.2.2
+
+- name: install wakeonlan
+  package: name=wakeonlan state=present
+
+- name: install isc-dhcp-server
+  package: name=isc-dhcp-server state=present
+
+- name: install tftp-server
+  package: name=tftpd-hpa
+
+- name: download Ubuntu netboot files
+  get_url:
+    url: http://archive.ubuntu.com/ubuntu/dists/xenial-updates/main/installer-amd64/current/images/netboot/netboot.tar.gz
+    dest: /tmp/
+
+- name: unzip netboot files
+  unarchive:
+    src: /tmp/netboot.tar.gz
+    dest: /var/lib/tftpboot/
+
+- name: copy setup.sh to tftpboot
+  template: src=roles/master/files/setup.sh.j2 dest=/var/lib/tftpboot/setup.sh mode=0755
+
+- name: copy syslinux.cfg to boot-screens
+  template: src=roles/master/files/syslinux.cfg.j2 dest=/var/lib/tftpboot/ubuntu-installer/amd64/boot-screens/syslinux.cfg
+
+- name: copy preseed.cfg to amd64
+  template: src=roles/master/files/preseed.cfg.j2 dest=/var/lib/tftpboot/ubuntu-installer/amd64/preseed.cfg
+
+- name: copy dhcpd.conf to /etc/dhcp/
+  template: src=roles/master/files/dhcpd.conf.j2 dest=/etc/dhcp/dhcpd.conf
+
+- name: copy isc-dhcp-server to /etc/default/
+  template: src=roles/master/files/isc-dhcp-server.j2 dest=/etc/default/isc-dhcp-server
+
+- name: keep dhcp running
+  service: name=isc-dhcp-server state=started enabled=yes
