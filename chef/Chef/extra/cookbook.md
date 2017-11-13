@@ -44,3 +44,5 @@ echo "mysql-server-5.6 mysql-server/root_password password root" | sudo debconf-
 
 ´´´
 despite the mysql-server package being "Ver 14.14 Distrib 5.7.20, for Linux" the password was indeed set to root on istall i decided to try the install with another password aswell to make sure and while the first install failes after giving "sudo apt update" the install succeedd also a second time. Since there was a problem with the install idecided to try a third time and now the install failed. I then tried to modify the commands to account for the version by amending the bit where the version is stated but this did not retify the problem. 
+
+On further inspection I realized i neglected to try turning mysql on with "sudo service mysql-foo start" as directed in the guide for mysql cookbook ater entering the command i was able to log in to mysql as expected.
