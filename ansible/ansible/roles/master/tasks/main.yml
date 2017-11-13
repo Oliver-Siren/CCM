@@ -6,8 +6,8 @@
     ssh_key_bits: 2048
     ssh_key_file: .ssh/id_rsa
 
-- name: install squid-deb-proxy
-  package: name=squid-deb-proxy state=present
+#- name: install squid-deb-proxy
+#  package: name=squid-deb-proxy state=present
 
 - name: install pip
   package: name=python-pip state=present
