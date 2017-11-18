@@ -1,4 +1,4 @@
-# Linux provisiointi
+# Linux provisiointi testaus omilla tietokoneilla
 Aloitin Palvelinympäristön valmistelun Xubuntu 16.04.3 LTS Puppetmaster viertuaalikoneessani.
 
 Olin Kokeillut verkkoboottia jo Tero Karvisen kurssilla, mutta käytin ohjeena Joona Leppälahden tekemiä kattavia artikkeleita aiheesta: 
@@ -235,3 +235,8 @@ service puppet restart
 ```
 
 Päätin kokeilla aluksi tätä. Kun asennus valmistui kävin tutkimassa oliko firstboot scriptiä ajettu, mutta näin ei ollut. Jatkan ensiviikolla tämän tutkimista.
+
+Sain postinstall.sh toimimaan muuten paitsi puppet yhteyden osalta. Kun ajoin testin, kertoi puppet että sertifikaattia ei ollut hyväksytty. Huomasin tämän jälkeen että sertifikaatti oli saapunut koneelle, mutta väärän nimisenä. Tämän vuoksi autosign.conf ei toiminut. Tämä johtui siitä, että koneen hostname ei muuttunut, vaikka postinstall.sh skriptissä oli niin määrätty. Päätin lisätä hostnamen vaihtokohdan dhcpd.conffiin ja kokeilla uudestaan. Tällä kertaa hostname muuttui, ja puppet ajo onnistui.
+
+# HUOM!
+Päädyin käyttämään ylempää postinstall skriptiä sillä alempaa en saanut toimimaan. Tässä kansiossa olevat skriptittiedostot ovat muokattuja versioita näistä aiemmista kotona testaamistani skripteistä. Jos käytät skriptejä niin huomioi se, että joudut muokkaamaan osaa niistä ympäristöön sopivaksi.
