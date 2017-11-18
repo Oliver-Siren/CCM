@@ -3,6 +3,7 @@
 Kun Windows 10 pro oli asentunut VirtualBoxiini, niin aloitin valmistelemalla sen Puppetin asennusta varten. Käytin ohjeena tätä tehdessä Tero Karvisen artikkelia aiheesta (http://terokarvinen.com/2016/windows-10-as-a-puppet-slave-for-ubuntu-16-04-master). 
 
 Ensimmäiseksi piti poistaa UAC käytöstä ja käynnistää kone uudelleen. Tässä kohtaa täytyy muistaa että Puppetin on oltava samaa versiota kuin PuppetMaster koneen puppet. Version voi tarkistaa komennolla `puppet --version`
+Muista myös muuttaa koneen hostname tässä vaiheessa haluamaksesi.
 
 Tämän jälkeen asensin Puppetin käyttäen adminstrative Powershelliä.
 ![alt text](https://raw.githubusercontent.com/joonaleppalahti/CCM/master/puppet/kuvat/3,5.png "3,5")
