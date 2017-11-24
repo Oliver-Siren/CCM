@@ -244,3 +244,29 @@ Tämän kansion provisiointitiedostot ovat sen sijaan koulun labraan kustomoituj
 
 # Provisiointi koulun labraluokassa
 Tämän kansion sisältämät tiedostot on testattu koulun labraverkossa, ja niihin on tehty muutamia muutoksia, jotta ne toimivat siellä. Yksi tällainen muutos on esimerkiksi preseed.cfg:ssä, jonne muutin yhtä osaa koska tietokoneissa oli useampi kovalevy. Jos hyödynnät näitä tiedostoja, niin muista että joudut itse tekemään tällaisia muutoksia varsin todennäköisesti, jotta ne toimivat omassa ympäristössäsi.
+
+Kokeilin ottaa käyttöön nodetiedon site.pp tiedostossani:
+
+```
+node "palvelinorja.zyxel.setup" {
+class { "lampstack":}
+class { "mysql::server":
+            root_password => "salasanatähän",
+            }
+class { "tausta":}
+class { "luser":}
+
+}
+node "userorja.zyxel.setup" {
+class { "ssh2":}
+class { "linuxohjelmat":}
+class { "tausta":}
+class { "luser":}
+}
+node "provorja2.zyxel.setup" {
+class { "choco":}
+class {"wuserwall":}
+}
+```
+Tutkin tätä tehdessäni tällaista artikkelia: https://serverfault.com/questions/66138/puppet-node-name-seems-dependent-on-reverse-dns
+Koska en tiennyt minkä perusteella nodet saavat nimensä, niin päätin lisätä node_name=cert tiedon postinstall.sh skriptiin. Se päätyisi orjakoneen puppet.conf tiedoston [main] kohdan loppuun. Testaan tätä vielä labrassa jatkossa.
