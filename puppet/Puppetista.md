@@ -43,9 +43,23 @@ Oma kieli: Puppet kieli on helppokäyttöinen myös niille jotka eivät osaa ohj
 
 ## Hakemistorakenne
 
-
-
-
+Hakemisto: /etc/puppet/
+```
+-conf.conf
+-etckeeper-commit-post
+-etckeeper-commit-pre
+-files
+-fileserver.conf
+-manifests 
+        ^-site.pp
+-modules
+        ^-moduuli
+                ^-manifests
+                        ^-init.pp
+                ^-files
+-puppet.conf
+-autosign.conf
+```
 
 Perustuu herra-orja arkkitehtuuriin (moduuleita voi ajaa myös samalla koneella)
 ## Lähteet:
