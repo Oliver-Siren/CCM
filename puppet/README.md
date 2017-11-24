@@ -30,3 +30,4 @@ class { "luser":}
 class { "choco":}
 class {"wuserwall":}
 ```
+## Tulen lisäämään näihin node kohtaiset tiedot CCM projektin 2.0 vaiheessa.
