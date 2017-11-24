@@ -33,6 +33,7 @@ rundir=/run/puppet
 factpath=$vardir/lib/facter
 prerun_command=/etc/puppet/etckeeper-commit-pre
 postrun_command=/etc/puppet/etckeeper-commit-post
+node_name=cert
 
 [master]
 ssl_client_header = SSL_CLIENT_S_DN
