@@ -8,18 +8,19 @@ Puppet Enterprise (Puppet + GUI, API ja työkaluja Node hallintaa varten (maksul
 
 ## Tuetut käyttöjärjestelmät
 
+```
 Puppet Master:
 
-Red Hat Enterprise Linux	6, 7	x86_64
-CentOS	6, 7	x86_64
-Oracle Linux	6, 7	x86_64
-Scientific Linux	6, 7	x86_64
+Red Hat Enterprise Linux	6, 7	                        x86_64
+CentOS	                        6, 7	                        x86_64
+Oracle Linux	                6, 7	                        x86_64
+Scientific Linux	        6, 7	                        x86_64
 SUSE Linux Enterprise Server	11 (SP1/SP2), 12 (SP1, SP2)	x86_64
-Ubuntu	14.04, 16.04	x86_64
+Ubuntu	                        14.04, 16.04	                x86_64
 
 Agent:
 
-Red Hat Enterprise Linux	5, 6, 7	                                        x86_64 i386 for 5, 6 IBM z System for 6, 7 (contact Sales) ppc64le for 7
+Red Hat Enterprise Linux        5, 6, 7	                                        x86_64 i386 for 5, 6 IBM z System for 6, 7 (contact Sales) ppc64le for 7
 CentOS                          5, 6, 7                                         x86_64 i386 for 5, 6
 Oracle Linux	                5, 6, 7	                                        x86_64 i386 for 5, 6
 Scientific Linux	        5, 6, 7	                                        x86_64 i386 for 5, 6
@@ -33,7 +34,7 @@ Microsoft Windows (Consumer OS)	Vista, 7, 8.1, 10	                        x86_64
 Mac OS X	                10.10, 10.11, 10.12	                        x86_64
 AIX	                        6.1, 7.1, 7.2	                                Power
 Amazon Linux	                2017.03 (using packages for RHEL 6)	
-
+```
 ## Mihin soveltuu hyvin ja kieli
 
 Erityisen hyvä serverin hallinnassa.
