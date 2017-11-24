@@ -35,11 +35,12 @@ Mac OS X	                10.10, 10.11, 10.12	                        x86_64
 AIX	                        6.1, 7.1, 7.2	                                Power
 Amazon Linux	                2017.03 (using packages for RHEL 6)	
 ```
-## Mihin soveltuu hyvin ja kieli
+## Tietoja
 
 Erityisen hyvä serverin hallinnassa.
 Puppetin avulla voi pystyttää palvelimen ja jatkuvasti tarkistaa  sekä ylläpitää palvelinta niin, että konfiguraatio pysyy sellaisena kuin se on puppetissa määritelty.
-Oma kieli: Puppet kieli on helppokäyttöinen myös niille jotka eivät osaa ohjelmointikieliä
+Oma kieli: Puppet kieli on helppokäyttöinen myös niille jotka eivät osaa ohjelmointikieliä.
+Perustuu herra-orja arkkitehtuuriin (moduuleita voi ajaa myös samalla koneella).
 
 ## Hakemistorakenne
 
@@ -60,6 +61,18 @@ Hakemisto: /etc/puppet/
 -puppet.conf
 -autosign.conf
 ```
+## Moduulit
+
+Moduulit sisältävät luokkia, joita kutsutaan site.pp tiedostossa
+
+![alt text](https://raw.githubusercontent.com/joonaleppalahti/CCM/master/puppet/kuvat/15.png "15")
+
+## Site.pp
+
+Sijainti: puppet/manifests/
+
+Määrittelee mitä moduuleita kohdekoneelle asennetaan.
+Täällä voidaan määritellä myös node tieto eli mitä millekkin hostille tulee, ja lisäksi voi antaa lisämäärityksiä moodulien asennukseen.
 
 Perustuu herra-orja arkkitehtuuriin (moduuleita voi ajaa myös samalla koneella)
 ## Lähteet:
