@@ -47,6 +47,7 @@
 
 - name: copy dhcpd.conf to /etc/dhcp/
   template: src=roles/master/files/dhcpd.conf.j2 dest=/etc/dhcp/dhcpd.conf
+  notify: restart dhcp
 
 - name: copy isc-dhcp-server to /etc/default/
   template: src=roles/master/files/isc-dhcp-server.j2 dest=/etc/default/isc-dhcp-server
