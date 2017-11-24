@@ -241,3 +241,6 @@ Sain postinstall.sh toimimaan muuten paitsi puppet yhteyden osalta. Kun ajoin te
 # HUOM!
 Päädyin käyttämään ylempää postinstall skriptiä sillä alempaa en saanut toimimaan. Tässä kansiossa olevat skriptittiedostot ovat muokattuja versioita näistä aiemmista kotona testaamistani skripteistä. Jos käytät skriptejä niin huomioi se, että joudut muokkaamaan osaa niistä ympäristöön sopivaksi.
 Tämän kansion provisiointitiedostot ovat sen sijaan koulun labraan kustomoituja. 
+
+# Provisiointi koulun labraluokassa
+Tämän kansion sisältämät tiedostot on testattu koulun labraverkossa, ja niihin on tehty muutamia muutoksia, jotta ne toimivat siellä. Yksi tällainen muutos on esimerkiksi preseed.cfg:ssä, jonne muutin yhtä osaa koska tietokoneissa oli useampi kovalevy. Jos hyödynnät näitä tiedostoja, niin muista että joudut itse tekemään tällaisia muutoksia varsin todennäköisesti, jotta ne toimivat omassa ympäristössäsi.
