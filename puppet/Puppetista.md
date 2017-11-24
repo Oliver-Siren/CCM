@@ -75,6 +75,11 @@ Määrittelee mitä moduuleita kohdekoneelle asennetaan.
 Täällä voidaan määritellä myös node tieto eli mitä millekkin hostille tulee, ja lisäksi voi antaa lisämäärityksiä moodulien asennukseen.
 
 Perustuu herra-orja arkkitehtuuriin (moduuleita voi ajaa myös samalla koneella)
+
+## Sertifikaateista
+
+Turvallisinta hyväksyä manuaalisesti. Autokonfiguraatio onnistuu autoconfig.conf avulla jonne listataan verkko-osoitteita tai hostname. Autosign whitelistin (autosign.conf Puppet repossa) avulla on Puppetissa oletusarvoisesti päällä. Sertifikaattien rikkoutuminen voi aiheuttaa paljon päänvaivaa.
+
 ## Lähteet:
 https://puppet.com
 https://puppet.com/docs/pe/2017.3/installing/supported_operating_systems.html
