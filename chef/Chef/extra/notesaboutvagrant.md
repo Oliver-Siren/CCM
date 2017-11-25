@@ -1,2 +1,2 @@
-I have separate vagrant folders for the same instances of vagrant here i find working this way easier than trying to make vagrants multimachine run work. Simply placing the files in diferent folders seems to work fine enough.
- Vagrant seems to be a bit unstable for hosting the chef server. I can be certain but it seems that somethimes vagrant dosent close properly which causes bizarre errors when trying to use the server. These erors have laway disappeared upon a fresh install.
+I have separate vagrant folders for the same instances of vagrant here. I find working this way easier than trying to make vagrants multimachine run work. Simply placing the files in diferent folders seems to work fine enough.
+Vagrant seems to be a bit unstable for hosting the chef server. I can't be certain but it seems that sometimes vagrant dosen't close properly which causes bizarre errors when trying to use the server. These erors have always disappeared upon a fresh install.

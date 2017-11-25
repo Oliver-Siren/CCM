@@ -1,5 +1,5 @@
-In trying to run lamp_role i gotthe folloeing progress listing
-
+In trying to run lamp_role i got the following progress listing
+```
  knife ssh 192.168.1.62 'sudo chef-client' --ssh-user vagrant --ssh-password vagrant --manual-list
 192.168.1.62 sudo: unable to resolve host vagrant
 192.168.1.62 Starting Chef Client, version 13.4.24
@@ -87,5 +87,11 @@ In trying to run lamp_role i gotthe folloeing progress listing
 192.168.1.62 [2017-09-29T16:15:11+00:00] FATAL: Please provide the contents of the stacktrace.out file if you file a bug report
 192.168.1.62 [2017-09-29T16:15:11+00:00] ERROR: undefined method `cloud' for #<Chef::Node::Attribute:0x000000000498a978>
 192.168.1.62 [2017-09-29T16:15:11+00:00] FATAL: Chef::Exceptions::ChildConvergeError: Chef run process exited unsuccessfully (exit code 1)
+```
+I dont really know what the problem is but I have a few hunches from reading the result.
 
-i dont really know waht the problem is but i have a few hunches from reading the result. 1.there is a missing configuration that should be used 2.the execution fails beacause its a virtual environ ment and some critical bit is missing 3.the hackjob for using chef without FQDN names makes it fail 
+1.there is a missing configuration that should be used 
+2.the execution fails beacause it's a virtual environment and some critical bit is missing
+3.the hackjob for using chef without FQDN names makes it fail
+
+in any case I'm unwilling to troubleshoot this extensively since making a simple LAMP module isnt very challenging so doubt I have a real need for this.
