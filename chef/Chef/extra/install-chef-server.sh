@@ -11,15 +11,15 @@ if [ ! -d /downloads ]; then
 fi
 
 # download the Chef server package
-if [ ! -f /downloads/chef-server-core_12.16.2_amd64.deb ]; then
+if [ ! -f /downloads/chef-server-core_12.16.14-1_amd64.deb ]; then
   echo "Downloading the Chef server package..."
-  wget -nv -P /downloads https://packages.chef.io/files/stable/chef-server/12.16.2/ubuntu/16.04/che$
+  wget -nv -P /downloads https://packages.chef.io/files/stable/chef-server/12.16.14/ubuntu/16.04/chef-server-core_12.16.14-1_amd64.deb
 fi
 
 # install Chef server
 if [ ! $(which chef-server-ctl) ]; then
   echo "Installing Chef server..."
-  dpkg -i /downloads/chef-server-core_12.16.2-1_amd64.deb
+  dpkg -i /downloads/chef-server-core_12.16.14-1_amd64.deb
   chef-server-ctl reconfigure
 
   echo "Waiting for services..."
@@ -27,8 +27,8 @@ if [ ! $(which chef-server-ctl) ]; then
   while (curl http://localhost:8000/_status) | grep "fail"; do sleep 15s; done
 
   echo "Creating initial user and organization..."
-  chef-server-ctl user-create chefadmin Chef Admin admin@4thcoffee.com insecurepassword --filename $
-  chef-server-ctl org-create 4thcoffee "Fourth Coffee, Inc." --association_user chefadmin --filenam$
+  chef-server-ctl user-create chefadmin Chef Admin admin@default.local insecurepassword --filename $
+  chef-server-ctl org-create default "default" --association_user chefadmin --filenam$
 fi
 
 echo "Your Chef server is ready!"
