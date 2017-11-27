@@ -4,12 +4,10 @@ sleep 10
 
 service puppet stop
 
-hostnamectl set-hostname provorja
-
 cat <<EOF > /etc/hosts
 
 127.0.0.1       localhost
-127.0.1.1       provorja
+127.0.1.1       ubuntu userorja palvelinorja
 172.28.13.37    master2
 
 # The following lines are desirable for IPv6 capable hosts
