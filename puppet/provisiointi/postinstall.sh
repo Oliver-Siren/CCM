@@ -39,7 +39,7 @@ ssl_client_verify_header = SSL_CLIENT_VERIFY
 
 [agent]
 server = master2.local
-runinterval=500
+runinterval=200
 
 EOF
 
