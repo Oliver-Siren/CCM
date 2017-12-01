@@ -1,13 +1,13 @@
 #!/bin/bash
 
-mkdir /home/joona/.ssh
+mkdir /home/{{ ansible_env.LOGNAME }}/.ssh
 
-chown joona /home/joona/.ssh
+chown {{ ansible_env.LOGNAME }} /home/{{ ansible_env.LOGNAME }}/.ssh
 
-cat <<EOF > /home/joona/.ssh/authorized_keys
+cat <<EOF > /home/{{ ansible_env.LOGNAME }}/.ssh/authorized_keys
 
 {{ pubkey }}
 
 EOF
 
-chown joona /home/joona/.ssh/authorized_keys
+chown {{ ansible_env.LOGNAME }} /home/{{ ansible_env.LOGNAME }}/.ssh/authorized_keys

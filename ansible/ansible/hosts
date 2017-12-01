@@ -15,12 +15,13 @@
 localhost ansible_connection=local
 
 [windows-desktop]
-172.28.55.102
+172.28.55.103
 
 [webserver]
-172.28.55.101
 
 [webdatabase]
+172.28.55.101
+172.28.55.102
 
 [linux-desktop]
 
