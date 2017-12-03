@@ -27,8 +27,8 @@ if [ ! $(which chef-server-ctl) ]; then
   while (curl http://localhost:8000/_status) | grep "fail"; do sleep 15s; done
 
   echo "Creating initial user and organization..."
-  chef-server-ctl user-create chefadmin Chef Admin admin@default.local insecurepassword --filename $
-  chef-server-ctl org-create default "default" --association_user chefadmin --filenam$
+  chef-server-ctl user-create chefadmin Chef Admin admin@default.local insecurepassword --filename chefadmin.pem
+  chef-server-ctl org-create default "default" --association_user chefadmin --filename default-VALIDATOR.pem
 fi
 
 echo "Your Chef server is ready!"

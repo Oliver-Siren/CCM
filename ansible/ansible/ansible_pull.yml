@@ -16,7 +16,7 @@
 ---
 
 - hosts: pull_mode_hosts
-  remote_user: joona
+  remote_user: {{ ansible_env.LOGNAME }}
   become: yes
 
   vars:

@@ -2,6 +2,7 @@
 - hosts: master
   become: yes
   vars:
-    pubkey: "{{ lookup('file', '/home/joona/.ssh/id_rsa.pub') }}"
+    username: "{{ lookup('env', 'USER') }}"
+    pubkey: "{{ lookup('file', '/home/{{ username }}/.ssh/id_rsa.pub') }}"
   roles:
     -  master

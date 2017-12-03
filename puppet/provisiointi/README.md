@@ -253,7 +253,6 @@ class { "lampstack":}
 class { "mysql::server":
             root_password => "salasanatähän",
             }
-class { "tausta":}
 class { "luser":}
 
 }
@@ -262,6 +261,7 @@ class { "ssh2":}
 class { "linuxohjelmat":}
 class { "tausta":}
 class { "luser":}
+class { "desktop":}
 }
 node "provorja2.zyxel.setup" {
 class { "choco":}
