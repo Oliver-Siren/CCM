@@ -1,13 +1,14 @@
 #!/bin/bash
+# lookup('env','USER')
 
-mkdir /home/{{ ansible_env.LOGNAME }}/.ssh
+mkdir /home/{{ lookup('env','USER') }}/.ssh
 
-chown {{ ansible_env.LOGNAME }} /home/{{ ansible_env.LOGNAME }}/.ssh
+chown {{ lookup('env','USER') }} /home/{{ lookup('env','USER') }}/.ssh
 
-cat <<EOF > /home/{{ ansible_env.LOGNAME }}/.ssh/authorized_keys
+cat <<EOF > /home/{{ lookup('env','USER') }}/.ssh/authorized_keys
 
 {{ pubkey }}
 
 EOF
 
-chown {{ ansible_env.LOGNAME }} /home/{{ ansible_env.LOGNAME }}/.ssh/authorized_keys
+chown {{ lookup('env','USER') }} /home/{{ lookup('env','USER') }}/.ssh/authorized_keys
