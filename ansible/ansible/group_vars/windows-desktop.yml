@@ -1,4 +1,4 @@
-ansible_user: "{{ lookup('env', 'USER') }}"
+ansible_user: "{{ lookup('env','USER') }}"
 ansible_password: salakavala
 ansible_port: 5986
 ansible_connection: winrm
