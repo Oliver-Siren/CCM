@@ -7,13 +7,11 @@ In my experience you will need a to run a Linux system for you salt-master, in m
 
 Of course, you will also need some slaves (that in salt are referred to as minions) and a decent speed internet connection.  I have tested Salt on Ubuntu and Windows 10 systems.
 > **Note:**
-
 > - Salt master needs to be visible to the public internet (or at least be accessible through port forwarding or other means) if you plan to control minions beyond your own local area network
 
 ## Installing Salt master
 
 > **Note:**
-
 > - This guide was tested using Salt version 2017.7.2 (October 9, 2017)
 
 First you should start with the installation of your Salt master.
