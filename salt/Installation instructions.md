@@ -10,7 +10,7 @@
 
 ## Install prerequisites
 
-In my experience, you will need a to run a Linux system for your salt-master. In my setup, I used a Xubuntu 16.04.3 LTS, for I prefer the feel of the Xubuntu user interface.
+In my experience, you will need to run a Linux system for your salt-master. In my setup, I used a Xubuntu 16.04.3 LTS, for I prefer the feel of the Xubuntu user interface.
 
 Of course, you will also need some slaves (which, in Salt are referred to as "minions") and a decent internet connection.  I have tested running Salt minions on Ubuntu and Windows 10 systems.
 
