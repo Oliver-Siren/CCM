@@ -132,6 +132,20 @@ for which you should get "True" as a answer from each minion.
 
 ## Running Arctic CCM Salt states
 
+At this point you have your master and minions set and connected to each other and you have my state files ready to use in your /srv/salt/ file so now is the time to take a look at these files.
+
+> **Note:**
+> - In my test enviroment I had my minions named mWS, mSRV and WinMin
+> - mWS for workstation
+> - mSRV for LAMP (Linux,apache,MySQL,PHP) server
+> - WinMin for Windows minion
+> - top.sls contains a list of minions on which to run various states so you might want to change the names to reflect the host names of your minions
+
+When you have modified top.sls to address your minions and chosen which states to run on your minions, it is time to execute the order
+
+`sudo salt '*' state.apply`
+
+This might take a moment depending on the state modules you chose to use. On the feedback you should get a detailed list of changes to your minions or a list of failures in chase you did something wrong when you modified top.sls or some of the other files.
 
 ## Installing Windows minions
 
