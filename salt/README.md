@@ -1,6 +1,6 @@
-﻿Arctic CCM: Salt! by Jori Laine
+﻿Arctic CCM: Salt!
 ===================
-
+by Jori Laine
 ##Hello!
 In this file you’ll find the files and documentation to my [SaltStack](https://docs.saltstack.com/en/latest/contents.html). research and my report on it.
 
