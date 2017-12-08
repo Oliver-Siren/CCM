@@ -4,7 +4,9 @@
 1. [Install prerequisites](#install-prerequisites)
 2. [Installing Salt master](#installing-salt-master)
 3. [Installing Ubuntu minion](#installing-ubuntu-minions)
-4. [Installing Windows minions](#installing-windows-minions)
+4. [Contacting master and accepting minions with master](#contacting-master-and-accepting-minions-with-master)
+5. [Running Arctic CCM Salt states](#running-arctic-ccm-salt-states)
+6. [Installing Windows minions](#installing-windows-minions)
 
 ## Install prerequisites
 
@@ -90,6 +92,45 @@ Minions get installed at almost the same way as the master
 
 `sudo sh install_salt.sh -P`
 
+As with master, you will need to modify salt minion’s configuration file as well.
+
+`sudoedit /etc/salt/minion`
+
+and there you will need to find
+`#master: salt` and insert your master's IP as well as comment out the line so that it looks something like this `master: 10.0.0.1`
+
+after this you are done with the setup and it is time to make contact with the master
+
+## Contacting master and accepting minions with master
+
+In this part I go over the procedure on how to connect your minions to your master.
+
+First you should run this command on your minions so that they start calling for their master
+
+`sudo salt-minion`
+your first attempt might fail and give you the message that salt-minion is shutdown but second attempt should do it.
+
+Now that you minions are calling for their master, you should run this command on your master
+
+`sudo salt-key -F master`
+
+here you should see your minions’ keys waiting for you master to accept them
+
+`sudo salt-key -A` to accept all of them
+
+or
+
+`sudo salt-key -a minion_name` to accept a specific minion
+
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltkeys.PNG "salt-keys")
+
+Now that you have accepted your minions should test the connection.
+
+`sudo salt '*' test.ping`
+
+for which you should get "True" as a answer from each minion.
+
+## Running Arctic CCM Salt states
 
 
 ## Installing Windows minions
