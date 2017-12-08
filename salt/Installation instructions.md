@@ -82,6 +82,16 @@ The following guide will give you the step by step instructions for as to how to
 > - You can also opt to install Salt master directly from the package repository, but the following guide installs the latest version
 > - If you have firewall up, you should open the ports 4505-4506/tcp for salt
 
+Minions get installed at almost the same way as the master
+
+`sudo apt-get update && sudo apt-get -y install curl`
+
+`curl -L https://bootstrap.saltstack.com -o install_salt.sh`
+
+`sudo sh install_salt.sh -P`
+
+
+
 ## Installing Windows minions
 
 ## **To be continued..**
