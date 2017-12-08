@@ -1,5 +1,10 @@
 **Arctic CCM Salt: Install guide** *by Jori Laine*
 ===================
+## Table of contents
+1. [Install prerequisites](#install-prerequisites)
+2. [Installing Salt master](#installing-salt-master)
+3. [Installing Ubuntu minion](#installing-ubuntu-minions)
+4. [Installing Windows minions](#installing-windows-minions)
 
 ## Install prerequisites
 
@@ -15,7 +20,7 @@ Of course, you will also need some slaves (which, in Salt are referred to as "mi
 > **Note:**
 > - This guide was tested using Salt version 2017.7.2 (October 9, 2017) and Xubuntu as a master
 > - You can also opt to install Salt master directly from the package repository, but the following guide installs the latest version
-> - If you have firewall up, you should open the ports 4505-4506/tcp for salt 
+> - If you have firewall up, you should open the ports 4505-4506/tcp for salt
 
 First, you should start with the installation of your Salt master.
 
@@ -56,8 +61,27 @@ Here you will need to find
 
 When you are done modifying /etc/salt/master you should download Arctic CCM repository with
 
-``
+`sudo apt-get update && sudo apt-get -y install git && git clone https://github.com/joonaleppalahti/CCM.git`
 
+and then move salt state (.sls) files to root /
 
+`cd`
+
+`cd CCM/salt`
+
+`sudo cp -r srv/ /`
+
+Now you have your Salt master set and it is time to take a look at your minions
+
+## Installing Ubuntu minions
+
+The following guide will give you the step by step instructions for as to how to install and setup your minions on Ubuntu system
+
+> **Note:**
+> - This guide was tested using Salt version 2017.7.2 (October 9, 2017) and Xubuntu as a master
+> - You can also opt to install Salt master directly from the package repository, but the following guide installs the latest version
+> - If you have firewall up, you should open the ports 4505-4506/tcp for salt
+
+## Installing Windows minions
 
 ## **To be continued..**
