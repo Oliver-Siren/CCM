@@ -149,4 +149,13 @@ This might take a moment depending on the state modules you chose to use. On the
 
 ## Installing Windows minions
 
+With Windows you'll first need to open a couple of ports in the firewall for salt (4505-4506)
+
+Now that you have firewall set, you should give allow remote execution of powershell in order to allow for powershell script to be ran by salt (this script is needed in order to take ownership and give rightes to img0.jpg that is your Windows' default wallpaper).
+
+This command needs to be given in a powershell that has adminisrator privileges
+`Set-ExecutionPolicy RemoteSigned`
+
+
+
 ## **To be continued..**
