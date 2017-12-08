@@ -1,4 +1,4 @@
-﻿**Arctic CCM Salt: install guide** *by Jori Laine*
+**Arctic CCM Salt: Install guide** *by Jori Laine*
 ===================
 
 ## Install prerequisites
@@ -17,15 +17,19 @@ Of course, you will also need some slaves (that in salt are referred to as minio
 First you should start with the installation of your Salt master.
 
 In terminal you should first start with updating your package repository with:
+
 `sudo apt-get update`
 
 Next you can move on to installing Curl which is used to getting the latest Salt version:
+
 `sudo apt install -y curl`
 
 Now that you have Curl it is time to install salt for which you should run the following commands:
-```curl -L https://bootstrap.saltstack.com -o install_salt.sh```
+
+`curl -L https://bootstrap.saltstack.com -o install_salt.sh`
+
 and
+
 `sudo sh install_salt.sh -P -M`
 
 ## **To be continued..**
-
