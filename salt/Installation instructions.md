@@ -29,5 +29,5 @@ Now that you have Curl it is time to install salt for which you should run the f
 and
 `sudo sh install_salt.sh -P -M`
 
-##**To be continued..**
+## **To be continued..**
 
