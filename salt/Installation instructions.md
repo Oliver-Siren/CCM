@@ -1,7 +1,7 @@
 ﻿**Arctic CCM Salt: install guide** *by Jori Laine*
 ===================
 
-##Install prerequisites
+## Install prerequisites
 
 In my experience you will need a to run a Linux system for you salt-master, in my setup I used a Xubuntu 16.04.3 LTS for I prefer the feel of the Xubuntu user interface.
 
@@ -10,7 +10,7 @@ Of course, you will also need some slaves (that in salt are referred to as minio
 
 > - Salt master needs to be visible to the public internet (or at least be accessible through port forwarding or other means) if you plan to control minions beyond your own local area network
 
-##Installing Salt master
+## Installing Salt master
 
 > **Note:**
 
