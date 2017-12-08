@@ -8,4 +8,4 @@ It consists of several pretty basic state (.sls) files of my own creation that i
 
 Arctic CCM Salt section was a part of a centralized configuration management research and evaluation project that was done as a part of a Haaga-Helia University of Applied Sciences' course [Monialaprojekti PRO4TN001-3](http://www.haaga-helia.fi/fi/opinto-opas/opintojaksokuvaukset/PRO4TN001) with the intent to learn about the four most popular CCM systems (puppet, Salt, Chef and Ansible).
 
-It covers some of the basic functionalities of Salt and tries to offer some insite to its benefits and attributes.
+It covers some of the basic functionalities of Salt and tries to offer some insight to its benefits and attributes.
