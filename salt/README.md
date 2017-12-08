@@ -1,9 +1,17 @@
+<<<<<<< HEAD
+﻿**Arctic CCM: Salt** *by Jori Laine*
+===================
+
+##Hello!
+In this file you’ll find the files and documentation to my [SaltStack](https://docs.saltstack.com/en/latest/contents.html) research and my report on it.
+=======
 ﻿Arctic CCM: Salt!
 ===================
 by Jori Laine
 
 ##Hello!
 In this file you’ll find the files and documentation to my [SaltStack](https://docs.saltstack.com/en/latest/contents.html). research and my report on it.
+>>>>>>> 99d4deccb981b578d5bc3410b79ee364bae09440
 
 It consists of several pretty basic state (.sls) files of my own creation that install applications and services to Linux systems and Windows OS (due to licensing [Salt Windows repository](https://docs.saltstack.com/en/latest/topics/windows/windows-package-manager.html) is not included, but you’ll find instructions to downloading it in Installation instructions document). 
 
