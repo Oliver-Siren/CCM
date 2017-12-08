@@ -22,15 +22,15 @@ Of course, you will also need some slaves (which, in Salt are referred to as "mi
 > **Note:**
 > - This guide was tested using Salt version 2017.7.2 (October 9, 2017) and Xubuntu as a master
 > - You can also opt to install Salt master directly from the package repository, but the following guide installs the latest version
-> - If you have firewall up, you should open the ports 4505-4506/tcp for salt
+> - If you have firewall up, you should open the ports 4505-4506/tcp for Salt
 
 First, you should start with the installation of your Salt master.
 
-In terminal you should first start with updating your package repository with:
+In Terminal, you should begin with updating your package repository with:
 
 `sudo apt-get update`
 
-Next you can move on to installing Curl which is used to getting the latest Salt version:
+Next you can move on to installing Curl, which is used to getting the latest Salt version:
 
 `sudo apt install -y curl`
 
@@ -59,9 +59,9 @@ Here you will need to find
 
 > **Note:**
 > - Your Salt master will need to have a static IP so that your minions can find it in the future as well
-> - By default, Salt minions look for their master trying to find one with a hostname "salt". Thus, you are not supposed to need to set interface IP at all, but in my experience, this never works and it is more efficient to set it work by IP instead, for this also allows for management of minions that are not accessible through your LAN but Internet.
+> - By default, Salt minions look for their master trying to find one with a hostname "salt". Thus, you shouldn't need to set interface IP at all, but in my experience, this never works and it is more efficient to set it to work by IP instead, as this also allows for the management of minions, that are not accessible through your LAN, but through Internet.
 
-When you are done modifying /etc/salt/master you should download Arctic CCM repository with
+When you are done modifying /etc/salt/master, you should download Arctic CCM repository with
 
 `sudo apt-get update && sudo apt-get -y install git && git clone https://github.com/joonaleppalahti/CCM.git`
 
@@ -77,14 +77,14 @@ Now you have your Salt master set and it is time to take a look at your minions
 
 ## Installing Ubuntu minions
 
-The following guide will give you the step by step instructions for as to how to install and setup your minions on Ubuntu system
+The following guide will give you the step by step instructions on how to install and setup your minions on Ubuntu system
 
 > **Note:**
 > - This guide was tested using Salt version 2017.7.2 (October 9, 2017) and Xubuntu as a minion
-> - You can also opt to install Salt master directly from the package repository, but the following guide installs the latest version
-> - If you have firewall up, you should open the ports 4505-4506/tcp for salt
+> - You can also opt to install Salt minion directly from the package repository, but the following guide installs the latest version
+> - If you have a firewall up, you should open the ports 4505-4506/tcp for Salt
 
-Minions get installed at almost the same way as the master
+Minions get installed almost the same way as the master
 
 `sudo apt-get update && sudo apt-get -y install curl`
 
@@ -92,23 +92,23 @@ Minions get installed at almost the same way as the master
 
 `sudo sh install_salt.sh -P`
 
-As with master, you will need to modify salt minion’s configuration file as well.
+As with the master, you will need to modify Salt minion’s configuration file as well.
 
 `sudoedit /etc/salt/minion`
 
 and there you will need to find
-`#master: salt` and insert your master's IP as well as comment out the line so that it looks something like this `master: 10.0.0.1`
+`#master: salt` and insert your master's IP as well as comment out the line, so that it looks something like this `master: 10.0.0.1`
 
-after this you are done with the setup and it is time to make contact with the master
+after this, you are done with the setup and it is time to make contact with the master.
 
 ## Contacting master and accepting minions with master
 
-In this part I go over the procedure on how to connect your minions to your master.
+In this part, I go over the procedure on how to connect your minions to your master.
 
-First you should run this command on your minions so that they start calling for their master
+First, you should run this command on your minions so that they start calling for their master
 
 `sudo salt-minion`
-your first attempt might fail and give you the message that salt-minion is shutdown but second attempt should do it.
+your first attempt might fail and give you the message that "Salt-minion is shut down" but the second attempt should do it.
 
 Now that you minions are calling for their master, you should run this command on your master
 
@@ -124,7 +124,7 @@ or
 
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltkeys.PNG "salt-keys")
 
-Now that you have accepted your minions should test the connection.
+Now that you have accepted your minions, you should test the connection.
 
 `sudo salt '*' test.ping`
 
@@ -132,26 +132,26 @@ for which you should get "True" as a answer from each minion.
 
 ## Running Arctic CCM Salt states
 
-At this point you have your master and minions set and connected to each other and you have my state files ready to use in your /srv/salt/ file so now is the time to take a look at these files.
+At this point you have your master and minions set and connected to each other and you have my state files ready to use in your /srv/salt/ file, so now is the time to take a look at these files.
 
 > **Note:**
-> - In my test enviroment I had my minions named mWS, mSRV and WinMin
+> - In my test enviroment, I had my minions named mWS, mSRV and WinMin
 > - mWS for workstation
 > - mSRV for LAMP (Linux,apache,MySQL,PHP) server
 > - WinMin for Windows minion
-> - top.sls contains a list of minions on which to run various states so you might want to change the names to reflect the host names of your minions
+> - top.sls contains a list of minions on which to run various states, so you might want to change the names to reflect the host names of your minions
 
-When you have modified top.sls to address your minions and chosen which states to run on your minions, it is time to execute the order
+When you have modified top.sls to address your minions and chosen which states to run on them, it is time to execute the order
 
 `sudo salt '*' state.apply`
 
-This might take a moment depending on the state modules you chose to use. On the feedback you should get a detailed list of changes to your minions or a list of failures in chase you did something wrong when you modified top.sls or some of the other files.
+This might take a moment, depending on the state modules you have chosen to use. On the feedback, you should get a detailed list of changes to your minions or a list of failures, in chase you did something wrong when you modified top.sls or some of the other files.
 
 ## Installing Windows minions
 
-With Windows you'll first need to open a couple of ports in the firewall for salt (4505-4506)
+On Windows OS, you'll first need to open a couple of ports in the firewall for Salt (4505-4506)
 
-Now that you have firewall set, you should give allow remote execution of powershell in order to allow for powershell script to be ran by salt (this script is needed in order to take ownership and give rightes to img0.jpg that is your Windows' default wallpaper).
+Now that you have your firewall set, you should allow remote execution of powershell, in order to allow for the powershell script to be ran by Salt (this script is needed in order to take ownership and give rights to img0.jpg that is your Windows' default wallpaper).
 
 This command needs to be given in a powershell that has adminisrator privileges
 `Set-ExecutionPolicy RemoteSigned`
