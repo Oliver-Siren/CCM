@@ -2,7 +2,7 @@
 ===================
 
 ## Hello!
-In this file you’ll find the files and documentation to my [SaltStack](https://docs.saltstack.com/en/latest/contents.html) research and my report on it.
+In this file you’ll find the files and documentation to my [SaltStack](https://docs.saltstack.com/en/latest/contents.html) research and my report on it, as well as my early notes in finnish from the time when I was getting to know Salt for the first time.
 
 It consists of several pretty basic state (.sls) files of my own creation that install applications and services to Linux systems and Windows OS (due to licensing [Salt Windows repository](https://docs.saltstack.com/en/latest/topics/windows/windows-package-manager.html) is not included, but you’ll find instructions to downloading it in Installation instructions document). 
 
