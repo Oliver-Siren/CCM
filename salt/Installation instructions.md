@@ -14,6 +14,7 @@ Of course, you will also need some slaves (which, in Salt are referred to as "mi
 > **Note:**
 > - This guide was tested using Salt version 2017.7.2 (October 9, 2017) and Xubuntu as a master
 > - You can also opt to install Salt master directly from the package repository, but the following guide installs the latest version
+> - If you have firewall up, you should open the ports 4505-4506/tpc for salt 
 
 First, you should start with the installation of your Salt master.
 
@@ -41,6 +42,9 @@ in which you should find following files:
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltfiles.PNG "/etc/salt")
 
 In order to get your Salt master working properly, you will need to set up some configuration in master config file
+
 `sudoedit /etc/salt/master`
+
+
 
 ## **To be continued..**
