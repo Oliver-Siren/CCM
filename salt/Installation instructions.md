@@ -12,7 +12,8 @@ Of course, you will also need some slaves (that in salt are referred to as minio
 ## Installing Salt master
 
 > **Note:**
-> - This guide was tested using Salt version 2017.7.2 (October 9, 2017)
+> - This guide was tested using Salt version 2017.7.2 (October 9, 2017) and Xubuntu as a master
+> - You can also option to install salt master directly from the package repository but this way installs the latest version
 
 First you should start with the installation of your Salt master.
 
@@ -31,5 +32,14 @@ Now that you have Curl it is time to install salt for which you should run the f
 and
 
 `sudo sh install_salt.sh -P -M`
+
+After the installation process is complete you should confirm that salt has gotten installed by looking for its configuration files in /etc/salt
+
+`cd /etc/salt`
+in which you should find following files:
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltfiles.PNG "/etc/salt")
+
+In order to get you salt master working properly you will need to set up some configuration in master config file
+`sudoedit /etc/salt/master`
 
 ## **To be continued..**
