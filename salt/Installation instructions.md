@@ -15,7 +15,7 @@ Of course, you will also need some slaves (which, in Salt are referred to as "mi
 > **Note:**
 > - This guide was tested using Salt version 2017.7.2 (October 9, 2017) and Xubuntu as a master
 > - You can also opt to install Salt master directly from the package repository, but the following guide installs the latest version
-> - If you have firewall up, you should open the ports 4505-4506/tpc for salt 
+> - If you have firewall up, you should open the ports 4505-4506/tcp for salt 
 
 First, you should start with the installation of your Salt master.
 
@@ -53,6 +53,10 @@ Here you will need to find
 > **Note:**
 > - Your Salt master will need to have a static IP so that your minions can find it in the future as well
 > - By default, Salt minions look for their master trying to find one with a hostname "salt". Thus, you are not supposed to need to set interface IP at all, but in my experience, this never works and it is more efficient to set it work by IP instead, for this also allows for management of minions that are not accessible through your LAN but Internet.
+
+When you are done modifying /etc/salt/master you should download Arctic CCM repository with
+
+``
 
 
 
