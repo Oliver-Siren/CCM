@@ -1,4 +1,4 @@
-﻿READ ME!
+﻿Arctic CCM: Salt! by Jori Laine
 ===================
 
 ##Hello!
