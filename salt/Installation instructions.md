@@ -23,7 +23,7 @@ Next you can move on to installing Curl which is used to getting the latest Salt
 `sudo apt install -y curl`
 
 Now that you have Curl it is time to install salt for which you should run the following commands:
-`curl -L https://bootstrap.saltstack.com -o install_salt.sh`
+```curl -L https://bootstrap.saltstack.com -o install_salt.sh```
 and
 `sudo sh install_salt.sh -P -M`
 
