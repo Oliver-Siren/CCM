@@ -6,6 +6,7 @@
 In my experience, you will need a to run a Linux system for your salt-master. In my setup, I used a Xubuntu 16.04.3 LTS, for I prefer the feel of the Xubuntu user interface.
 
 Of course, you will also need some slaves (which, in Salt are referred to as "minions") and a decent internet connection.  I have tested running Salt minions on Ubuntu and Windows 10 systems.
+
 > **Note:**
 > - Salt master needs to be visible to the public internet (or at least be accessible through port forwarding or other means), if you plan to control minions beyond your own local area network.
 
@@ -44,6 +45,14 @@ in which you should find following files:
 In order to get your Salt master working properly, you will need to set up some configuration in master config file
 
 `sudoedit /etc/salt/master`
+
+Here you will need to find
+
+`#interface: 0.0.0.0` and insert your master's IP as well as comment out the line so that it looks something like this `interface: 10.0.0.1`
+
+> **Note:**
+> - Your Salt master will need to have a static IP so that your minions can find it in the future as well
+> - By default, Salt minions look for their master trying to find one with a hostname "salt". Thus, you are not supposed to need to set interface IP at all, but in my experience, this never works and it is more efficient to set it work by IP instead, for this also allows for management of minions that are not accessible through your LAN but Internet.
 
 
 
