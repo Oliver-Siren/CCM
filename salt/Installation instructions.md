@@ -46,7 +46,7 @@ After the installation process is complete, you should confirm that Salt has bee
 
 `cd /etc/salt`
 
-in which you should find following files:
+in which you should find the following files:
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltfiles.PNG "/etc/salt")
 
 In order to get your Salt master working properly, you will need to set up some configuration in master config file
@@ -59,7 +59,7 @@ Here you will need to find
 
 > **Note:**
 > - Your Salt master will need to have a static IP so that your minions can find it in the future as well
-> - By default, Salt minions look for their master trying to find one with a hostname "salt". Thus, you shouldn't need to set interface IP at all, but in my experience, this never works and it is more efficient to set it to work by IP instead, as this also allows for the management of minions, that are not accessible through your LAN, but through Internet.
+> - By default, Salt minions look for their master, trying to find one with a hostname "salt". Thus, you shouldn't need to set interface IP at all, but in my experience, this never works and it is more efficient to set it to work by IP instead, as it also allows for the management of minions, that are not accessible through your LAN, but through Internet.
 
 When you are done modifying /etc/salt/master, you should download Arctic CCM repository with
 
@@ -97,7 +97,7 @@ As with the master, you will need to modify Salt minion’s configuration file a
 `sudoedit /etc/salt/minion`
 
 and there you will need to find
-`#master: salt` and insert your master's IP as well as comment out the line, so that it looks something like this `master: 10.0.0.1`
+`#master: salt` and insert your master's IP, as well as comment out the line, so that it looks something like this: `master: 10.0.0.1`
 
 after this, you are done with the setup and it is time to make contact with the master.
 
@@ -114,7 +114,7 @@ Now that you minions are calling for their master, you should run this command o
 
 `sudo salt-key -F master`
 
-here you should see your minions’ keys waiting for you master to accept them
+here you should see your minions’ keys waiting for your master to accept them
 
 `sudo salt-key -A` to accept all of them
 
@@ -128,11 +128,11 @@ Now that you have accepted your minions, you should test the connection.
 
 `sudo salt '*' test.ping`
 
-for which you should get "True" as a answer from each minion.
+for which you should get "True" as an answer from each minion.
 
 ## Running Arctic CCM Salt states
 
-At this point you have your master and minions set and connected to each other and you have my state files ready to use in your /srv/salt/ file, so now is the time to take a look at these files.
+At this point, you have your master and minions set and connected to each other and you have my state files ready to use in your /srv/salt/ file, so now is the time to take a look at these files.
 
 > **Note:**
 > - In my test enviroment, I had my minions named mWS, mSRV and WinMin
@@ -159,14 +159,14 @@ Now that you have your firewall set, you should allow remote execution of powers
 This command needs to be given in a powershell that has adminisrator privileges
 `Set-ExecutionPolicy RemoteSigned`
 
-Windows Salt minion client needs to be downloaded from the source for it is not included in this git repository.
+Windows Salt minion client needs to be downloaded from the source, for it is not included in this git repository.
 
 You can download it from here:
 https://docs.saltstack.com/en/latest/topics/installation/windows.html
 
 Python3 AMD64: [Salt-Minion-2017.7.2-AMD64-Setup.exe](https://repo.saltstack.com/windows/Salt-Minion-2017.7.2-Py3-AMD64-Setup.exe) is the version that I used.
 
-During the installation process you will need to give the minion the IP address of your master and name your minion
+During the installation process, you will need to give the minion the IP address of your master and name your minion
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltwin.PNG "saltwin settings")
 > **Note:**
 > - In my test enviroment, I named my Windows minion "WinMin" and that is how you'll find it in Arctic CCM Salt's top.sls file
@@ -175,7 +175,7 @@ Windows minion automaticly starts calling for its master, so you should next go 
 
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltwinkeys.PNG "WinMin salt keys")
 
-After accepting the keys you should test the connection 
+After accepting the keys, you should test the connection 
 
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltwinpingtest.PNG "WinMin salt ping")
 
