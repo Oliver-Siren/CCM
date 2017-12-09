@@ -166,6 +166,9 @@ https://docs.saltstack.com/en/latest/topics/installation/windows.html
 
 Python3 AMD64: [Salt-Minion-2017.7.2-AMD64-Setup.exe](https://repo.saltstack.com/windows/Salt-Minion-2017.7.2-Py3-AMD64-Setup.exe) is the version that I used.
 
+During the installation process you will need to give the minion the IP address of your master and name your minion
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltwin.PNG "saltwin settings")
+> **Note:**
+> - In my test enviroment, I named my Windows minion "WinMin" and that is how you'll find it in Arctic CCM Salt's top.sls file
 
 ## **To be continued..**
