@@ -8,7 +8,8 @@
 5. [Running Arctic CCM Salt states](#running-arctic-ccm-salt-states)
 6. [Installing Windows minions](#installing-windows-minions)
 7. [Populating the Windows repository](#populating-the-windows-repository)
-8. [Used sources](#used-sources)
+8. [Afterword](#afterword)
+9. [Used sources](#used-sources)
 
 ## Install prerequisites
 
@@ -225,6 +226,4 @@ https://docs.saltstack.com/en/latest/topics/targeting/index.html
 https://docs.saltstack.com/en/latest/topics/tutorials/states_pt1.html
 
 https://docs.saltstack.com/en/latest/topics/windows/windows-package-manager.html
-
-## **To be continued..**
 
