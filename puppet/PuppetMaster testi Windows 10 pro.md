@@ -25,5 +25,5 @@ Tämän jälkeen hyväksyin orjan sertifikaatit PuppetMasterilla
 
 `sudo puppet cert sign (orjan nimi)`
 
-Lopuksi ajoin komennon "puppet agent -tdv" ja puppet moduuli helloeero oli siirtynyt Windows orjakoneelle.
+Lopuksi ajoin komennon "puppet agent -tdv" ja puppet moduuli helloeero oli siirtynyt Windows orjakoneelle. Käytin komentoa siksi, koska Puppetin normaali päivitysaikaväli on 30 minuuttia, enkä halunnut odottaa.
 ![alt text](https://raw.githubusercontent.com/joonaleppalahti/CCM/master/puppet/kuvat/4.png "4")
