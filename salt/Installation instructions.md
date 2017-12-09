@@ -164,7 +164,8 @@ Windows Salt minion client needs to be downloaded from the source for it is not 
 You can download it from here:
 https://docs.saltstack.com/en/latest/topics/installation/windows.html
 
-Python3 AMD64: [Salt-Minion-2017.7.2-AMD64-Setup.exe](https://repo.saltstack.com/windows/Salt-Minion-2017.7.2-Py3-AMD64-Setup.exe)
+Python3 AMD64: [Salt-Minion-2017.7.2-AMD64-Setup.exe](https://repo.saltstack.com/windows/Salt-Minion-2017.7.2-Py3-AMD64-Setup.exe) is the version that I used.
 
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltwin.PNG "saltwin settings")
 
 ## **To be continued..**
