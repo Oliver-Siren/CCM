@@ -1,7 +1,8 @@
 #d-i mirror/http/proxy string http://172.28.171.131:8000/
 
-d-i passwd/user-fullname string {{ ansible_env.LOGNAME }}
-d-i passwd/username string {{ ansible_env.LOGNAME }}
+d-i passwd/user-fullname string {{ lookup('env','USER') }}
+d-i passwd/username string {{ lookup('env','USER') }}
+# salasana on salainen
 d-i passwd/user-password-crypted password $1$suola$x3q8bwB9K87WryJYwGJ2j.
 
 d-i partman-auto/disk string /dev/sda

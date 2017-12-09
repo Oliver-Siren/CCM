@@ -1,34 +1,11 @@
-# Eri ympäristöjen site.pp tiedostot
+# Arctic CCM: Puppettiin tutustuminen ja provisiointi
 
-## Linux palvelinmoduulien asennus
+## Terve!
 
-Lamp moduulin voi asentaa linuxiin ajamalla seuraavanlaisen site.pp tiedoston
+Tämä kansio sisältää minun osuuteni kouluprojektista, jossa tutustumme neljään keskitetyn hallinnan ohjelmaan, ja käytämme niitä provisiointiin koulun labraluokassa. 
 
-```
-class { "lampstack":}
-class { "mysql::server":
-            root_password => "salasanatähän",
-        }
-class { "tausta":}
-class { "luser":}
-```
+Tämän kansion muut dokumentit sisältävät ohjeita erilaisten ympäristöjen luontiin, sekä mm. erilaisia Puppetin käyttämiä moduuleita. Asennusohjeet sisältävät ohjeita moduulien luomisesta Linuxiin ja Windowsiin, ja Puppetmasterin asennuksesta. Tämän lisäksi kansiosta löytyy myös dokumentti jossa kerron hieman pohjatietoa puppetista (Puppetista.md). Provisiointi kansio sisältää provisiointiin koulun labrassa tarvittavia dokumentteja, sekä ohjeet asennukseen.
 
-## Linux työpöytäympäristön asennus
+Tämä työ on tehty Haaga-Helian kurssilla Monialaprojekti (http://www.haaga-helia.fi/fi/opinto-opas/opintojaksokuvaukset/PRO4TN001)
 
-```
-class { "ssh2":}
-class { "linuxohjelmat":}
-class { "tausta":}
-class { "luser":}
-```
-
-## Windows työpöytäympäristön asennus
-
-`sudo puppet module install puppetlabs/windows`
-
-```
-class { "choco":}
-class {"wuserwall":}
-```
-## Tulen lisäämään näihin node kohtaiset tiedot provisiontivaiheessa
 
