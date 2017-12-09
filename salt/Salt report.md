@@ -13,6 +13,8 @@ The documentation covers some of the basic functionalities of Salt and tries to 
 
 I made many mistakes during this project and spent a lot of time knocking my head against the wall trying to figure out how to do this or that. This is what my [original Salt report](https://github.com/joonaleppalahti/CCM/blob/master/salt/Origin%20(in%20finnish)/Salt%20raportti.md) (only available in Finnish) reflects and because of this, I decided to rewrite my report, in order to give it more structure and make it easier to read. I can honestly say that I have also had quite a lot of fun working on this project, this being mostly thanks to my amazing friends in the Arctic project workgroup and my family that gave me the time to work on this.
 
+My Salt research has been used and studied for the use of Salt in two projects coinciding with our Arctic CCM project, one of them being a smart mirror ([Kuvastin](https://kuvastinblog.wordpress.com/)) project that was being sponsored by the smartphone manufacturer OnePlus 
+
 | ![Dia1.PNG](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/Dia1.PNG) | 
 |:--:| 
 | *My original test environment was a network consisting of four virtual machines.* |
@@ -20,3 +22,8 @@ I made many mistakes during this project and spent a lot of time knocking my hea
 
 ## Table of contents
 1. [Introduction](#introduction)
+2. [The Beginning](#the-beginning)
+
+## The Beginning
+
+My part in the Arctic CCM begun with the dread and excitement that the thought of having to study and learn to use a completely new method of centralized configuration management. I had tried out puppet before and 
