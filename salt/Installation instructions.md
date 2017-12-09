@@ -7,6 +7,8 @@
 4. [Contacting master and accepting minions with master](#contacting-master-and-accepting-minions-with-master)
 5. [Running Arctic CCM Salt states](#running-arctic-ccm-salt-states)
 6. [Installing Windows minions](#installing-windows-minions)
+7. [Populating the Windows repository](#populating-the-windows-repository)
+8. [Used sources](#used-sources)
 
 ## Install prerequisites
 
@@ -139,9 +141,9 @@ At this point, you have your master and minions set and connected to each other 
 > - mWS for workstation
 > - mSRV for LAMP (Linux,apache,MySQL,PHP) server
 > - WinMin for Windows minion
-> - top.sls contains a list of minions on which to run various states, so you might want to change the names to reflect the host names of your minions
 
-When you have modified top.sls to address your minions and chosen which states to run on them, it is time to execute the order
+top.sls contains a list of minions on which to run various states, so you might want to change the names to reflect the host names of your minions.
+When you have modified top.sls to address your minions and chosen which states to run on them, it is time to execute the order.
 
 `sudo salt '*' state.apply`
 
@@ -173,11 +175,56 @@ During the installation process, you will need to give the minion the IP address
 
 Windows minion automaticly starts calling for its master, so you should next go and accept your new minion on your master.
 
+To verify that the master has received your Windows minion's keys, you should run
+
+`sudo salt-key -F master`
+
+and to accept them
+
+`sudo salt-key -a minion_name`
+
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltwinkeys.PNG "WinMin salt keys")
 
 After accepting the keys, you should test the connection 
 
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltwinpingtest.PNG "WinMin salt ping")
 
+## Populating the Windows repository
+
+Windows does not have its own package repository like Linux does, so you will have to give it a library of instructions on where to download and how to install various apps.
+
+To do this, you first have to download this library to your master
+
+`sudo salt-run winrepo.update_git_repos`
+
+and to use it on you Windows minions.
+
+`sudo salt -G 'os:windows' pkg.refresh_db`
+
+After running these two commands, you are ready to run salt states to your Windows minion on your Salt master.
+
+## Afterword
+
+I recommend that you read the [Salt report](https://github.com/joonaleppalahti/CCM/blob/master/salt/Salt%20report.md) and also please consider checking out other parts of our Arctic CCM project
+
+> - [Ansible](https://github.com/joonaleppalahti/CCM/tree/master/ansible) (in Finnish) - by Joona Leppälahti
+> - [puppet](https://github.com/joonaleppalahti/CCM/tree/master/puppet) (in Finnish) - by Eero Kolkki
+> - [Chef](https://github.com/joonaleppalahti/CCM/tree/master/chef/Chef) - by Jarkko Koski
+
+
+## Used sources
+
+https://repo.saltstack.com/
+
+https://docs.saltstack.com/en/latest/ref/configuration/master.html
+
+https://docs.saltstack.com/en/latest/ref/configuration/minion.html
+
+https://docs.saltstack.com/en/latest/topics/targeting/index.html
+
+https://docs.saltstack.com/en/latest/topics/tutorials/states_pt1.html
+
+https://docs.saltstack.com/en/latest/topics/windows/windows-package-manager.html
 
 ## **To be continued..**
+
