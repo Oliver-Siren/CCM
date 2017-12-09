@@ -205,7 +205,7 @@ After running these two commands, you are ready to run salt states to your Windo
 
 ## Afterword
 
-I recommend that you read the [Salt report](https://github.com/joonaleppalahti/CCM/blob/master/salt/Salt%20report.md) and also please consider checking out other parts of our Arctic CCM project
+I recommend that you read the [Salt report](https://github.com/joonaleppalahti/CCM/blob/master/salt/Salt%20report.md) and also, please consider checking out other parts of our Arctic CCM project
 
 > - [Ansible](https://github.com/joonaleppalahti/CCM/tree/master/ansible) (in Finnish) - by Joona Leppälahti
 > - [puppet](https://github.com/joonaleppalahti/CCM/tree/master/puppet) (in Finnish) - by Eero Kolkki
