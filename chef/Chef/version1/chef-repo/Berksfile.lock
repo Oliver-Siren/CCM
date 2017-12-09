@@ -1,0 +1,8 @@
+DEPENDENCIES
+  linux_server
+  mysql
+
+GRAPH
+  linux_server (0.1.11)
+    mysql (~> 8.5)
+  mysql (8.5.1)
