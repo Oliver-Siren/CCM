@@ -171,4 +171,13 @@ During the installation process you will need to give the minion the IP address 
 > **Note:**
 > - In my test enviroment, I named my Windows minion "WinMin" and that is how you'll find it in Arctic CCM Salt's top.sls file
 
+Windows minion automaticly starts calling for its master, so you should next go and accept your new minion on your master.
+
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltwinkeys.PNG "WinMin salt keys")
+
+After accepting the keys you should test the connection 
+
+![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/saltwinpingtest.PNG "WinMin salt ping")
+
+
 ## **To be continued..**
