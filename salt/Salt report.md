@@ -16,5 +16,9 @@ I made many mistakes during this project and spent a lot of time knocking my hea
 ![alt text](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/Dia1.PNG "My original test environment")
 My original test environment was a network consisting of four virtual machines.
 
+| ![Dia1.PNG](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/Dia1.PNG) | 
+|:--:| 
+| *My original test environment was a network consisting of four virtual machines.* |
+
 ## Table of contents
 1. [Introduction](#introduction)
