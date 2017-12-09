@@ -47,7 +47,13 @@ berks install
 
 berks upload
 ```
-this will upload teh cookbooks which you can then run with
+this will upload teh cookbooks which you can then add to your server with
+
+```
+knife node run_list add NODENAME linux_server
+```
+
+and then run with
 
 ```
 knife ssh 'name:NODENAME' 'sudo chef-client' --ssh-user USERNAME --ssh-password --sudo
