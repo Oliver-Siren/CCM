@@ -151,11 +151,20 @@ This might take a moment, depending on the state modules you have chosen to use.
 
 On Windows OS, you'll first need to open a couple of ports in the firewall for Salt (4505-4506)
 
+This command needs to be given in a powershell that has adminisrator privileges
+`netsh advfirewall firewall add rule name="Salt" dir=in action=allow protocol=TCP localport=4505-4506`
+
 Now that you have your firewall set, you should allow remote execution of powershell, in order to allow for the powershell script to be ran by Salt (this script is needed in order to take ownership and give rights to img0.jpg that is your Windows' default wallpaper).
 
 This command needs to be given in a powershell that has adminisrator privileges
 `Set-ExecutionPolicy RemoteSigned`
 
+Windows Salt minion client needs to be downloaded from the source for it is not included in this git repository.
+
+You can download it from here:
+https://docs.saltstack.com/en/latest/topics/installation/windows.html
+
+Python3 AMD64: [Salt-Minion-2017.7.2-AMD64-Setup.exe](https://repo.saltstack.com/windows/Salt-Minion-2017.7.2-Py3-AMD64-Setup.exe)
 
 
 ## **To be continued..**
