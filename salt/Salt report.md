@@ -30,3 +30,13 @@ in partnership with [Haaga-Helia University of Applied Sciences](https://www.haa
 ## The Beginning
 
 My part in the Arctic CCM begun with the dread and excitement that the thought of having to study and learn to use a completely new method of centralized configuration management. I had tried out puppet before and 
+
+## The End
+
+## Afterword
+
+## What a long strange trip it's been
+
+## Used sources
+
+## **To be continued..**
