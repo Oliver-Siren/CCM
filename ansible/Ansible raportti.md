@@ -34,7 +34,9 @@
 	4. [Ansiblen provisiointi](#ansiblen-provisiointi)
 14. [Masterin automaattinen asennus playbookilla](#masterin-automaattinen-asennus-playbookilla)
 	1. [Labratestauksen tulokset](#labratestauksen-tulokset)
-15. [Käytettyjä lähteitä](#käytettyjä-lähteitä)
+	2. [Jatkoa masterin automatisoinnille](#jatkoa-masterin-automatisoinnille)
+15. [Handlers](#handlers)
+16. [Käytettyjä lähteitä](#käytettyjä-lähteitä)
 
 ## Tutustuminen Ansibleen
 Aloitin testauksen asentamalla kaksi kappaletta Xubuntua (16.04.3) Virtualboxiin. Toinen kone toimii masterina ja toinen kohteena. Tämän jälkeen aloin lukemaan Ansiblen [dokumentaatiota](https://docs.ansible.com/ansible/latest/intro.html) ja [Wikipedia-artikkelia](https://en.wikipedia.org/wiki/Ansible_(software)). 
@@ -949,6 +951,33 @@ d-i grub-installer/bootdev string default
 
 Ubuntu asennetaan sda osiolle, mutta sdb käynnistyy automaattisesti, joten käynnistyvä käyttöjärjestelmä täytyy valita manuaalisesti.
 
+### Jatkoa masterin automatisoinnille
+
+Huomasin toisella käyttäjänimellä masteria asentaessani että asennus ei toimi, sillä olen kovakoodannut oman käyttäjänimeni moneen asetustiedostoon. Kävin kaikki tiedostot läpi ja korvasin käyttäjänimeni `"{{ lookup('env', 'USER') }}"`. Tämä ei toiminut ja sain virheilmoituksia. Seuraavaksi kokeilin `{{ ansible_env.LOGNAME }}`, joka antoi käyttäjänimeksi root, koska käytin sudo-oikeuksia. Tutkittuani asiaa lisää, huomasin että ensimmäisessä yrityksessä oli ylimääräinen välilyönti. Oikea muuttuja oli siis `"{{ lookup('env','USER') }}"`, joka antoi käyttäjänimeksi tämänhetkisen käyttäjän.
+
+# Handlers
+
+Tarvitsin jotain millä käynnistää DHCP-palvelu uudelleen kun muokkasin sen konfiguraatiota. Handlereitä kutsutaan vain tarvittaessa, joten se sopi tilanteeseen. 
+
+Lisäsin ensin masterin tasks playbookiin notify kohdan. 
+```
+***
+- name: copy dhcpd.conf to /etc/dhcp/dhcpd
+  template: src=roles/master/files/dhcp.conf.j2 dest=/etc/dhcp/dhcpd.conf
+  notify: restart dhcp
+***
+```
+
+Jouduin pohtimaan hakemistorakennetta, sillä Ansiblen tiedostot voi nähtävästi sijoittaa monella eri tapaa. Yritin aluksi lisätä handlers kohtaa suoraan masterin tasks playbookiin, mutta huomasin että handlers kuuluu samalle tasolle kuin tasks. Päädyin siis luomaan master-roolille hakemiston handlers, johon lisäsin main.yml playbookin. Playbookin sisällöksi tuli yksinkertainen palvelun uudelleenkäynnistys.
+```
+---
+- name: restart dhcp
+  service: name=isc-dhcp-server state=restarted
+```
+
+Nyt isc-dhcp-server palvelu käynnistetään uudelleen playbookin ajon aikana, mikäli siihen on tehty muutoksia.
+
+
 
 ## Käytettyjä lähteitä
 
@@ -984,3 +1013,5 @@ Ubuntu asennetaan sda osiolle, mutta sdb käynnistyy automaattisesti, joten käy
 * http://docs.ansible.com/ansible/latest/unarchive_module.html
 * https://stackoverflow.com/questions/24003880/ansible-set-variable-to-file-content
 * http://docs.ansible.com/ansible/latest/user_module.html
+* https://stackoverflow.com/questions/26394096/in-ansible-how-do-i-get-a-variable-with-the-name-of-the-user-running-ansible
+* https://github.com/ansible/ansible-examples/blob/master/language_features/handlers/handlers.yml
