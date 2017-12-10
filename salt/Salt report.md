@@ -48,6 +48,8 @@ I have tested Salt in a environment comprising of both Linux (Ubuntu) and Window
 
 To use Salt it is good to know some programming language. Salt itself uses Python and YAML as well as JSON and Jinja but in my states I only needed YAML and Python, YAML having been totally new to me before this project.
 
+Not only can Salt master manage the devices in your network but also it can be used to monitor and gather information about those devices, that information can for example be disk usage or list of applications currently installed on minion and the version of that application. This date can later be used for targeting specific computer or a group of devices that your master controls with your state modules in your top.sls file (in many ways the top.sls file has the same function in Salt as the site.pp file has in puppet).
+
 ## Understanding Salt
 
 With Salt it all starts with the top.sls file that you will have to create in to your Salt directory "/srv/salt/" which is the default directory from where your Salt master will start looking for instructions. For installing Salt and getting started with master-minion structure you can read my instructions [here](https://github.com/joonaleppalahti/CCM/blob/master/salt/Installation%20instructions.md).
@@ -56,7 +58,7 @@ With Salt it all starts with the top.sls file that you will have to create in to
 |:--:|
 | *Rudimentary top.sls file* |
 
-
+You can create you own enviroments by adding them
 
 
 ## The End
