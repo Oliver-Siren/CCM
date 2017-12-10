@@ -30,6 +30,10 @@ in partnership with [Haaga-Helia University of Applied Sciences](https://www.haa
 3. [Salt](#salt)
 4. [Understanding Salt](#understanding-salt)
 	1. [Targeting with Salt](#targeting-with-salt)
+	2. [State instructions](#state-instructions)
+5. [Adding users to Ubuntu](#adding-users-to-ubuntu)
+6. [Setting up firewall](#setting-up-firewall)
+	
   
 ## The Beginning
 
@@ -108,7 +112,7 @@ Above you see half of my LAMP-stack install instructions with the apache default
 
 I had some luck with it for I found an article by [Tero Karvinen](http://terokarvinen.com/) that had the instructions on how to preseed passwords with Salt.
 
-### Adding users to Ubuntu
+## Adding users to Ubuntu
 
 Same kind of problem came with adding users to minions where I had to give usernames and passwords.
 
@@ -132,7 +136,7 @@ This line was the one I used in the end.
 `python3.5 -c "import crypt; print(crypt.crypt('password', crypt.mksalt(crypt.METHOD_SHA512)))"`
 
 
-### Setting up firewall
+## Setting up firewall
 
 For setting firewall port rules I went and traight out modified the /etc/ufw/user6.rules and /etc/ufw/user.rules files and used them as templates, and for activating UFW I took a look at the [Pat McNally's](https://github.com/patmcnally) instructions that you can find [here](https://github.com/patmcnally/salt-states-webapps/blob/master/firewall/ufw.sls).
 
