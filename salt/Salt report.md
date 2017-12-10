@@ -42,7 +42,7 @@ Salt is by desing a highly modular environment that allows you to pick and chose
 
 I have tested Salt in a environment comprising of both Linux (Ubuntu) and Windows systems on PC and virtual machines as well as in a scenario where some of the minions are beyond the local area network that I had used but in a network only accessable through public internet.
 
-| ![Dia4.PNG](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/Dia4.PNG) | 
+| ![Dia4.png](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/Dia4.png) | 
 |:--:|
 | *Environment where some of the minions are located beyond LAN* |
 
