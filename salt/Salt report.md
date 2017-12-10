@@ -33,7 +33,10 @@ in partnership with [Haaga-Helia University of Applied Sciences](https://www.haa
 	2. [State instructions](#state-instructions)
 5. [Adding users to Ubuntu](#adding-users-to-ubuntu)
 6. [Setting up firewall](#setting-up-firewall)
-	
+7. [Salt on Windows](#salt-on-windows)
+	1. [Adding users to Windows](#adding-users-to-windows)
+	2. [Changing the defaul wallpaper on Windows](#changing-the-defaul-wallpaper-on-windows)
+8. [PXE and installing Ubuntu](#pxe-and-installing-ubuntu)
   
 ## The Beginning
 
