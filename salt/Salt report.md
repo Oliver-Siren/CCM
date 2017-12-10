@@ -67,18 +67,73 @@ I used in my top.sls file the names of my minions as a way to target them with s
 
 With the Pillar structure you can store static date like information about your minions and organize them in to groups for easier targeting management, unfortunately I did not have the time to try this system too thoroughly myself but I do think it is something worth looking in to as the need arises.
 
+| ![pillardata.PNG](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/pillardata.PNG) | 
+|:--:|
+| *Example of the pillar static data* |
+
+Picture above presents the way you can insert static data to your pillar, in this picture you see instructions to command to install apache and vim and what they mean for different operating systems.
+
 ## State instructions
 
 In order for top.sls to do anything, it needs to have state files to run. You can always just run one-liners to execute commands through Salt, but organizing your instructions in to reusable state files makes network management just so much easier.
 
-| ![Dia8.png](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/Dia8.png) | 
-|:--:|
-| *Rudimentary top.sls file* |
-
-
 | ![Dia9.png](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/Dia9.PNG) | 
 |:--:|
 | *Simple one-liner command* |
+
+You can build your state files how every you wish but Salt seems to execute them from top to bottom by default. Like in puppet you can set conditions to execution, conditions like for one part of the .sls file to be executed before other. As these state files are writen in YAML they are very particular about the use of empty space, you should always use Space instead of Tab and each indent requires two spaces first line being indented with one space.
+
+```
+ install_lamp:
+   pkg.installed:
+     - pkgs:
+       - apache2
+       - libapache2-mod-php
+
+ /var/www/html/index.php:
+  file:
+    - managed
+    - source: salt://webserver/index.php
+    - require:
+      - pkg: install_lamp
+
+ /var/www/html/index.html:
+  file:
+    - absent
+    - require:
+      - pkg: install_lamp 
+```
+
+Above you see half of my LAMP-stack install instructions with the apache default page (/var/www/html/) at localhost replaced with my own php test site. For the second half where I istalled MySQL I found it difficult to do for I had to somehow manage to insert root passwords before installation as Salt does an silent install of it.
+
+I had some luck with it for I found an article by [Tero Karvinen](http://terokarvinen.com/) that had the instructions on how to preseed passwords with Salt.
+
+### Adding users to Ubuntu
+
+Same kind of problem came with adding users to minions where I had to give usernames and passwords.
+
+```
+ opiskelija:
+   user.present:
+     - fullname: opiskelija
+     - shell: /bin/bash
+     - home: /home/opiskelija
+     - password: $6$7o5/CdYSAA9nKCSc$RfBbK6WDmJYdw/BeytFj8nyPWBEJJwenIPxZsgpk4IZMPVNDh5ZXe4WhqYcaMWR4XG0fjPT7ANuBfybOieN1/0
+     - enforce_password: True
+```
+So that every users password wouldnt be readily available to anyone who had access to these files and to make sure password was transfered securely, I decided to not put them in plain text format. For encypting the passwords and adding users I found this handy post https://gist.github.com/UtahDave/3785738 and for encryption I found a comment by user [me-vlad](https://gist.github.com/me-vlad) that had the following:
+
+`python -c "import crypt; print(crypt.crypt('password', crypt.mksalt(crypt.METHOD_SHA512)))"`
+
+On my master this though this didn't work immediately and I had to install python first.
+
+This line was the one I used in the end.
+`python3.5 -c "import crypt; print(crypt.crypt('password', crypt.mksalt(crypt.METHOD_SHA512)))"`
+
+
+### Setting up firewall
+
+For setting firewall port rules I went and traight out modified the /etc/ufw/user6.rules and /etc/ufw/user.rules files and used them as templates, and for activating UFW I took a look at the [Pat McNally's](https://github.com/patmcnally) instructions that you can find [here](https://github.com/patmcnally/salt-states-webapps/blob/master/firewall/ufw.sls).
 
 ## The End
 
@@ -93,5 +148,11 @@ https://docs.saltstack.com/en/latest/topics/tutorials/walkthrough.html
 https://docs.saltstack.com/en/latest/topics/jinja/index.html
 
 https://en.wikipedia.org/wiki/Salt_(software)
+
+http://terokarvinen.com/2015/preseed-mysql-server-password-with-salt-stack
+
+https://gist.github.com/UtahDave/3785738
+
+https://github.com/patmcnally/salt-states-webapps/blob/master/firewall/ufw.sls
 
 ## **To be continued..**
