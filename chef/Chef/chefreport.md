@@ -22,7 +22,7 @@ Chef requires three components to work as intended. A workstation, a server and 
 ChefDK's latest version is available at [https://downloads.chef.io/chefdk] once you download it to your desktop you can install it with apt. In the same way as you would install a server. so please refer to the next step for detailed instructions.
 You can install chef server by using wget to download the install file if you want the latest version. At the time of writing this the version that came from apt was 12.3.0 while latest stable was 12.16.14.
 
-To get the file with wget I used the command   
+To get the file with wget I used the command
 
 ```
 wget https://packages.chef.io/files/stable/chef-server/12.16.14/ubuntu/16.04/chef-server-core_12.16.14-1_amd64.deb
@@ -98,11 +98,11 @@ create a file with nano in the trusted_certs folder of your .chef folder and dep
 
 If you cant connect at all due to not having DNS modify your desktops /etc/hosts file to contain your server so that you can easily connect. Like this
 
-´´´
+```
 127.0.0.1       localhost
 127.0.1.1       pingviinilaeppa
 192.168.1.62    vagrant.vm
-´´´
+```
 
 You can get the ip of your server with the command
 
@@ -119,6 +119,8 @@ knife bootstrap USER@IP_ADDRESS -N NODENAME
 ```
 
 the command connects to the node with ssh and a password.
+
+If you have problems with configuring your network you can consult /Chef/extra/fqdnproblems.md for some pointers.
 
 ## Running cookbooks
 

@@ -1,3 +1,5 @@
+This is a record of figuring out a problem in my Chef configuration it records the process of the fix but might be hard to apply to your own system. It is still provided to hopefully assist in problem resolution.
+
 In trying to install mysql module from supermarket I ran into a problem with dependencies management with berksfile. As I understand the instructions at [https://docs.chef.io/berkshelf.html] the dependencies are simply declared in the berksfile at the root of your cookbook and that should be enough. I made a berksfile at my cookbooks root, despite doing so i get the following error 
 
 ```

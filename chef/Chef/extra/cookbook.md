@@ -1,3 +1,5 @@
+This is a record of figuring out a problem in my Chef configuration it records the process of the fix but might be hard to apply to your own system. It is still provided to hopefully assist in problem resolution.
+
 I started forming the linux_server_v1 cookbook simply by entering the command "chef create cookbook" to create the cookboock. Then added some variables to try. And prodeeded to create a node to try the cookbook on. Then I ran into problems as I could not bootstrap the node as I usually do. I did not want to go too far into trying to fix the error, so i decided to try and reinstall chef server since it often has problems running on vagrant. I did so but the problem presisted. I redid the bootstrap with the modifier -V -V to get more information on what is happening in the bootstrap process the error that seems to fail the bootstrapping is the following 
 ```
 dpkg: error: requested operation requires superuser privilege

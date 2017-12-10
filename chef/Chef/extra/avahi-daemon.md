@@ -1,3 +1,6 @@
+This is a record of figuring out a problem in my Chef configuration it records the process of the fix but might be hard to apply to your own system. It is still provided to hopefully assist in problem resolution.
+
+
 Avahi daemon could maybe be used to provide a way to use fqdn addresses for the configuration of Chef domain. The problem in trying this out for me was that vagrant dosen't have avahi by default and each instance of vagrant gets the same name. I'm also somewhat unsure of teh details of how avahi works as I uderstand it each machine needing a .local address needs to run the avahi-daemon.
 
 In my network I have  two machines running avahi now pingviinilaeppa which is my working desktop and chefmagnificence which is the host for my VMs.

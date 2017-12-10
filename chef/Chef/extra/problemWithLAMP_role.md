@@ -1,3 +1,5 @@
+This is a record of figuring out a problem in my Chef configuration it records the process of the fix but might be hard to apply to your own system. It is still provided to hopefully assist in problem resolution.
+
 In trying to run lamp_role i got the following progress listing
 ```
  knife ssh 192.168.1.62 'sudo chef-client' --ssh-user vagrant --ssh-password vagrant --manual-list

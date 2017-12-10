@@ -1,3 +1,5 @@
+This is a record of figuring out a problem in my Chef configuration it records the process of the fix but might be hard to apply to your own system. It is still provided to hopefully assist in problem resolution.
+
 I had trouble connectig to my server as instructed in the tutorial at [https://learn.chef.io/modules/manage-a-node-chef-server/ubuntu/bring-your-own-system/set-up-your-chef-server#/].
 
 System setup
