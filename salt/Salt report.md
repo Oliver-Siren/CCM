@@ -65,9 +65,9 @@ With Salt it all starts with the top.sls file that you will have to create in to
 
 I used in my top.sls file the names of my minions as a way to target them with state instructions, but if you should have a larger network of devices you should concider some alternate targeting date to control groups instead of having to type each and every device's host name to your top.sls
 
-With the Pillar structure you can store static date like information about your minions and organize them in to groups for easier targeting management, unfortunately I did not have the time to try this system too thoroughly myself but I do think it is something worth looking in to as the need rises.
+With the Pillar structure you can store static date like information about your minions and organize them in to groups for easier targeting management, unfortunately I did not have the time to try this system too thoroughly myself but I do think it is something worth looking in to as the need arises.
 
-
+##
 
 ## The End
 
