@@ -170,3 +170,12 @@ knife ssh 'name:NODENAME' 'sudo chef-client' --ssh-user USERNAME --ssh-password 
 
 ```
 as explained previously
+
+
+## Conclusion
+
+I don't think Chef is a good pick among the systems we looked at. The initial setup is more complicated than with the others and the features don't reconcile that fact in my opinion.
+
+Chef has all the features you'd require; it is idempotent, it has pull architecture and seems secure enough, but its competition also has those features and in addition Chef has some needless complications in its network requirements. The functionality in ChefDK is nice but some of seems to exist to rectify the complications of Chef. Managing cookbooks is complicated and has to be done by hand or through berks. Bootstrapping nodes seems to result in nodes that don't see the server unless you perform additional configuration by hand. Doing manual runs of your cookbooks is hard and there is no tool to confirm connectivity from your node.
+
+All the issues I have with Chef might be rectified with more familiarization with it. I still dont feel that I've explored all the tools taht Chef offers. I still feel I must say that while everything does work in the end, the system is hard to adopt and the competition offers the same functionality with an easier start.
