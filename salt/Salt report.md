@@ -110,7 +110,7 @@ You can build your state files how every you wish but Salt seems to execute them
 
 Above you see half of my LAMP-stack install instructions with the apache default page (/var/www/html/) at localhost replaced with my own php test site. For the second half where I istalled MySQL I found it difficult to do for I had to somehow manage to insert root passwords before installation as Salt does an silent install of it.
 
-I had some luck with it for I found an article by [Tero Karvinen](http://terokarvinen.com/) that had the instructions on how to preseed passwords with Salt.
+I had some luck with it for I found an article by [Tero Karvinen](http://terokarvinen.com/) that had the [instructions](http://terokarvinen.com/2015/preseed-mysql-server-password-with-salt-stack) on how to preseed passwords with Salt.
 
 ## Adding users to Ubuntu
 
