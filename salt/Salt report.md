@@ -36,7 +36,15 @@ The Salt documentation had this article ["Salt in 10 minutes"](https://docs.salt
 
 ## Salt
 
-Salt is a toolkit above all else, to me it seems that it has a tool for everything that I would think an average 
+Salt is a toolkit above all else, to me it seems that it has a tool for everything that I would think an average system administrator could need in order to manage any network of larger than few devices.
+
+Salt is by desing a highly modular environment that allows you to pick and chose the parts you need for your network while supporting future needs and growth. According to Salt's devoloper SaltStack, Salt scales well beyond tens of thousands of servers.
+
+I have tested Salt in a environment comprising of both Linux (Ubuntu) and Windows systems on PC and virtual machines as well as in a scenario where some of the minions are beyond the local area network that I had used but in a network only accessable through public internet.
+
+| ![Dia4.PNG](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/Dia4.PNG) | 
+|:--:|
+| *Environment where some of the minions are located beyond LAN* |
 
 
 
