@@ -60,6 +60,10 @@ To use Salt it is good to know some programming language. Salt itself uses Pytho
 
 Not only can Salt master manage the devices in your network but also it can be used to monitor and gather information about those devices, that information can for example be disk usage or list of applications currently installed on minion and the version of that application. This date can later be used for targeting specific computer or a group of devices that your master controls with your state modules in your top.sls file (in many ways the top.sls file has the same function in Salt as the site.pp file has in puppet). Salt can control various devices ranging from your common OS' to network routers.
 
+| ![Dia3.PNG](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/Dia3.PNG) | 
+|:--:|
+| *My test environment at the Haaga-Helia University of Applied Sciences' computer laboratory * |
+
 ## Understanding Salt
 
 With Salt it all starts with the top.sls file that you will have to create in to your Salt directory "/srv/salt/" which is the default directory from where your Salt master will start looking for instructions. For installing Salt and getting started with master-minion structure you can read my instructions [here](https://github.com/joonaleppalahti/CCM/blob/master/salt/Installation%20instructions.md).
@@ -292,9 +296,36 @@ This repository contains parts and references to provisioning and installing mul
 
 ## The End
 
+In the end of this project I really felt like I knew my own corner of Salt but I also recognize the fact that I have only been scratching the surface and there is still much to learn, as I suspect that I have not even touched the main features of Salt nor have I fully experemented with its full potential.
+
+I had some ideas on how a large Salt network could look like:
+
+| ![Dia5.png](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/Dia5.PNG) | 
+|:--:|
+| *Hierarchy stucture of masters to allow for load ballance in large network* |
+
+| ![Dia6.png](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/Dia6.PNG) | 
+|:--:|
+| *Two masters with shared master key serving all minions together* |
+
+These models could in my opinion help with the load balancing and could have been fun to try if I had opportunity.
+
+Overall I would recommend Salt and found it cabable tool.
+
 ## Afterword
 
+In my opinion the Arctic CCM project did not reach its full potential and with better project leadership on my part we would have been able to do better work, but we set the bar too low in the begining and only raised it at the end when it was already too later to do anything to rectify this.
+
 ## What a long strange trip it's been
+
+As of 10.12.2017 23:00 in the European way of marking the date I have 182 hours and 15 minutes on the clock of working time on this project, I recognize that this does not make me an expert on Salt but I hope you have found my report useful and maybe somewhat entertaining.
+
+Thank you for reading this and Happy Holidays
+
+Jori Laine
+Student at the Haaga-Helia University of Applied Sciences
+Bachelor´s Degree program in Business Information Technology, Pasila campus
+Majoring in ICT-infrastructures and IT security
 
 ## Used sources
 
