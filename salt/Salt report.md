@@ -52,7 +52,7 @@ To use Salt it is good to know some programming language. Salt itself uses Pytho
 
 With Salt it all starts with the top.sls file that you will have to create in to your Salt directory "/srv/salt/" which is the default directory from where your Salt master will start looking for instructions. For installing Salt and getting started with master-minion structure you can read my instructions [here](https://github.com/joonaleppalahti/CCM/blob/master/salt/Installation%20instructions.md).
 
-| ![Dia8.PNG](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/Dia8.PNG) | 
+| ![Dia8.png](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/Dia8.png) | 
 |:--:|
 | *Rudimentary top.sls file* |
 
