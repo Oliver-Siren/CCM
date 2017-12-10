@@ -3,7 +3,7 @@
 
 ## Introduction
 
-Salt**Stack** study is my contribution to the Arctic CCM (centralized configuration management) research and evaluation project.
+[Salt**Stack**](https://saltstack.com/) study is my contribution to the Arctic CCM (centralized configuration management) research and evaluation project.
 
 It consists of several rather basic state files (.sls) of my own creation, that install applications and services to Linux systems as well as Windows OS (due to licensing [Salt Windows repository](https://docs.saltstack.com/en/latest/topics/windows/windows-package-manager.html) is not included, but you’ll find instructions for downloading it in the ["Installation instructions"](https://github.com/joonaleppalahti/CCM/blob/master/salt/Installation%20instructions.md) document). Also, in here you will find my Linux provisioning with PXE configuration files that I used, in order to create multiple minions on which to test my Salt configuration at the Haaga-Helia computer laboratory.
 
@@ -36,7 +36,7 @@ The Salt documentation had this article ["Salt in 10 minutes"](https://docs.salt
 
 ## Salt
 
-Salt is a toolkit above all else, to me it seems that it has a tool for everything that I would think an average system administrator could need in order to manage any network of larger than few devices.
+Salt is a toolkit above all else, to me it seems that it has a tool for everything that I would think an average system administrator could need in order to manage any network of larger than few devices. It is open-source software with a Enterprise package offering support and additional services. So unless you need support on enterprise scale, the cost of using Salt is time and effort you put in to it.
 
 Salt is by desing a highly modular environment that allows you to pick and chose the parts you need for your network while supporting future needs and growth. According to Salt's devoloper SaltStack, Salt scales well beyond tens of thousands of servers.
 
@@ -45,6 +45,17 @@ I have tested Salt in a environment comprising of both Linux (Ubuntu) and Window
 | ![Dia4.PNG](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/Dia4.PNG) | 
 |:--:|
 | *Environment where some of the minions are located beyond LAN* |
+
+To use Salt it is good to know some programming language. Salt itself uses Python and YAML as well as JSON and Jinja but in my states I only needed YAML and Python, YAML having been totally new to me before this project.
+
+## Understanding Salt
+
+With Salt it all starts with the top.sls file that you will have to create in to your Salt directory "/srv/salt/" which is the default directory from where your Salt master will start looking for instructions. For installing Salt and getting started with master-minion structure you can read my instructions [here](https://github.com/joonaleppalahti/CCM/blob/master/salt/Installation%20instructions.md).
+
+| ![Dia8.PNG](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/Dia8.PNG) | 
+|:--:|
+| *Rudimentary top.sls file* |
+
 
 
 
@@ -55,5 +66,11 @@ I have tested Salt in a environment comprising of both Linux (Ubuntu) and Window
 ## What a long strange trip it's been
 
 ## Used sources
+
+https://docs.saltstack.com/en/latest/topics/tutorials/walkthrough.html
+
+https://docs.saltstack.com/en/latest/topics/jinja/index.html
+
+https://en.wikipedia.org/wiki/Salt_(software)
 
 ## **To be continued..**
