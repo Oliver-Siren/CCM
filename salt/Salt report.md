@@ -308,7 +308,7 @@ I had some ideas on how a large Salt network would look like:
 |:--:|
 | *Hierarchy stucture of masters to allow for load ballance in large network* |
 
-| ![Dia6.png](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/Dia6.PNG) | 
+| ![Dia6.png](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/Dia6.png) | 
 |:--:|
 | *Two masters with shared master key serving all minions together* |
 
