@@ -11,7 +11,7 @@ Asenna masterkoneelle Xubuntu 16.04.3. Livetilaa ei ole testattu. Asennuksen val
 sudo apt-get update && sudo apt-get -y install git && git clone https://github.com/joonaleppalahti/CCM.git
 ```
 ```
-cd CCM/ansible/
+cd CCM/ansible/versio1.0/
 ```
 ```
 ./ansible_install.sh

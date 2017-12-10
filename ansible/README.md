@@ -2,7 +2,7 @@
 
 Tästä hakemistosta löytyvät raportti ansibleen tutustumisesta, hakemisto esimerkkitoteutukselle, sekä kehityshakemisto.
 
-[Tutustumisraportissa](https://github.com/joonaleppalahti/CCM/blob/master/ansible/Ansible%20raportti.md) käyn läpi ensikosketuksen Ansibleen, sekä ongelmat, joihin törmäsin matkan varrella. Esimerkkitoteutuksen tiedostot ja käyttöohje löytyvät hakemistosta versio1.0. Kehityshakemistosta löytyy uusin versio kokoonpanosta, joka sisältää osia, jotka eivät soveltuneet ensimmäiseen esimerkkiversioon.
+[Tutustumisraportissa](https://github.com/joonaleppalahti/CCM/blob/master/ansible/Ansible%20raportti.md) käyn läpi ensikosketuksen Ansibleen, sekä ongelmat, joihin törmäsin matkan varrella. Esimerkkitoteutuksen [tiedostot](https://github.com/joonaleppalahti/CCM/tree/master/ansible/versio1.0/ansible) ja [käyttöohje](https://github.com/joonaleppalahti/CCM/blob/master/ansible/versio1.0/k%C3%A4ytt%C3%B6ohje.md) löytyvät hakemistosta [versio1.0](https://github.com/joonaleppalahti/CCM/tree/master/ansible/versio1.0). [Kehityshakemistosta](https://github.com/joonaleppalahti/CCM/tree/master/ansible/dev) löytyy uusin versio kokoonpanosta, joka sisältää osia, jotka eivät soveltuneet ensimmäiseen esimerkkiversioon.
 
 ### Master ja Linux
 
