@@ -42,6 +42,8 @@ wakeonlan a0:8c:fd:d0:53:3c
 Huom! Jos kone on sammutettu Windowsin kautta, ei wakeonlan toimi. Verkkobootin voi käynnistää manuaalisesti painamalla F12 käynnistyksen yhteydessä. Ongelman voi myös korjata käynnistämällä koneen ja sammuttamalla sen POST-ikkunan aikana.
 
 Asennuksen valmistuttua kone jää sammuksiin, sillä testatut koneet käynnistyivät automaattisesti Windowsiin. Käynnistä kone manuaalisesti Linuxiin. Koneen käynnistyttyä ajetaan masterilla linux.yml.
+
+Huom! Linux-desktop roolia varten tulee graafinen käyttöliittymä olla asennettu. Xubuntu-desktop paketti puuttuu oletuksena playbookista, sillä asennus kestää todella kauan. Voit lisätä sen halutessasi linux-desktop roolin tasks playbookiin ensimmäiseksi asennettavasti paketiksi.
 ```
 ansible-playbook /etc/ansible/linux.yml --ask-become-pass
 ```
@@ -51,7 +53,7 @@ Apachen (ja MariaDB:n) pitäisi asentua ja kohteen IP-osoitteesta löytyä PHP-t
 
 # Windows
 
-Asenna Windows 10 käsin. Määritä koneelle staattinen IP-osoite. Avaa PowerShell pääkäyttäjänä ja anna komento `Set-ExecutionPolicy RemoteSigned` ja aja sen jälkeen https://github.com/ansible/ansible/blob/devel/examples/scripts/ConfigureRemotingForAnsible.ps1 PowerShell-scripti pääkäyttäjänä.
+Asenna Windows 10. Määritä koneelle staattinen IP-osoite. Avaa PowerShell pääkäyttäjänä ja anna komento `Set-ExecutionPolicy RemoteSigned` ja aja sen jälkeen https://github.com/ansible/ansible/blob/devel/examples/scripts/ConfigureRemotingForAnsible.ps1 PowerShell-scripti pääkäyttäjänä.
 
 Muuta salasanasi masterille /etc/ansible/group_vars/windows-desktop.yml tiedostoon ja lisää määrittämäsi IP-osoite hosts tiedostoon.
 

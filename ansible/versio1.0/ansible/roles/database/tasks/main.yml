@@ -1,0 +1,18 @@
+---
+- name: install mariaDB server
+  package: name=mariadb-server state=present
+
+- name: start mysql service
+  service: name=mysql state=started enabled=true
+
+- name: install python mysql package
+  package: name=python-mysqldb state=present
+
+- name: create new database
+  mysql_db: name=ansible state=present collation=utf8_general_ci
+
+- name: create database user
+  mysql_user: name="{{ lookup('env','USER') }}" password=salainen priv=*.*:ALL host=localhost state=present
+
+- name: install mysql extension for php
+  package: name=php-mysql state=present

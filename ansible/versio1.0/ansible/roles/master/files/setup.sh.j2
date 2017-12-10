@@ -1,0 +1,14 @@
+#!/bin/bash
+# lookup('env','USER')
+
+mkdir /home/{{ lookup('env','USER') }}/.ssh
+
+chown {{ lookup('env','USER') }} /home/{{ lookup('env','USER') }}/.ssh
+
+cat <<EOF > /home/{{ lookup('env','USER') }}/.ssh/authorized_keys
+
+{{ pubkey }}
+
+EOF
+
+chown {{ lookup('env','USER') }} /home/{{ lookup('env','USER') }}/.ssh/authorized_keys

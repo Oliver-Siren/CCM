@@ -1,9 +1,11 @@
-d-i mirror/http/proxy string http://10.0.0.221:8000/
+#d-i mirror/http/proxy string http://172.28.171.131:8000/
 
-d-i passwd/user-fullname string Joona
-d-i passwd/username string joona
+d-i passwd/user-fullname string {{ lookup('env','USER') }}
+d-i passwd/username string {{ lookup('env','USER') }}
+# salasana on salainen
 d-i passwd/user-password-crypted password $1$suola$x3q8bwB9K87WryJYwGJ2j.
 
+d-i partman-auto/disk string /dev/sda
 d-i partman-auto/method string regular
 
 d-i partman-lvm/device_remove_lvm boolean true
@@ -17,15 +19,18 @@ d-i partman/choose_partition select finish
 d-i partman/confirm boolean true
 d-i partman/confirm_nooverwrite boolean true
 
-d-i pkgsel/include string ansible git ssh tftp-hpa
+d-i pkgsel/include string ssh tftp-hpa python
 
 d-i pkgsel/update-policy select unattended-upgrades
 
 d-i grub-installer/only_debian boolean true
 d-i grub-installer/with_other_os boolean true
+d-i grub-installer/bootdev string default
 
 d-i finish-install/reboot_in_progress note
 
+d-i debian-installer/exit/poweroff boolean true
+
 d-i preseed/late_command string \
-in-target tftp 10.0.0.221 -c get postinstall.sh ; \
-in-target sudo /bin/bash postinstall.sh
+in-target tftp {{ ansible_default_ipv4.address }} -c get setup.sh ; \
+in-target sudo /bin/bash setup.sh

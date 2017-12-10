@@ -1,0 +1,8 @@
+---
+- hosts: master
+  become: yes
+  vars:
+    username: "{{ lookup('env','USER') }}"
+    pubkey: "{{ lookup('file', '/home/{{ username }}/.ssh/id_rsa.pub') }}"
+  roles:
+    -  master

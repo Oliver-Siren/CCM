@@ -1,0 +1,41 @@
+---
+- name: install winSCP
+  win_chocolatey:
+    name: winscp.install
+    state: present
+
+- name: install notepad++
+  win_chocolatey:
+    name: notepadplusplus.install
+    state: present
+
+- name: install putty
+  win_chocolatey:
+    name: putty.install
+    state: present
+
+- name: install libreoffice
+  win_chocolatey:
+    name: libreoffice
+    state: present
+
+- name: change user right to access default wallpaper
+  win_acl:
+    path: C:\WINDOWS\web\wallpaper\Windows\img0.jpg
+    user: joona
+    rights: FullControl
+    type: allow
+    state: present
+
+- name: overwrite default windows wallpaper
+  win_copy:
+    src: roles/windows-desktop/files/img0.jpg
+    dest: C:\WINDOWS\web\wallpaper\Windows\
+
+- name: create user opiskelija
+  win_user:
+    name: opiskelija
+    password: salainen
+    state: present
+    groups:
+      - Users

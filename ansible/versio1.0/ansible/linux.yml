@@ -1,0 +1,19 @@
+---
+- hosts: webserver
+  remote_user: "{{ lookup('env','USER') }}"
+  become: yes
+  roles:
+    - webserver
+
+- hosts: webdatabase
+  remote_user: "{{ lookup('env','USER') }}"
+  become: yes
+  roles:
+    - webserver
+    - database
+
+- hosts: linux-desktop
+  remote_user: "{{ lookup('env','USER') }}"
+  become: yes
+  roles:
+    - linux-desktop
