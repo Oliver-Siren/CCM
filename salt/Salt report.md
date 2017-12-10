@@ -326,10 +326,13 @@ As of 10.12.2017 23:00 in the European way of marking the date, I have 182 hours
 
 Thank you for reading this and Happy Holidays!
 
+```
 Jori Laine
+Project leader in the Arctic CCM
 Student at the Haaga-Helia University of Applied Sciences
 Bachelor´s Degree program in Business Information Technology, Pasila campus
 Majoring in ICT-infrastructures and IT security
+```
 
 ## Used sources
 
