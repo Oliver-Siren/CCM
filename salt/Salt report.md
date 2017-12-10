@@ -27,7 +27,10 @@ in partnership with [Haaga-Helia University of Applied Sciences](https://www.haa
 ## Table of contents
 1. [Introduction](#introduction)
 2. [The Beginning](#the-beginning)
-
+3. [Salt](#salt)
+4. [Understanding Salt](#understanding-salt)
+	1. [Targeting with Salt](#targeting-with-salt)
+  
 ## The Beginning
 
 My part in the Arctic CCM begun with the dread and excitement brought by the thought of having to study and learn to use a completely new method of centralized configuration management. I had tried out some puppet before and that was the extent of my experience with these kind of environments.
@@ -48,17 +51,22 @@ I have tested Salt in a environment comprising of both Linux (Ubuntu) and Window
 
 To use Salt it is good to know some programming language. Salt itself uses Python and YAML as well as JSON and Jinja but in my states I only needed YAML and Python, YAML having been totally new to me before this project.
 
-Not only can Salt master manage the devices in your network but also it can be used to monitor and gather information about those devices, that information can for example be disk usage or list of applications currently installed on minion and the version of that application. This date can later be used for targeting specific computer or a group of devices that your master controls with your state modules in your top.sls file (in many ways the top.sls file has the same function in Salt as the site.pp file has in puppet).
+Not only can Salt master manage the devices in your network but also it can be used to monitor and gather information about those devices, that information can for example be disk usage or list of applications currently installed on minion and the version of that application. This date can later be used for targeting specific computer or a group of devices that your master controls with your state modules in your top.sls file (in many ways the top.sls file has the same function in Salt as the site.pp file has in puppet). Salt can control various devices ranging from your common OS' to network routers.
 
 ## Understanding Salt
 
 With Salt it all starts with the top.sls file that you will have to create in to your Salt directory "/srv/salt/" which is the default directory from where your Salt master will start looking for instructions. For installing Salt and getting started with master-minion structure you can read my instructions [here](https://github.com/joonaleppalahti/CCM/blob/master/salt/Installation%20instructions.md).
 
+### Targeting with Salt
+
 | ![Dia8.png](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/Dia8.png) | 
 |:--:|
 | *Rudimentary top.sls file* |
 
-You can create you own enviroments by adding them
+I used in my top.sls file the names of my minions as a way to target them with state instructions, but if you should have a larger network of devices you should concider some alternate targeting date to control groups instead of having to type each and every device's host name to your top.sls
+
+With the Pillar structure you can store static date like information about your minions and organize them in to groups for easier targeting management, unfortunately I did not have the time to try this system too thoroughly myself but I do think it is something worth looking in to as the need rises.
+
 
 
 ## The End
