@@ -128,12 +128,38 @@ So that every users password wouldnt be readily available to anyone who had acce
 On my master this though this didn't work immediately and I had to install python first.
 
 This line was the one I used in the end.
+
 `python3.5 -c "import crypt; print(crypt.crypt('password', crypt.mksalt(crypt.METHOD_SHA512)))"`
 
 
 ### Setting up firewall
 
 For setting firewall port rules I went and traight out modified the /etc/ufw/user6.rules and /etc/ufw/user.rules files and used them as templates, and for activating UFW I took a look at the [Pat McNally's](https://github.com/patmcnally) instructions that you can find [here](https://github.com/patmcnally/salt-states-webapps/blob/master/firewall/ufw.sls).
+
+```
+ ufw:
+   pkg.installed
+
+ /etc/ufw/user.rules:
+  file:
+    - managed
+    - source: salt://firewall/user.rules
+    - require:
+      - pkg: ufw
+
+ /etc/ufw/user6.rules:
+  file:
+    - managed
+    - source: salt://firewall/user6.rules
+    - require:
+      - pkg: ufw
+
+ ufw-enable:
+   cmd.run:
+     - name: 'ufw --force enable'
+     - require:
+       - pkg: ufw
+```
 
 ## The End
 
