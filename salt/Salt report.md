@@ -67,7 +67,18 @@ I used in my top.sls file the names of my minions as a way to target them with s
 
 With the Pillar structure you can store static date like information about your minions and organize them in to groups for easier targeting management, unfortunately I did not have the time to try this system too thoroughly myself but I do think it is something worth looking in to as the need arises.
 
-##
+## State instructions
+
+In order for top.sls to do anything, it needs to have state files to run. You can always just run one-liners to execute commands through Salt, but organizing your instructions in to reusable state files makes network management just so much easier.
+
+| ![Dia8.png](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/Dia8.png) | 
+|:--:|
+| *Rudimentary top.sls file* |
+
+
+| ![Dia9.png](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/Dia9.PNG) | 
+|:--:|
+| *Simple one-liner command* |
 
 ## The End
 
