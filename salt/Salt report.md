@@ -165,6 +165,128 @@ For setting firewall port rules I went and traight out modified the /etc/ufw/use
        - pkg: ufw
 ```
 
+## Salt on Windows
+
+I only had the opportunity to try Salt on Windows 10 Pro version, and my instructions to installing Salt on Windows you can find [here](https://github.com/joonaleppalahti/CCM/blob/master/salt/Installation%20instructions.md). Windows system can only work as a minion to a master and not be a master itself.
+
+Salt for Windows works in a same way as with Linux, the only major that I ran in to being the fact that Windows does not have its own package repository, but SaltStack does have one such repository for Windows. This only had to be downloaded on the master and then seeded to the Windows minions. This repository is basicly a list of applications and instructions on where to download them from and how to install as well as uninstall them.
+
+```
+ install_windows:
+   pkg.installed:
+     - pkgs:
+       - firefox
+       - libreoffice
+```
+
+You can also make your own instructions and add them to your repository for Windows, but I never succeeded in getting my own instructions to work properly.
+
+The failed download and install instruction in /srv/salt/win/repo/salt-winrepo/
+
+```
+battlenet:
+  '1.9':
+    full_name: 'Battle.net'
+    installer: 'https://eu.battle.net/download/getInstaller?os=win&installer=Battle.net-Setup.exe'
+    install_flags: '/S'
+    uninstaller: 'https://eu.battle.net/download/getInstaller?os=win&installer=Battle.net-Setup.exe'
+    msiexec: False
+    locale: en_US
+    reboot: False
+```
+Since I never got the install part of it to work, I also never tested if my uninstall instructions would have worked.
+/srv/salt/win/repo-ng/salt-winrepo-ng/
+
+```
+# just 32-bit x86 installer available
+{% if grains['cpuarch'] == 'AMD64' %}
+    {% set PROGRAM_FILES = "%ProgramFiles(x86)%" %}
+{% else %}
+    {% set PROGRAM_FILES = "%ProgramFiles%" %}
+{% endif %}
+battlenet:
+  '1.9':
+    full_name: 'Battle.net'
+    installer: 'https://eu.battle.net/download/getInstaller?os=win&installer=Battle.net-Setup.exe'
+    install_flags: '/S'
+    uninstaller: 'https://eu.battle.net/download/getInstaller?os=win&installer=Battle.net-Setup.exe'
+    msiexec: False
+    locale: en_US
+    reboot: False
+```
+The command `sudo salt 'WinMin' pkg.install 'battlenet'` yielded scarce results, as only thing Salt managed to do was get stuck, or so I first thought. Closer examination of my Windows minion showed that in the Windows Task Manager there actually was a Battlenet Setup.exe running and there was a battle.net-Setup.exe package to be found in the Salt directory on my Windows minion.
+
+But as I earlier stated, my experiment ended in failure, and the reason for that in my opinion was that i did not manage to find the correct install_flags for installing this package and thus the reason for why i could see the program running but it never got compleated was that the install was waiting for user input.
+
+Should you want to try doing your own install instruction state file, I think you might want to learn about the possible flags, so here is the result of my attempt to look in to them
+
+https://msdn.microsoft.com/en-us/library/windows/desktop/aa367988(v=vs.85).aspx
+
+### Adding users to Windows
+
+Probably you'll want to use AD ([Active Directory](https://en.wikipedia.org/wiki/Active_Directory)) to manage your users, but I used Salt for adding users:
+
+```
+ CreateUser:
+   user.present:
+    - name: opiskelija
+    - fullname: opiskelija
+    - password: 'salainen'
+    - groups:
+      - Administrators
+```
+
+As you can see the password is in plain text format for I did not have the time to figure out how to get it through encrypted to Windows.
+
+### Changing the defaul wallpaper on Windows
+
+Windows default wallpaper is stored in C:\Windows\Web\Wallpaper\Windows\img0.jpg but you do not own nor do you have the rights to this file on default. So first thing that you have to do is take ownership and asign rights to it to Administrators group.
+
+For this I created a Powershell script that does this
+
+```
+if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
+
+takeown /f C:\Windows\Web\Wallpaper\Windows\img0.jpg
+icacls C:\Windows\Web\Wallpaper\Windows\img0.jpg /Grant 'Administrators:(F)'
+Remove-Item c:\windows\WEB\wallpaper\Windows\img0.jpg
+Copy-Item C:\Windows\Web\Wallpaper\Windows\4k\img0.jpg C:\Windows\Web\Wallpaper\Windows\img0.jpg
+```
+This script has worked for me and you'll find instructions on how to get it to work [here](https://github.com/joonaleppalahti/CCM/blob/master/salt/Installation%20instructions.md#installing-windows-minions).
+
+After this all that is needed it a simple state instruction file that first moves this powershell script to the minion and then runs it.
+
+```
+ C:\Replacewallpaper.ps1:
+   file:
+     - managed
+     - source: salt://ReplaceWallpaper.ps1
+ 
+ Run myscript:
+   cmd:
+     - run
+     - name: C:\ReplaceWallpaper.ps1
+     - shell: powershell
+```
+At this point I had the rights to the img0.jpg and it was a matter of replacing the image.
+
+
+```
+ C:\Windows\Web\Wallpaper\Windows\4K:
+   file:
+     - directory
+     - makedirs: True
+     - source: salt://replacewallpaper/4K
+
+ C:\Windows\Web\Wallpaper\Windows\4K\img0.jpg:
+   file:
+     - managed
+     - source: salt://replacewallpaper/4K/img0.jpg
+```
+## PXE and installing Ubuntu
+
+This repository contains parts and references to provisioning and installing multiple computers in Salt, puppet, and Ansible documentation of our Arctic CCM project, and should you be interested you can check out [Joona Leppälahti's](https://joonaleppalahti.wordpress.com/) guide on this that can be found [here](https://github.com/joonaleppalahti/CCM/blob/master/ansible/Ansible%20raportti.md#provisiointi)(Only available in Finnish!!)
+
 ## The End
 
 ## Afterword
@@ -184,5 +306,9 @@ http://terokarvinen.com/2015/preseed-mysql-server-password-with-salt-stack
 https://gist.github.com/UtahDave/3785738
 
 https://github.com/patmcnally/salt-states-webapps/blob/master/firewall/ufw.sls
+
+https://docs.saltstack.com/en/latest/topics/windows/windows-package-manager.html#creating-a-package-definition-sls-file
+
+http://ccmexec.com/2015/08/replacing-default-wallpaper-in-windows-10-using-scriptmdtsccm/
 
 ## **To be continued..**
