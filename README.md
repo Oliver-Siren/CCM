@@ -8,6 +8,6 @@ The goal of the project is to learn more about centralized management applicatio
 
 ## Contributors:
 * Salt [https://github.com/joonaleppalahti/CCM/tree/master/salt](https://github.com/joonaleppalahti/CCM/tree/master/salt) - Jori Laine [https://jorilaine.wordpress.com/](https://jorilaine.wordpress.com/)
-* Puppet - Eero Kolkki [https://eerokolkki.wordpress.com/](https://eerokolkki.wordpress.com/)
-* Chef - Jarkko Koski [https://jarkkokoski.wordpress.com/](https://jarkkokoski.wordpress.com/)
-* Ansible - Joona Leppälahti [https://joonaleppalahti.wordpress.com/](https://joonaleppalahti.wordpress.com/)
+* Puppet [https://github.com/joonaleppalahti/CCM/tree/master/puppet](https://github.com/joonaleppalahti/CCM/tree/master/puppet) - Eero Kolkki [https://eerokolkki.wordpress.com/](https://eerokolkki.wordpress.com/)
+* Chef [https://github.com/joonaleppalahti/CCM/tree/master/chef/Chef](https://github.com/joonaleppalahti/CCM/tree/master/chef/Chef) - Jarkko Koski [https://jarkkokoski.wordpress.com/](https://jarkkokoski.wordpress.com/)
+* Ansible [https://github.com/joonaleppalahti/CCM/tree/master/ansible](https://github.com/joonaleppalahti/CCM/tree/master/ansible) - Joona Leppälahti [https://joonaleppalahti.wordpress.com/](https://joonaleppalahti.wordpress.com/)
