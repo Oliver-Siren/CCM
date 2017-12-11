@@ -641,4 +641,4 @@ Tajusin että tämä komento luo jostain syystä aina uuden certifikaatin, ja so
 Tarinan opetus: kun olet hyväksynyt sertifikaatit niin älä anna enää puppet test komentoja koska ne luovat uuden sertin ja sotkevat tilanteen täysin. Käytä sen sijaan waitforcert määritystä, jolla voit vaikuttaa siihen kuinka usein puppet hakee moduulit masterilta.
 
 
-# Yllä oleva juttu on väärinj, koko ongelma johtuikin oikeasti siitä, että olin epähuomiossa antanut komennon ilman sudoa :P.
+# Yllä oleva juttu on väärinj, koko ongelma johtuikin oikeasti siitä, että olin epähuomiossa antanut komennon ilman sudoa.
