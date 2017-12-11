@@ -4,9 +4,10 @@ Arctic CCM  was a centralized configuration management research and evaluation p
 ## Goal of the project
 The goal of the project is to learn more about centralized management applications and also make reusable example material that can be used by anyone later on. The goal is to make examples for both Linux and Windows. The completed project includes working network enviroment thats done with centralized management applications: Ansible, Chef, Puppet and Salt.
 
+## 
 
 ## Contributors:
-* Salt - Jori Laine [https://jorilaine.wordpress.com/](https://jorilaine.wordpress.com/)
+* Salt [https://github.com/joonaleppalahti/CCM/tree/master/salt](https://github.com/joonaleppalahti/CCM/tree/master/salt) - Jori Laine [https://jorilaine.wordpress.com/](https://jorilaine.wordpress.com/)
 * Puppet - Eero Kolkki [https://eerokolkki.wordpress.com/](https://eerokolkki.wordpress.com/)
 * Chef - Jarkko Koski [https://jarkkokoski.wordpress.com/](https://jarkkokoski.wordpress.com/)
 * Ansible - Joona Leppälahti [https://joonaleppalahti.wordpress.com/](https://joonaleppalahti.wordpress.com/)
