@@ -54,6 +54,8 @@ Salt is a toolkit above all else, to me it seems that it has a tool for everythi
 
 Salt is by design a highly modular environment that allows you to pick and chose the parts you need for your network, while supporting future needs and growth. According to Salt's devoloper SaltStack, Salt scales well beyond tens of thousands of servers.
 
+Salt stands out amongst the rest of the top four centralized configuration management softwares, like puppet, Chef and Ansible, in its primary way of completing its tasks. This way is what I would call reactive architecture. Where most of the competition is based on push or pull architercture, Salt's idea is to react to events with pre-set lists of instructions. Salt documentation calls this system [Reactor](https://docs.saltstack.com/en/latest/topics/reactor/). These events can be a singular event, patterns of behavior in minions, or anything in between.
+
 I have tested Salt in an environment comprising of both Linux (Ubuntu) and Windows systems on PC and virtual machines, as well as in a scenario where some of the minions are beyond the local area network that I had used but in a network only accessible through public internet.
 
 | ![Dia4.png](https://github.com/joonaleppalahti/CCM/blob/master/salt/saltimg/Dia4.png) | 
