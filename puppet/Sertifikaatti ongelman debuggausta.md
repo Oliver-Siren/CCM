@@ -1,8 +1,9 @@
+# Esimerkkitapaus siitä, mitä käy jos antaa vahingossa `puppet agent --test` komennon ilman sudoa
+
 Yritin yhdistää Puppetmasteria ja slave konetta, mutta törmäsin ongelmiin SSL sertifikaattien kanssa. Sain sertifikaattipyynnön läpi masterille, ja hyväksyin sen, mutta tämän jälkeen en saanut slave konetta hakemaan moduuleita masterilta. 
 
 Yritys Puppetmaster 
 ```
-22:10 -00:10
 Loin aluksi seuraavanlaiset hosts tiedostot masterille ja slaville:
 
 127.0.0.1       localhost
@@ -40,35 +41,34 @@ Lisäsin kohdan certname=master1 joka voisi selvittää ongelman mikä minulla o
 Certificate is automatically generated when you start PuppetMaster
 ```
 
-annoin komennon sudo puppet cert list --all (näytti signed cert for ca?)
-
-master$ sudo service puppetmaster start
+Annoin komennon `sudo puppet cert list --all` ja ruutu näytti `signed cert for ca`
 
 
-asensin puppetin slaville. sudo apt-get install puppet
+`master$ sudo service puppetmaster start`
 
+
+Asensin puppetin slaville. sudo apt-get install puppet
+```
 Add master DNS name under [agent] heading. Puppet will connect to server.
 
 [agent]
 server = master1.zyxel.setup
+```
 
-
-
-
-
-sitten
+Sitten
+```
 master1$ sudo puppet cert --list
 master1$ sudo puppet cert --sign slave1.zyxel.setup
+```
 
 Onnistuin hyväksymään slave koneen certin
 
 
-
-master$ sudo service puppetmaster start
+`master$ sudo service puppetmaster start`
 
 
 Käynnistin orjan puppetin uudelleen, ja enabloin agentin komennolla sudo puppet enable
-
+```
 puppet agent --test --debug
 
 slave1@slave1:/etc/puppet$ sudo puppet agent --enable
@@ -624,6 +624,7 @@ On the agent:
 
 Exiting; failed to retrieve certificate and waitforcert is disabled
 slave1@slave1:
+```
 
 Tässä välissä pidin päivän tauon. Seuraavana päivänä puhdistin certifikaatit koneilta ja ajoin testiajon komennolla 
 
@@ -639,4 +640,5 @@ Tajusin että tämä komento luo jostain syystä aina uuden certifikaatin, ja so
 
 Tarinan opetus: kun olet hyväksynyt sertifikaatit niin älä anna enää puppet test komentoja koska ne luovat uuden sertin ja sotkevat tilanteen täysin. Käytä sen sijaan waitforcert määritystä, jolla voit vaikuttaa siihen kuinka usein puppet hakee moduulit masterilta.
 
-# Koko ongelma johtuikin oikeasti siitä, että olin epähuomiossa antanut komennon ilman sudoa :P.
+
+# Yllä oleva juttu on väärinj, koko ongelma johtuikin oikeasti siitä, että olin epähuomiossa antanut komennon ilman sudoa :P.
