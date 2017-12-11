@@ -88,7 +88,7 @@ class {"tausta":}
 
 Ajoin moduulit komennolla sudo puppet apply /etc/puppet/manifests/site.pp
 
-Kaikki näytti hyvältä:
+Kaikki näytti hyvältä.
 
 Mutta käyttäjätilin luonnissa jotain meni pieleen. En päässyt kirjautumaan käyttäjälle muualta kuin komentorivin kautta SSH:lla ja kotihakemistoa ei ollut. Luulin että Puppet tekisi nämä itsestään, mutta ilmeisesti ei. Lisäsin seuraavaksi lisää määrityksiä käyttäjätilin luonti moduuliin ja kokeilin uudestaan. Etsin pitkään tietoa netistä, ja lopulta huomasin sivulta http://www.bogotobogo.com/DevOps/Puppet/puppet_creating_managing_user_accounts_ssh_control_user_privileges.php että ilman "managehome => true" määristystä puppet ei luo käyttäjän kotihakemistoa ollenkaan. Tämän lisäyksen jälkeen käyttäjän luonti onnistui.
 
