@@ -1,6 +1,7 @@
 Yritin yhdistää Puppetmasteria ja slave konetta, mutta törmäsin ongelmiin SSL sertifikaattien kanssa. Sain sertifikaattipyynnön läpi masterille, ja hyväksyin sen, mutta tämän jälkeen en saanut slave konetta hakemaan moduuleita masterilta. 
 
 Yritys Puppetmaster 
+```
 22:10 -00:10
 Loin aluksi seuraavanlaiset hosts tiedostot masterille ja slaville:
 
@@ -37,6 +38,7 @@ dns_alt_names = puppet, master1.local, master1.zyxel.setup
 
 Lisäsin kohdan certname=master1 joka voisi selvittää ongelman mikä minulla oli aiemmin. https://shapeshed.com/connecting-clients-to-a-puppet-master/
 Certificate is automatically generated when you start PuppetMaster
+```
 
 annoin komennon sudo puppet cert list --all (näytti signed cert for ca?)
 
