@@ -14,3 +14,6 @@ We have made four directories for the four different centralized management prog
 * Puppet [https://github.com/joonaleppalahti/CCM/tree/master/puppet](https://github.com/joonaleppalahti/CCM/tree/master/puppet) - Eero Kolkki [https://eerokolkki.wordpress.com/](https://eerokolkki.wordpress.com/)
 * Chef [https://github.com/joonaleppalahti/CCM/tree/master/chef/Chef](https://github.com/joonaleppalahti/CCM/tree/master/chef/Chef) - Jarkko Koski [https://jarkkokoski.wordpress.com/](https://jarkkokoski.wordpress.com/)
 * Ansible [https://github.com/joonaleppalahti/CCM/tree/master/ansible](https://github.com/joonaleppalahti/CCM/tree/master/ansible) - Joona Leppälahti [https://joonaleppalahti.wordpress.com/](https://joonaleppalahti.wordpress.com/)
+
+## Direction and feedback
+Supervising teacher is Tero Karvinen [http://terokarvinen.com/](http://terokarvinen.com/)
